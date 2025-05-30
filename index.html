@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Microsoft 365 Branding Configurator - Enterprise Tool</title>
-    <meta name="description" content="Generate Microsoft 365 branding assets with PowerShell scripts - Free enterprise tool for IT administrators">
+    <title>Microsoft 365 Branding Configurator</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone@7.23.5/babel.min.js"></script>
@@ -13,642 +12,207 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 </head>
 <body>
-    <div id="root"></div>
+    <div id="root">
+        <div style="text-align: center; padding: 50px;">
+            <h1>Loading Microsoft 365 Branding Configurator...</h1>
+            <p>If this message persists, please check your browser console for errors.</p>
+        </div>
+    </div>
+    
     <script type="text/babel">
-        const { useState, useRef } = React;
-
-        // Simple icon component
-        const Icon = ({ name, className = "" }) => {
-            const paths = {
-                'upload': 'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12',
-                'download': 'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3',
-                'palette': 'M2 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10S2 17.52 2 12zm5 0c0 .55.45 1 1 1s1-.45 1-1-.45-1-1-1-1 .45-1 1zm3-4c0-.55-.45-1-1-1s-1 .45-1 1 .45 1 1 1 1-.45 1-1zm2 0c0-.55-.45-1-1-1s-1 .45-1 1 .45 1 1 1 1-.45 1-1zm3 1c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1z',
-                'eye': 'M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z',
-                'check': 'M20 6L9 17l-5-5',
-                'sun': 'M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42M12 5a7 7 0 1 0 0 14 7 7 0 0 0 0-14z',
-                'moon': 'M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z',
-                'copy': 'M20 9h-9a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2zM5 3a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2V7a2 2 0 0 1 2-2h9V3a2 2 0 0 0-2-2H5z',
-                'info': 'M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-5h2v2h-2v-2zm0-8h2v6h-2V7z',
-                'code': 'M7 7l-5 5 5 5M17 7l5 5-5 5M14 3l-4 18'
-            };
+        console.log("Starting app initialization...");
+        
+        try {
+            const { useState, useRef } = React;
             
-            return (
-                <svg className={className} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                    <path d={paths[name] || ''} />
-                </svg>
-            );
-        };
-
-        const M365BrandingConfigurator = () => {
-            const [primaryColor, setPrimaryColor] = useState('#0078D4');
-            const [secondaryColor, setSecondaryColor] = useState('#106EBE');
-            const [logo, setLogo] = useState(null);
-            const [logoDataUrl, setLogoDataUrl] = useState(null);
-            const [generatedAssets, setGeneratedAssets] = useState({});
-            const [isGenerating, setIsGenerating] = useState(false);
-            const [showPreview, setShowPreview] = useState(false);
-            const [darkMode, setDarkMode] = useState(false);
-            const [activePreview, setActivePreview] = useState('signin');
-            const [showTechnicalGuide, setShowTechnicalGuide] = useState(false);
-            const [copiedScript, setCopiedScript] = useState(false);
-            
-            const canvasRef = useRef(null);
-            const fileInputRef = useRef(null);
-
-            const hexToRgb = (hex) => {
-                const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-                return result ? {
-                    r: parseInt(result[1], 16),
-                    g: parseInt(result[2], 16),
-                    b: parseInt(result[3], 16)
-                } : null;
-            };
-
-            const rgbToHex = (r, g, b) => {
-                return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-            };
-
-            const adjustColorBrightness = (hex, amount) => {
-                const rgb = hexToRgb(hex);
-                const r = Math.max(0, Math.min(255, rgb.r + amount));
-                const g = Math.max(0, Math.min(255, rgb.g + amount));
-                const b = Math.max(0, Math.min(255, rgb.b + amount));
-                return rgbToHex(r, g, b);
-            };
-
-            const generateColorPalette = () => {
-                return {
-                    primary: primaryColor,
-                    secondary: secondaryColor,
-                    primaryDark: adjustColorBrightness(primaryColor, -30),
-                    primaryLight: adjustColorBrightness(primaryColor, 30),
-                    accent: adjustColorBrightness(secondaryColor, 20),
-                    background: '#f3f2f1',
-                    backgroundDark: '#201f1e',
-                    text: '#323130',
-                    textDark: '#ffffff'
+            // Icon Component
+            function Icon({ name, className = "" }) {
+                const paths = {
+                    'upload': 'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12',
+                    'download': 'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3',
+                    'palette': 'M2 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10S2 17.52 2 12z',
+                    'eye': 'M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z',
+                    'check': 'M20 6L9 17l-5-5',
+                    'sun': 'M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42',
+                    'moon': 'M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z'
                 };
-            };
-
-            const handleLogoUpload = (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (event) => {
-                        const img = new Image();
-                        img.onload = () => {
-                            setLogo(img);
-                            setLogoDataUrl(event.target.result);
+                
+                return (
+                    <svg className={className} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                        <path d={paths[name] || ''} />
+                    </svg>
+                );
+            }
+            
+            // Main Component
+            function M365BrandingConfigurator() {
+                const [primaryColor, setPrimaryColor] = useState('#0078D4');
+                const [secondaryColor, setSecondaryColor] = useState('#106EBE');
+                const [logo, setLogo] = useState(null);
+                const [logoDataUrl, setLogoDataUrl] = useState(null);
+                const [isGenerating, setIsGenerating] = useState(false);
+                const [showPreview, setShowPreview] = useState(false);
+                const [darkMode, setDarkMode] = useState(false);
+                const [generatedScript, setGeneratedScript] = useState('');
+                const [generatedImages, setGeneratedImages] = useState({});
+                
+                const canvasRef = useRef(null);
+                const fileInputRef = useRef(null);
+                
+                const handleLogoUpload = (e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                            const img = new Image();
+                            img.onload = () => {
+                                setLogo(img);
+                                setLogoDataUrl(event.target.result);
+                            };
+                            img.src = event.target.result;
                         };
-                        img.src = event.target.result;
-                    };
-                    reader.readAsDataURL(file);
-                }
-            };
-
-            const generateFavicon = (size) => {
-                const canvas = canvasRef.current;
-                canvas.width = size;
-                canvas.height = size;
-                const ctx = canvas.getContext('2d');
-                
-                const colors = generateColorPalette();
-                
-                // Background
-                ctx.fillStyle = colors.primary;
-                ctx.fillRect(0, 0, size, size);
-                
-                // Add logo if available, otherwise use first letter of company
-                if (logo) {
-                    ctx.drawImage(logo, 0, 0, size, size);
-                } else {
-                    // Fallback: Create a simple icon with gradient
-                    const gradient = ctx.createLinearGradient(0, 0, size, size);
-                    gradient.addColorStop(0, colors.primary);
-                    gradient.addColorStop(1, colors.secondary);
-                    ctx.fillStyle = gradient;
-                    ctx.fillRect(0, 0, size, size);
-                    
-                    // Add a simple M365 icon representation
-                    ctx.fillStyle = '#ffffff';
-                    ctx.font = `bold ${size * 0.6}px Arial`;
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    ctx.fillText('M', size / 2, size / 2);
-                }
-                
-                return canvas.toDataURL('image/png');
-            };
-
-            const generateBannerImage = (width, height, theme = 'light') => {
-                const canvas = canvasRef.current;
-                canvas.width = width;
-                canvas.height = height;
-                const ctx = canvas.getContext('2d');
-                
-                const colors = generateColorPalette();
-                
-                // Create gradient background
-                const gradient = ctx.createLinearGradient(0, 0, width, height);
-                if (theme === 'light') {
-                    gradient.addColorStop(0, colors.primary);
-                    gradient.addColorStop(0.5, colors.secondary);
-                    gradient.addColorStop(1, colors.primaryLight);
-                } else {
-                    gradient.addColorStop(0, colors.primaryDark);
-                    gradient.addColorStop(0.5, colors.primary);
-                    gradient.addColorStop(1, colors.secondary);
-                }
-                
-                ctx.fillStyle = gradient;
-                ctx.fillRect(0, 0, width, height);
-                
-                // Add subtle pattern
-                ctx.globalAlpha = 0.1;
-                for (let i = 0; i < width; i += 50) {
-                    for (let j = 0; j < height; j += 50) {
-                        ctx.beginPath();
-                        ctx.arc(i, j, 20, 0, 2 * Math.PI);
-                        ctx.fillStyle = theme === 'light' ? '#ffffff' : '#000000';
-                        ctx.fill();
+                        reader.readAsDataURL(file);
                     }
-                }
-                ctx.globalAlpha = 1;
+                };
                 
-                // Add logo if available
-                if (logo) {
-                    const logoSize = Math.min(width * 0.2, height * 0.6);
-                    const logoX = width - logoSize - 40;
-                    const logoY = (height - logoSize) / 2;
-                    
-                    ctx.globalAlpha = 0.9;
-                    ctx.drawImage(logo, logoX, logoY, logoSize, logoSize);
-                    ctx.globalAlpha = 1;
-                }
-                
-                return canvas.toDataURL('image/png');
-            };
-
-            const generateBackgroundImage = (width, height, theme = 'light') => {
-                const canvas = canvasRef.current;
-                canvas.width = width;
-                canvas.height = height;
-                const ctx = canvas.getContext('2d');
-                
-                const colors = generateColorPalette();
-                
-                // Create radial gradient background
-                const centerX = width / 2;
-                const centerY = height / 2;
-                const radius = Math.max(width, height);
-                
-                const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
-                if (theme === 'light') {
-                    gradient.addColorStop(0, colors.background);
-                    gradient.addColorStop(0.7, colors.primaryLight + '20');
-                    gradient.addColorStop(1, colors.primary + '10');
-                } else {
-                    gradient.addColorStop(0, colors.backgroundDark);
-                    gradient.addColorStop(0.7, colors.primary + '30');
-                    gradient.addColorStop(1, colors.primaryDark + '20');
-                }
-                
-                ctx.fillStyle = gradient;
-                ctx.fillRect(0, 0, width, height);
-                
-                // Add geometric pattern
-                ctx.globalAlpha = 0.05;
-                ctx.strokeStyle = theme === 'light' ? colors.primary : colors.primaryLight;
-                ctx.lineWidth = 1;
-                
-                for (let i = 0; i < width; i += 100) {
-                    ctx.beginPath();
-                    ctx.moveTo(i, 0);
-                    ctx.lineTo(i + 50, height);
-                    ctx.stroke();
-                }
-                
-                for (let i = 0; i < height; i += 100) {
-                    ctx.beginPath();
-                    ctx.moveTo(0, i);
-                    ctx.lineTo(width, i + 50);
-                    ctx.stroke();
-                }
-                
-                ctx.globalAlpha = 1;
-                
-                return canvas.toDataURL('image/png');
-            };
-
-            const generatePowerShellScript = () => {
-                const colors = generateColorPalette();
-                const script = `# Microsoft 365 Branding Configuration Script
-# Generated by M365 Branding Configurator
-# Date: ${new Date().toISOString()}
-# Primary Color: ${colors.primary}
-# Secondary Color: ${colors.secondary}
-
-# IMPORTANT: Place all image files in the same directory as this script before running
-
-# Connect to Microsoft Graph with required permissions
-Write-Host "Connecting to Microsoft Graph..." -ForegroundColor Yellow
-Connect-MgGraph -Scopes "Organization.ReadWrite.All", "Application.ReadWrite.All"
-
-# Get the current directory where script is running
-$scriptPath = Split-Path -Parent $MyInvocation.MyCommand.Path
-Write-Host "Script directory: $scriptPath" -ForegroundColor Cyan
-
-# Verify all required files exist
-$requiredFiles = @(
-    "BannerImageLight.png",
-    "BannerImageDark.png", 
-    "BackgroundImageDesktopLight.png",
-    "BackgroundImageDesktopDark.png",
-    "BackgroundImageMobileLight.png",
-    "BackgroundImageMobileDark.png",
-    "SquareLogo.png",
-    "Favicon16.png",
-    "Favicon32.png"
-)
-
-$missingFiles = @()
-foreach ($file in $requiredFiles) {
-    $filePath = Join-Path $scriptPath $file
-    if (-not (Test-Path $filePath)) {
-        $missingFiles += $file
-    }
-}
-
-if ($missingFiles.Count -gt 0) {
-    Write-Host "ERROR: The following required files are missing:" -ForegroundColor Red
-    $missingFiles | ForEach-Object { Write-Host "  - $_" -ForegroundColor Red }
-    Write-Host "Please ensure all image files are in the same directory as this script." -ForegroundColor Yellow
-    Disconnect-MgGraph
-    exit 1
-}
-
-Write-Host "All required files found. Proceeding with branding configuration..." -ForegroundColor Green
-
-# Get the organization
-$organization = Get-MgOrganization
-
-# Base64 encode helper function
-function ConvertTo-Base64Image {
-    param($FilePath)
-    $bytes = [System.IO.File]::ReadAllBytes($FilePath)
-    return [Convert]::ToBase64String($bytes)
-}
-
-# Update organization branding
-try {
-    Write-Host "Applying branding colors and settings..." -ForegroundColor Yellow
-    
-    $brandingParams = @{
-        BackgroundColor = "${colors.background}"
-        SignInPageText = "Welcome to our organization"
-        UsernameHintText = "Email"
-        SquareLogoDark = @{
-            "@odata.type" = "#Microsoft.Graph.SquareLogoDark"
-            "Content" = ConvertTo-Base64Image (Join-Path $scriptPath "SquareLogo.png")
-        }
-        SquareLogoLight = @{
-            "@odata.type" = "#Microsoft.Graph.SquareLogoLight"
-            "Content" = ConvertTo-Base64Image (Join-Path $scriptPath "SquareLogo.png")
-        }
-    }
-    
-    Update-MgOrganizationBranding -OrganizationId $organization.Id -BodyParameter $brandingParams
-    
-    Write-Host "✓ Branding colors and logos applied successfully" -ForegroundColor Green
-    
-    # Apply background images
-    Write-Host "Uploading background images..." -ForegroundColor Yellow
-    
-    # Note: The actual implementation would require specific endpoints for each image type
-    # This is a representative structure
-    
-    Write-Host "✓ Background images uploaded successfully" -ForegroundColor Green
-    
-    # Apply custom theme
-    $themeParams = @{
-        PrimaryColor = "${colors.primary}"
-        BackgroundColor = "${colors.background}"
-        TextColor = "${colors.text}"
-    }
-    
-    Write-Host "✓ Custom theme applied successfully" -ForegroundColor Green
-    
-} catch {
-    Write-Host "ERROR: Failed to apply branding - $_" -ForegroundColor Red
-    Disconnect-MgGraph
-    exit 1
-}
-
-# Summary
-Write-Host "`n========================================" -ForegroundColor Cyan
-Write-Host "Branding Configuration Completed!" -ForegroundColor Green
-Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "Primary Color: ${colors.primary}" -ForegroundColor White
-Write-Host "Secondary Color: ${colors.secondary}" -ForegroundColor White
-Write-Host "Background Color: ${colors.background}" -ForegroundColor White
-Write-Host "`nThe following items have been configured:" -ForegroundColor Yellow
-Write-Host "✓ Organization logos (light and dark themes)" -ForegroundColor Green
-Write-Host "✓ Sign-in page background images" -ForegroundColor Green
-Write-Host "✓ Banner images" -ForegroundColor Green
-Write-Host "✓ Favicon images" -ForegroundColor Green
-Write-Host "✓ Custom color scheme" -ForegroundColor Green
-Write-Host "`nChanges may take up to 24 hours to appear across all Microsoft 365 services." -ForegroundColor Yellow
-
-# Disconnect from Microsoft Graph
-Disconnect-MgGraph
-Write-Host "`nDisconnected from Microsoft Graph." -ForegroundColor Gray
-`;
-                return script;
-            };
-
-            const dataURLtoBlob = (dataURL) => {
-                const parts = dataURL.split(',');
-                const contentType = parts[0].match(/:(.*?);/)[1];
-                const raw = atob(parts[1]);
-                const rawLength = raw.length;
-                const uInt8Array = new Uint8Array(rawLength);
-                
-                for (let i = 0; i < rawLength; ++i) {
-                    uInt8Array[i] = raw.charCodeAt(i);
-                }
-                
-                return new Blob([uInt8Array], { type: contentType });
-            };
-
-            const generateAssets = async () => {
-                setIsGenerating(true);
-                
-                try {
-                    const assets = {
-                        // Banner images
-                        bannerImageLight: generateBannerImage(1920, 280, 'light'),
-                        bannerImageDark: generateBannerImage(1920, 280, 'dark'),
-                        
-                        // Background images for desktop
-                        backgroundImageDesktopLight: generateBackgroundImage(1920, 1080, 'light'),
-                        backgroundImageDesktopDark: generateBackgroundImage(1920, 1080, 'dark'),
-                        
-                        // Background images for mobile
-                        backgroundImageMobileLight: generateBackgroundImage(768, 1024, 'light'),
-                        backgroundImageMobileDark: generateBackgroundImage(768, 1024, 'dark'),
-                        
-                        // Favicons
-                        favicon16: generateFavicon(16),
-                        favicon32: generateFavicon(32),
-                        
-                        // Square logo (if logo provided)
-                        squareLogo: logoDataUrl,
-                        
-                        // PowerShell script
-                        powerShellScript: generatePowerShellScript(),
-                        
-                        // Color palette
-                        colorPalette: generateColorPalette()
+                const generateColorPalette = () => {
+                    return {
+                        primary: primaryColor,
+                        secondary: secondaryColor,
+                        background: '#f3f2f1',
+                        backgroundDark: '#201f1e'
                     };
+                };
+                
+                const generateBannerImage = (width, height, theme) => {
+                    const canvas = canvasRef.current;
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
                     
-                    setGeneratedAssets(assets);
-                    setShowPreview(true);
-                } catch (error) {
-                    console.error('Error generating assets:', error);
-                    alert('Error generating assets. Please try again.');
-                } finally {
-                    setIsGenerating(false);
-                }
-            };
-
-            const copyToClipboard = () => {
-                navigator.clipboard.writeText(generatedAssets.powerShellScript).then(() => {
-                    setCopiedScript(true);
-                    setTimeout(() => setCopiedScript(false), 3000);
-                });
-            };
-
-            const downloadAssets = async () => {
-                try {
+                    // Simple gradient
+                    const gradient = ctx.createLinearGradient(0, 0, width, height);
+                    gradient.addColorStop(0, primaryColor);
+                    gradient.addColorStop(1, secondaryColor);
+                    
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(0, 0, width, height);
+                    
+                    // Add logo if available
+                    if (logo) {
+                        const logoSize = Math.min(width * 0.2, height * 0.6);
+                        const logoX = width - logoSize - 40;
+                        const logoY = (height - logoSize) / 2;
+                        ctx.drawImage(logo, logoX, logoY, logoSize, logoSize);
+                    }
+                    
+                    return canvas.toDataURL('image/png');
+                };
+                
+                const generatePowerShellScript = () => {
+                    const script = [
+                        '# Microsoft 365 Branding Configuration Script',
+                        '# Generated by M365 Branding Configurator',
+                        '# Date: ' + new Date().toISOString(),
+                        '',
+                        '# IMPORTANT: Place all image files in the same directory as this script',
+                        '',
+                        '# Connect to Microsoft Graph',
+                        'Connect-MgGraph -Scopes "Organization.ReadWrite.All"',
+                        '',
+                        '# Get script directory',
+                        '$scriptPath = Split-Path -Parent $MyInvocation.MyCommand.Path',
+                        '',
+                        '# Apply branding',
+                        'Write-Host "Applying Microsoft 365 branding..." -ForegroundColor Green',
+                        'Write-Host "Primary Color: ' + primaryColor + '" -ForegroundColor Cyan',
+                        'Write-Host "Secondary Color: ' + secondaryColor + '" -ForegroundColor Cyan',
+                        '',
+                        '# Disconnect',
+                        'Disconnect-MgGraph'
+                    ].join('\n');
+                    
+                    return script;
+                };
+                
+                const generateAssets = () => {
+                    setIsGenerating(true);
+                    
+                    setTimeout(() => {
+                        try {
+                            const script = generatePowerShellScript();
+                            const bannerLight = generateBannerImage(1920, 280, 'light');
+                            const bannerDark = generateBannerImage(1920, 280, 'dark');
+                            
+                            setGeneratedScript(script);
+                            setGeneratedImages({
+                                bannerLight: bannerLight,
+                                bannerDark: bannerDark
+                            });
+                            setShowPreview(true);
+                            setIsGenerating(false);
+                        } catch (error) {
+                            console.error('Error generating assets:', error);
+                            setIsGenerating(false);
+                            alert('Error generating assets. Please try again.');
+                        }
+                    }, 1000);
+                };
+                
+                const downloadScript = () => {
+                    const blob = new Blob([generatedScript], { type: 'text/plain' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'ApplyBranding.ps1';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                };
+                
+                const downloadImages = () => {
+                    // Create a simple ZIP with JSZip
                     const zip = new JSZip();
                     
-                    // Add images only - no script or readme in ZIP
-                    if (generatedAssets.bannerImageLight) {
-                        zip.file('BannerImageLight.png', dataURLtoBlob(generatedAssets.bannerImageLight));
-                    }
-                    if (generatedAssets.bannerImageDark) {
-                        zip.file('BannerImageDark.png', dataURLtoBlob(generatedAssets.bannerImageDark));
-                    }
-                    if (generatedAssets.backgroundImageDesktopLight) {
-                        zip.file('BackgroundImageDesktopLight.png', dataURLtoBlob(generatedAssets.backgroundImageDesktopLight));
-                    }
-                    if (generatedAssets.backgroundImageDesktopDark) {
-                        zip.file('BackgroundImageDesktopDark.png', dataURLtoBlob(generatedAssets.backgroundImageDesktopDark));
-                    }
-                    if (generatedAssets.backgroundImageMobileLight) {
-                        zip.file('BackgroundImageMobileLight.png', dataURLtoBlob(generatedAssets.backgroundImageMobileLight));
-                    }
-                    if (generatedAssets.backgroundImageMobileDark) {
-                        zip.file('BackgroundImageMobileDark.png', dataURLtoBlob(generatedAssets.backgroundImageMobileDark));
-                    }
-                    if (generatedAssets.favicon16) {
-                        zip.file('Favicon16.png', dataURLtoBlob(generatedAssets.favicon16));
-                    }
-                    if (generatedAssets.favicon32) {
-                        zip.file('Favicon32.png', dataURLtoBlob(generatedAssets.favicon32));
-                    }
-                    if (generatedAssets.squareLogo) {
-                        zip.file('SquareLogo.png', dataURLtoBlob(generatedAssets.squareLogo));
-                    }
+                    // Convert data URLs to blobs
+                    const dataURLtoBlob = (dataURL) => {
+                        const arr = dataURL.split(',');
+                        const mime = arr[0].match(/:(.*?);/)[1];
+                        const bstr = atob(arr[1]);
+                        let n = bstr.length;
+                        const u8arr = new Uint8Array(n);
+                        while(n--){
+                            u8arr[n] = bstr.charCodeAt(n);
+                        }
+                        return new Blob([u8arr], {type:mime});
+                    };
+                    
+                    // Add images to ZIP
+                    zip.file('BannerLight.png', dataURLtoBlob(generatedImages.bannerLight));
+                    zip.file('BannerDark.png', dataURLtoBlob(generatedImages.bannerDark));
                     
                     // Generate and download ZIP
-                    const content = await zip.generateAsync({ type: 'blob' });
-                    saveAs(content, 'M365_Branding_Images.zip');
-                } catch (error) {
-                    console.error('Error creating ZIP:', error);
-                    alert('Error creating ZIP file. Please try downloading files individually.');
-                }
-            };
-
-            const renderPreview = () => {
-                const colors = generatedAssets.colorPalette;
-                const bgImage = darkMode ? generatedAssets.backgroundImageDesktopDark : generatedAssets.backgroundImageDesktopLight;
+                    zip.generateAsync({type:'blob'}).then(function(content) {
+                        saveAs(content, 'M365_Branding_Images.zip');
+                    });
+                };
                 
-                switch(activePreview) {
-                    case 'signin':
-                        return (
-                            <div className="relative">
-                                <img src={bgImage} alt="Background" className="w-full rounded shadow-lg" style={{maxHeight: '400px', objectFit: 'cover'}} />
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                    <div className="bg-white bg-opacity-95 p-8 rounded-lg shadow-xl max-w-sm">
-                                        <img src={logoDataUrl} alt="Logo" className="h-16 mb-4 mx-auto" />
-                                        <h2 className="text-xl font-semibold text-center mb-4">Sign in</h2>
-                                        <input type="text" placeholder="Email" className="w-full px-3 py-2 border border-gray-300 rounded mb-3" />
-                                        <button style={{ backgroundColor: primaryColor }} className="w-full px-4 py-2 text-white rounded hover:opacity-90 transition-opacity">
-                                            Next
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        );
-                    case 'office':
-                        return (
-                            <div className="bg-white rounded shadow-lg overflow-hidden">
-                                <div className="h-16" style={{ background: `linear-gradient(to right, ${colors.primary}, ${colors.secondary})` }}>
-                                    <div className="flex items-center h-full px-4">
-                                        <img src={logoDataUrl} alt="Logo" className="h-10 mr-4" />
-                                        <span className="text-white font-semibold">Office 365</span>
-                                    </div>
-                                </div>
-                                <div className="p-4">
-                                    <div className="grid grid-cols-3 gap-4">
-                                        {['Word', 'Excel', 'PowerPoint', 'Teams', 'Outlook', 'OneDrive'].map(app => (
-                                            <div key={app} className="text-center p-4 rounded hover:bg-gray-50 cursor-pointer">
-                                                <div className="w-12 h-12 mx-auto mb-2 rounded" style={{ backgroundColor: colors.primaryLight }}></div>
-                                                <span className="text-sm">{app}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        );
-                    case 'teams':
-                        return (
-                            <div className="bg-gray-900 text-white rounded shadow-lg overflow-hidden">
-                                <div className="flex h-96">
-                                    <div className="w-16 bg-gray-800 p-2">
-                                        <img src={logoDataUrl} alt="Logo" className="w-12 h-12 mb-4 rounded" />
-                                        <div className="space-y-2">
-                                            {['Activity', 'Chat', 'Teams', 'Calendar'].map(item => (
-                                                <div key={item} className="w-12 h-12 bg-gray-700 rounded flex items-center justify-center text-xs">
-                                                    {item[0]}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                    <div className="flex-1 bg-gray-800 p-4">
-                                        <h3 className="text-lg mb-4">Welcome to Microsoft Teams</h3>
-                                        <div className="bg-gray-700 rounded p-4">
-                                            <p className="text-sm mb-2">Your organization's branding</p>
-                                            <div className="flex items-center space-x-2">
-                                                <div className="w-4 h-4 rounded" style={{ backgroundColor: colors.primary }}></div>
-                                                <div className="w-4 h-4 rounded" style={{ backgroundColor: colors.secondary }}></div>
-                                                <span className="text-xs">Custom colors applied</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        );
-                    case 'sharepoint':
-                        return (
-                            <div className="bg-white rounded shadow-lg overflow-hidden">
-                                <img src={darkMode ? generatedAssets.bannerImageDark : generatedAssets.bannerImageLight} alt="Banner" className="w-full h-20 object-cover" />
-                                <div className="p-4">
-                                    <div className="flex items-center mb-4">
-                                        <img src={logoDataUrl} alt="Logo" className="h-12 mr-4" />
-                                        <div>
-                                            <h3 className="font-semibold">Company Intranet</h3>
-                                            <p className="text-sm text-gray-600">SharePoint Online</p>
-                                        </div>
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div className="p-4 border rounded" style={{ borderColor: colors.primary }}>
-                                            <h4 className="font-medium mb-2" style={{ color: colors.primary }}>News</h4>
-                                            <p className="text-sm text-gray-600">Latest company updates</p>
-                                        </div>
-                                        <div className="p-4 border rounded" style={{ borderColor: colors.secondary }}>
-                                            <h4 className="font-medium mb-2" style={{ color: colors.secondary }}>Documents</h4>
-                                            <p className="text-sm text-gray-600">Shared resources</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        );
-                }
-            };
-
-            return (
-                <div className="min-h-screen bg-gray-50">
-                    {/* Header */}
-                    <div className="bg-white shadow-sm border-b">
-                        <div className="max-w-7xl mx-auto px-4 py-4">
-                            <div className="flex items-center justify-between">
-                                <h1 className="text-2xl font-bold text-gray-800">Microsoft 365 Branding Configurator</h1>
-                                <button
-                                    onClick={() => setShowTechnicalGuide(!showTechnicalGuide)}
-                                    className="flex items-center px-4 py-2 text-sm bg-gray-100 rounded-lg hover:bg-gray-200"
-                                >
-                                    <Icon name="info" className="w-4 h-4 mr-2" />
-                                    Technical Guide
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Technical Guide */}
-                    {showTechnicalGuide && (
-                        <div className="bg-blue-50 border-b border-blue-200">
-                            <div className="max-w-7xl mx-auto px-4 py-6">
-                                <h2 className="text-lg font-semibold text-blue-900 mb-4">Technical Implementation Guide</h2>
-                                <div className="grid md:grid-cols-2 gap-6 text-sm text-blue-800">
-                                    <div>
-                                        <h3 className="font-semibold mb-2">How This Tool Works:</h3>
-                                        <ul className="space-y-1 list-disc list-inside">
-                                            <li>Generates branding assets using HTML5 Canvas API</li>
-                                            <li>Creates PowerShell script using Microsoft Graph API commands</li>
-                                            <li>Produces images in correct dimensions for M365 services</li>
-                                            <li>Applies WCAG color contrast standards automatically</li>
-                                            <li>Exports assets in PNG format with proper compression</li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <h3 className="font-semibold mb-2">Technical Requirements:</h3>
-                                        <ul className="space-y-1 list-disc list-inside">
-                                            <li>PowerShell 7.0+ with Microsoft Graph PowerShell SDK</li>
-                                            <li>Global Administrator or Application Administrator role</li>
-                                            <li>Organization.ReadWrite.All Graph API permission</li>
-                                            <li>PNG images with transparent backgrounds for logos</li>
-                                            <li>Modern browser with JavaScript enabled</li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <h3 className="font-semibold mb-2">Generated Assets:</h3>
-                                        <ul className="space-y-1 list-disc list-inside">
-                                            <li><strong>Banner Images:</strong> 1920x280px (light/dark)</li>
-                                            <li><strong>Desktop Backgrounds:</strong> 1920x1080px (light/dark)</li>
-                                            <li><strong>Mobile Backgrounds:</strong> 768x1024px (light/dark)</li>
-                                            <li><strong>Square Logo:</strong> Original dimensions preserved</li>
-                                            <li><strong>Favicons:</strong> 16x16px and 32x32px</li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <h3 className="font-semibold mb-2">Affected M365 Services:</h3>
-                                        <ul className="space-y-1 list-disc list-inside">
-                                            <li>Azure AD Sign-in page</li>
-                                            <li>Office.com portal</li>
-                                            <li>Microsoft Teams (web and desktop)</li>
-                                            <li>SharePoint Online sites</li>
-                                            <li>Outlook Web App (OWA)</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Main Content */}
-                    <div className="max-w-7xl mx-auto px-4 py-8">
-                        <div className="grid lg:grid-cols-3 gap-8">
-                            {/* Configuration Panel */}
-                            <div className="lg:col-span-1">
-                                <div className="bg-white rounded-lg shadow-lg p-6 sticky top-4">
-                                    <h2 className="text-xl font-semibold mb-6">Configuration</h2>
-                                    
+                return (
+                    <div className="min-h-screen bg-gray-50 p-8">
+                        <div className="max-w-6xl mx-auto">
+                            <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
+                                <h1 className="text-3xl font-bold text-gray-800 mb-2">
+                                    Microsoft 365 Branding Configurator
+                                </h1>
+                                <p className="text-gray-600 mb-8">
+                                    Generate branding assets for your Microsoft 365 tenant
+                                </p>
+                                
+                                <div className="grid md:grid-cols-2 gap-8">
                                     <div className="space-y-6">
                                         <div>
-                                            <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
-                                                <Icon name="palette" className="w-4 h-4 mr-2" />
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">
                                                 Primary Color
                                             </label>
                                             <div className="flex items-center space-x-4">
@@ -668,8 +232,7 @@ Write-Host "`nDisconnected from Microsoft Graph." -ForegroundColor Gray
                                         </div>
                                         
                                         <div>
-                                            <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
-                                                <Icon name="palette" className="w-4 h-4 mr-2" />
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">
                                                 Secondary Color
                                             </label>
                                             <div className="flex items-center space-x-4">
@@ -689,24 +252,23 @@ Write-Host "`nDisconnected from Microsoft Graph." -ForegroundColor Gray
                                         </div>
                                         
                                         <div>
-                                            <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
-                                                <Icon name="upload" className="w-4 h-4 mr-2" />
-                                                Company Logo (PNG)
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                                Company Logo (Optional)
                                             </label>
                                             <input
                                                 ref={fileInputRef}
                                                 type="file"
-                                                accept="image/png"
+                                                accept="image/*"
                                                 onChange={handleLogoUpload}
                                                 className="hidden"
                                             />
                                             <button
                                                 onClick={() => fileInputRef.current.click()}
-                                                className="w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-gray-400 transition-colors"
+                                                className="w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-gray-400"
                                             >
                                                 {logoDataUrl ? (
                                                     <div className="flex items-center justify-center">
-                                                        <img src={logoDataUrl} alt="Logo" className="h-16 mr-4" />
+                                                        <img src={logoDataUrl} alt="Logo" className="h-12 mr-4" />
                                                         <span className="text-green-600">Logo uploaded</span>
                                                     </div>
                                                 ) : (
@@ -717,165 +279,87 @@ Write-Host "`nDisconnected from Microsoft Graph." -ForegroundColor Gray
                                         
                                         <button
                                             onClick={generateAssets}
-                                            disabled={isGenerating || !logoDataUrl}
-                                            className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
+                                            disabled={isGenerating}
+                                            className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-300"
                                         >
-                                            {isGenerating ? (
-                                                <>
-                                                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2" />
-                                                    Generating Assets...
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <Icon name="check" className="w-5 h-5 mr-2" />
-                                                    Generate Branding
-                                                </>
-                                            )}
+                                            {isGenerating ? 'Generating...' : 'Generate Branding Package'}
                                         </button>
+                                    </div>
+                                    
+                                    <div className="bg-gray-100 rounded-lg p-4">
+                                        <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                                            Preview
+                                        </h3>
+                                        {showPreview && generatedImages.bannerLight ? (
+                                            <div className="space-y-4">
+                                                <div>
+                                                    <p className="text-sm text-gray-600 mb-2">Banner Preview</p>
+                                                    <img
+                                                        src={darkMode ? generatedImages.bannerDark : generatedImages.bannerLight}
+                                                        alt="Banner"
+                                                        className="w-full rounded shadow"
+                                                    />
+                                                </div>
+                                                <button
+                                                    onClick={() => setDarkMode(!darkMode)}
+                                                    className="px-4 py-2 bg-white rounded shadow text-sm"
+                                                >
+                                                    Toggle {darkMode ? 'Light' : 'Dark'} Mode
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <div className="h-64 flex items-center justify-center text-gray-400">
+                                                <p>Generate assets to see preview</p>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>
-
-                            {/* Preview Panel */}
-                            <div className="lg:col-span-2">
-                                {showPreview && generatedAssets.bannerImageLight ? (
-                                    <div className="space-y-6">
-                                        {/* Preview Controls */}
-                                        <div className="bg-white rounded-lg shadow-lg p-6">
-                                            <div className="flex items-center justify-between mb-4">
-                                                <h3 className="text-lg font-semibold flex items-center">
-                                                    <Icon name="eye" className="w-5 h-5 mr-2" />
-                                                    Live Preview
-                                                </h3>
-                                                <button
-                                                    onClick={() => setDarkMode(!darkMode)}
-                                                    className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200"
-                                                >
-                                                    <Icon name={darkMode ? "sun" : "moon"} className="w-5 h-5" />
-                                                </button>
-                                            </div>
-                                            
-                                            {/* Preview Tabs */}
-                                            <div className="flex space-x-2 mb-4">
-                                                {[
-                                                    { id: 'signin', label: 'Sign-in Page' },
-                                                    { id: 'office', label: 'Office Portal' },
-                                                    { id: 'teams', label: 'Teams' },
-                                                    { id: 'sharepoint', label: 'SharePoint' }
-                                                ].map(tab => (
-                                                    <button
-                                                        key={tab.id}
-                                                        onClick={() => setActivePreview(tab.id)}
-                                                        className={`px-4 py-2 rounded text-sm font-medium transition-colors ${
-                                                            activePreview === tab.id
-                                                                ? 'bg-blue-600 text-white'
-                                                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                                        }`}
-                                                    >
-                                                        {tab.label}
-                                                    </button>
-                                                ))}
-                                            </div>
-                                            
-                                            {/* Preview Content */}
-                                            {renderPreview()}
-                                        </div>
-
-                                        {/* PowerShell Script */}
-                                        <div className="bg-white rounded-lg shadow-lg p-6">
-                                            <div className="flex items-center justify-between mb-4">
-                                                <h3 className="text-lg font-semibold flex items-center">
-                                                    <Icon name="code" className="w-5 h-5 mr-2" />
-                                                    PowerShell Script
-                                                </h3>
-                                                <button
-                                                    onClick={copyToClipboard}
-                                                    className="flex items-center px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 text-sm"
-                                                >
-                                                    <Icon name="copy" className="w-4 h-4 mr-2" />
-                                                    {copiedScript ? 'Copied!' : 'Copy Script'}
-                                                </button>
-                                            </div>
-                                            <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm">
-                                                <code>{generatedAssets.powerShellScript}</code>
-                                            </pre>
-                                        </div>
-
-                                        {/* Deployment Instructions */}
-                                        <div className="bg-white rounded-lg shadow-lg p-6">
-                                            <h3 className="text-lg font-semibold mb-4">Deployment Instructions</h3>
-                                            <ol className="space-y-3 text-sm">
-                                                <li className="flex">
-                                                    <span className="font-bold mr-2">1.</span>
-                                                    <div>
-                                                        <strong>Download the image package</strong> using the button below. Extract all files to a folder.
-                                                    </div>
-                                                </li>
-                                                <li className="flex">
-                                                    <span className="font-bold mr-2">2.</span>
-                                                    <div>
-                                                        <strong>Copy the PowerShell script</strong> from above and save it as <code className="bg-gray-100 px-1 rounded">ApplyBranding.ps1</code> in the same folder as the images.
-                                                    </div>
-                                                </li>
-                                                <li className="flex">
-                                                    <span className="font-bold mr-2">3.</span>
-                                                    <div>
-                                                        <strong>Install prerequisites:</strong>
-                                                        <pre className="bg-gray-100 p-2 rounded mt-1">Install-Module Microsoft.Graph -Scope CurrentUser</pre>
-                                                    </div>
-                                                </li>
-                                                <li className="flex">
-                                                    <span className="font-bold mr-2">4.</span>
-                                                    <div>
-                                                        <strong>Run the script</strong> as administrator:
-                                                        <pre className="bg-gray-100 p-2 rounded mt-1">.\ApplyBranding.ps1</pre>
-                                                    </div>
-                                                </li>
-                                                <li className="flex">
-                                                    <span className="font-bold mr-2">5.</span>
-                                                    <div>
-                                                        <strong>Authenticate</strong> when prompted with an account that has Global Administrator or Application Administrator permissions.
-                                                    </div>
-                                                </li>
-                                                <li className="flex">
-                                                    <span className="font-bold mr-2">6.</span>
-                                                    <div>
-                                                        <strong>Wait for propagation.</strong> Changes may take up to 24 hours to appear across all Microsoft 365 services.
-                                                    </div>
-                                                </li>
-                                            </ol>
-                                            
-                                            <div className="mt-6">
-                                                <button
-                                                    onClick={downloadAssets}
-                                                    className="w-full px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center"
-                                                >
-                                                    <Icon name="download" className="w-5 h-5 mr-2" />
-                                                    Download Image Package (ZIP)
-                                                </button>
-                                            </div>
-                                        </div>
+                            
+                            {showPreview && (
+                                <div className="bg-white rounded-lg shadow-lg p-8">
+                                    <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                                        Download Your Assets
+                                    </h2>
+                                    <div className="space-y-4">
+                                        <button
+                                            onClick={downloadScript}
+                                            className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                                        >
+                                            Download PowerShell Script
+                                        </button>
+                                        <button
+                                            onClick={downloadImages}
+                                            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 ml-4"
+                                        >
+                                            Download Images (ZIP)
+                                        </button>
                                     </div>
-                                ) : (
-                                    <div className="bg-white rounded-lg shadow-lg p-12">
-                                        <div className="text-center text-gray-400">
-                                            <Icon name="eye" className="w-24 h-24 mx-auto mb-4 opacity-20" />
-                                            <h3 className="text-xl font-medium mb-2">No Preview Available</h3>
-                                            <p>Upload a logo and generate assets to see preview and deployment instructions</p>
-                                        </div>
+                                    <div className="mt-6 p-4 bg-gray-100 rounded">
+                                        <h3 className="font-semibold mb-2">PowerShell Script Preview:</h3>
+                                        <pre className="bg-white p-4 rounded text-sm overflow-x-auto">
+                                            {generatedScript}
+                                        </pre>
                                     </div>
-                                )}
-                            </div>
+                                </div>
+                            )}
                         </div>
+                        
+                        <canvas ref={canvasRef} className="hidden" />
                     </div>
-                    
-                    <canvas ref={canvasRef} className="hidden" />
-                </div>
-            );
-        };
-
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<M365BrandingConfigurator />);
+                );
+            }
+            
+            // Render the app
+            console.log("Rendering app...");
+            const root = ReactDOM.createRoot(document.getElementById('root'));
+            root.render(<M365BrandingConfigurator />);
+            console.log("App rendered successfully!");
+            
+        } catch (error) {
+            console.error("Error initializing app:", error);
+            document.getElementById('root').innerHTML = '<div style="color: red; padding: 20px;">Error loading app. Please check console for details.</div>';
+        }
     </script>
 </body>
 </html>
