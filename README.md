@@ -9,4 +9,7 @@ Automated Branding Generation: Create all the necessary visual assets with one c
 Easy Tenant Upload: Seamlessly push your new branding directly to your Microsoft 365 configuration.
 Efficient Workflow: Optimize your design and deployment process, ensuring your brand identity is always on point.
 
+https://github.com/junior6995/m365-branding-configurator
+
+
 *** Important: This tool is currently in BETA. Do not deploy directly to your production tenant; make sure to test thoroughly in a non-production environment first.
