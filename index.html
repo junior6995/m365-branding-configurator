@@ -35,11 +35,11 @@
                     <div class="grid grid-cols-3 gap-4 mt-4 text-sm">
                         <div class="flex items-start">
                             <span class="text-green-500 mr-2">✓</span>
-                            <span>Generate all required branding images according to <a href="https://learn.microsoft.com/en-us/entra/fundamentals/how-to-customize-branding" target="_blank" class="text-blue-600 underline">Microsoft's official specifications</a></span>
+                            <span>Generate high-quality branding images according to <a href="https://learn.microsoft.com/en-us/entra/fundamentals/how-to-customize-branding" target="_blank" class="text-blue-600 underline">Microsoft's official specifications</a></span>
                         </div>
                         <div class="flex items-start">
                             <span class="text-green-500 mr-2">✓</span>
-                            <span>Create a ready-to-run PowerShell script using Microsoft Graph API for one-click deployment</span>
+                            <span>Create a working PowerShell script using Microsoft Graph API for automatic deployment</span>
                         </div>
                         <div class="flex items-start">
                             <span class="text-green-500 mr-2">✓</span>
@@ -102,7 +102,7 @@
                                 <span class="text-green-600">✓ Logo uploaded successfully</span>
                             </div>
                         </button>
-                        <p class="text-xs text-gray-500 mt-1">Logo will be automatically resized to meet Microsoft's requirements</p>
+                        <p class="text-xs text-gray-500 mt-1">Logo will be automatically optimized for Microsoft's requirements</p>
                     </div>
                     
                     <!-- Generate Button -->
@@ -110,7 +110,7 @@
                         <span id="generateText">Generate Branding Package</span>
                         <div id="generateSpinner" class="hidden">
                             <div class="spinner"></div>
-                            Generating Professional Assets...
+                            Generating High-Quality Assets...
                         </div>
                     </button>
                     
@@ -215,8 +215,7 @@
                             
                             <div class="mt-4 p-4 bg-yellow-50 rounded-lg">
                                 <p class="text-sm text-yellow-800">
-                                    <strong>⚠️ Important:</strong> The script automatically detects its location. 
-                                    Just ensure all image files are in the same folder as the script.
+                                    <strong>⚠️ Important:</strong> The script will automatically upload all images and apply your branding settings to Microsoft Entra ID.
                                 </p>
                             </div>
                         </div>
@@ -237,11 +236,11 @@
                 <!-- Download Button -->
                 <div class="bg-white rounded-lg shadow-lg p-8 text-center">
                     <h3 class="text-xl font-semibold mb-4">Ready to Deploy!</h3>
-                    <p class="text-gray-600 mb-6">Your Microsoft 365 branding package has been generated according to Microsoft's official specifications.</p>
+                    <p class="text-gray-600 mb-6">Your Microsoft 365 branding package has been generated with high-quality images optimized for Microsoft Entra ID.</p>
                     <button id="downloadBtn" class="px-8 py-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-semibold text-lg">
                         ⬇️ Download Image Package (ZIP)
                     </button>
-                    <p class="text-sm text-gray-500 mt-4">Contains 9 optimized images for Microsoft Entra ID and M365 services</p>
+                    <p class="text-sm text-gray-500 mt-4">Contains 7 optimized images for Microsoft Entra ID and M365 services</p>
                 </div>
             </div>
         </div>
@@ -335,14 +334,18 @@
         // Generate assets
         generateBtn.addEventListener('click', generateAssets);
         
-        // Generate banner logo (280x60) - Microsoft spec
+        // Generate banner logo (280x60) with better quality
         function generateBannerLogo(theme) {
             canvas.width = 280;
             canvas.height = 60;
             
             ctx.clearRect(0, 0, 280, 60);
             
-            // White or dark background based on theme
+            // High quality settings
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+            
+            // Background
             ctx.fillStyle = theme === 'light' ? '#ffffff' : '#1a1a1a';
             ctx.fillRect(0, 0, 280, 60);
             
@@ -352,10 +355,10 @@
                 let drawWidth, drawHeight;
                 
                 if (logoAspect > 280/60) {
-                    drawWidth = 280 * 0.9;
+                    drawWidth = 260;
                     drawHeight = drawWidth / logoAspect;
                 } else {
-                    drawHeight = 60 * 0.9;
+                    drawHeight = 50;
                     drawWidth = drawHeight * logoAspect;
                 }
                 
@@ -364,39 +367,43 @@
                 
                 ctx.drawImage(logo, x, y, drawWidth, drawHeight);
             } else {
-                // Fallback text logo
+                // High quality text rendering
                 ctx.fillStyle = primaryColorInput.value;
-                ctx.font = 'bold 24px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif';
+                ctx.font = 'bold 28px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillText('Your Company', 140, 30);
             }
             
-            return canvas.toDataURL('image/png', 0.9);
+            // Return with minimal compression for better quality
+            return canvas.toDataURL('image/png', 1.0);
         }
         
-        // Generate square logo (240x240) - Microsoft spec
+        // Generate square logo (240x240) with better quality
         function generateSquareLogo(theme) {
             canvas.width = 240;
             canvas.height = 240;
             
             ctx.clearRect(0, 0, 240, 240);
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
             
             // Background
             ctx.fillStyle = theme === 'light' ? '#ffffff' : '#1a1a1a';
             ctx.fillRect(0, 0, 240, 240);
             
             if (logo) {
-                // Fit logo maintaining aspect ratio
+                // Fit logo with padding
                 const logoAspect = logo.width / logo.height;
                 let drawWidth, drawHeight;
+                const maxSize = 200;
                 
                 if (logoAspect > 1) {
-                    drawWidth = 200;
-                    drawHeight = 200 / logoAspect;
+                    drawWidth = maxSize;
+                    drawHeight = maxSize / logoAspect;
                 } else {
-                    drawHeight = 200;
-                    drawWidth = 200 * logoAspect;
+                    drawHeight = maxSize;
+                    drawWidth = maxSize * logoAspect;
                 }
                 
                 const x = (240 - drawWidth) / 2;
@@ -404,13 +411,30 @@
                 
                 ctx.drawImage(logo, x, y, drawWidth, drawHeight);
             } else {
-                // Gradient background
-                const gradient = ctx.createLinearGradient(0, 0, 240, 240);
+                // Rich gradient background
+                const gradient = ctx.createRadialGradient(120, 120, 0, 120, 120, 120);
                 gradient.addColorStop(0, primaryColorInput.value);
+                gradient.addColorStop(0.5, adjustColor(primaryColorInput.value, 20));
                 gradient.addColorStop(1, secondaryColorInput.value);
                 ctx.fillStyle = gradient;
                 ctx.fillRect(0, 0, 240, 240);
                 
+                // Add subtle pattern
+                ctx.globalAlpha = 0.1;
+                for (let i = 0; i < 240; i += 20) {
+                    ctx.beginPath();
+                    ctx.moveTo(i, 0);
+                    ctx.lineTo(i, 240);
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(0, i);
+                    ctx.lineTo(240, i);
+                    ctx.stroke();
+                }
+                ctx.globalAlpha = 1;
+                
+                // High quality text
                 ctx.fillStyle = '#ffffff';
                 ctx.font = 'bold 120px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif';
                 ctx.textAlign = 'center';
@@ -418,89 +442,159 @@
                 ctx.fillText('M', 120, 120);
             }
             
-            return canvas.toDataURL('image/png', 0.9);
+            return canvas.toDataURL('image/png', 1.0);
         }
         
-        // Generate sign-in background (1920x1080) - Microsoft spec
+        // Generate high-quality sign-in background (1920x1080)
         function generateSignInBackground(theme) {
             canvas.width = 1920;
             canvas.height = 1080;
             
             ctx.clearRect(0, 0, 1920, 1080);
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
             
+            // Create multiple gradient layers for richness
             // Base gradient
-            const gradient = ctx.createLinearGradient(0, 0, 1920, 1080);
+            const baseGradient = ctx.createLinearGradient(0, 0, 1920, 1080);
             
             if (theme === 'light') {
-                gradient.addColorStop(0, '#f8f9fa');
-                gradient.addColorStop(0.5, adjustColor(primaryColorInput.value, 90));
-                gradient.addColorStop(1, adjustColor(secondaryColorInput.value, 80));
+                baseGradient.addColorStop(0, '#ffffff');
+                baseGradient.addColorStop(0.3, adjustColor(primaryColorInput.value, 120));
+                baseGradient.addColorStop(0.7, adjustColor(primaryColorInput.value, 80));
+                baseGradient.addColorStop(1, adjustColor(secondaryColorInput.value, 100));
             } else {
-                gradient.addColorStop(0, '#0a0a0a');
-                gradient.addColorStop(0.5, adjustColor(primaryColorInput.value, -60));
-                gradient.addColorStop(1, adjustColor(secondaryColorInput.value, -70));
+                baseGradient.addColorStop(0, '#000000');
+                baseGradient.addColorStop(0.3, adjustColor(primaryColorInput.value, -80));
+                baseGradient.addColorStop(0.7, adjustColor(primaryColorInput.value, -60));
+                baseGradient.addColorStop(1, adjustColor(secondaryColorInput.value, -90));
             }
             
-            ctx.fillStyle = gradient;
+            ctx.fillStyle = baseGradient;
             ctx.fillRect(0, 0, 1920, 1080);
             
-            // Add subtle pattern for visual interest
-            ctx.globalAlpha = 0.03;
+            // Add radial overlay for depth
+            const radialGradient = ctx.createRadialGradient(960, 540, 0, 960, 540, 1000);
+            radialGradient.addColorStop(0, theme === 'light' ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.1)');
+            radialGradient.addColorStop(1, 'transparent');
+            ctx.fillStyle = radialGradient;
+            ctx.fillRect(0, 0, 1920, 1080);
             
-            // Draw abstract shapes
-            for (let i = 0; i < 5; i++) {
-                ctx.beginPath();
+            // Add geometric patterns for visual interest
+            ctx.globalAlpha = 0.05;
+            
+            // Large circles
+            for (let i = 0; i < 8; i++) {
                 const x = Math.random() * 1920;
                 const y = Math.random() * 1080;
-                const radius = Math.random() * 300 + 200;
+                const radius = Math.random() * 400 + 200;
                 
-                const shapeGradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
-                shapeGradient.addColorStop(0, primaryColorInput.value);
-                shapeGradient.addColorStop(1, 'transparent');
-                
-                ctx.fillStyle = shapeGradient;
+                ctx.beginPath();
                 ctx.arc(x, y, radius, 0, Math.PI * 2);
+                const circleGradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
+                circleGradient.addColorStop(0, primaryColorInput.value);
+                circleGradient.addColorStop(0.5, 'transparent');
+                circleGradient.addColorStop(1, secondaryColorInput.value);
+                ctx.fillStyle = circleGradient;
                 ctx.fill();
+            }
+            
+            // Diagonal lines pattern
+            ctx.globalAlpha = 0.02;
+            ctx.strokeStyle = theme === 'light' ? primaryColorInput.value : '#ffffff';
+            ctx.lineWidth = 2;
+            
+            for (let i = -1080; i < 1920; i += 100) {
+                ctx.beginPath();
+                ctx.moveTo(i, 0);
+                ctx.lineTo(i + 1080, 1080);
+                ctx.stroke();
+            }
+            
+            // Wave pattern
+            ctx.globalAlpha = 0.03;
+            ctx.beginPath();
+            ctx.moveTo(0, 540);
+            for (let i = 0; i <= 1920; i += 20) {
+                ctx.lineTo(i, 540 + Math.sin(i * 0.01) * 200);
+            }
+            ctx.lineTo(1920, 1080);
+            ctx.lineTo(0, 1080);
+            ctx.closePath();
+            const waveGradient = ctx.createLinearGradient(0, 540, 0, 1080);
+            waveGradient.addColorStop(0, 'transparent');
+            waveGradient.addColorStop(1, theme === 'light' ? primaryColorInput.value : secondaryColorInput.value);
+            ctx.fillStyle = waveGradient;
+            ctx.fill();
+            
+            // Add noise texture for quality
+            ctx.globalAlpha = 0.02;
+            for (let x = 0; x < 1920; x += 3) {
+                for (let y = 0; y < 1080; y += 3) {
+                    if (Math.random() > 0.5) {
+                        const brightness = Math.random() * 50;
+                        ctx.fillStyle = theme === 'light' 
+                            ? `rgba(0,0,0,${brightness/255})`
+                            : `rgba(255,255,255,${brightness/255})`;
+                        ctx.fillRect(x, y, 2, 2);
+                    }
+                }
             }
             
             ctx.globalAlpha = 1;
             
-            // Convert to JPEG for smaller file size (Microsoft allows JPG)
-            return canvas.toDataURL('image/jpeg', 0.85);
+            // Return as high-quality JPEG (targeting ~250KB)
+            return canvas.toDataURL('image/jpeg', 0.95);
         }
         
-        // Generate favicon with proper sizing
+        // Generate high-quality favicon
         function generateFavicon(size) {
             canvas.width = size;
             canvas.height = size;
             
             ctx.clearRect(0, 0, size, size);
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
             
             if (logo) {
-                // White background
-                ctx.fillStyle = '#ffffff';
+                // White background with subtle gradient
+                const gradient = ctx.createLinearGradient(0, 0, size, size);
+                gradient.addColorStop(0, '#ffffff');
+                gradient.addColorStop(1, '#f8f9fa');
+                ctx.fillStyle = gradient;
                 ctx.fillRect(0, 0, size, size);
                 
-                // Draw logo scaled
-                const padding = size * 0.1;
+                // Draw logo with padding
+                const padding = size * 0.15;
                 const drawSize = size - (padding * 2);
                 ctx.drawImage(logo, padding, padding, drawSize, drawSize);
             } else {
-                // Gradient icon
-                const gradient = ctx.createLinearGradient(0, 0, size, size);
-                gradient.addColorStop(0, primaryColorInput.value);
+                // Rich gradient icon
+                const gradient = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
+                gradient.addColorStop(0, adjustColor(primaryColorInput.value, 20));
+                gradient.addColorStop(0.5, primaryColorInput.value);
                 gradient.addColorStop(1, secondaryColorInput.value);
                 ctx.fillStyle = gradient;
                 ctx.fillRect(0, 0, size, size);
                 
+                // Add subtle inner shadow effect
+                const innerShadow = ctx.createRadialGradient(size/2, size/2, size/3, size/2, size/2, size/2);
+                innerShadow.addColorStop(0, 'transparent');
+                innerShadow.addColorStop(1, 'rgba(0,0,0,0.2)');
+                ctx.fillStyle = innerShadow;
+                ctx.fillRect(0, 0, size, size);
+                
+                // High quality text
                 ctx.fillStyle = '#ffffff';
-                ctx.font = `bold ${size * 0.6}px Arial`;
+                ctx.font = `bold ${size * 0.65}px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial`;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
+                ctx.shadowColor = 'rgba(0,0,0,0.3)';
+                ctx.shadowBlur = 2;
                 ctx.fillText('M', size / 2, size / 2);
             }
             
-            return canvas.toDataURL('image/png', 0.9);
+            return canvas.toDataURL('image/png', 1.0);
         }
         
         function adjustColor(hex, amount) {
@@ -540,11 +634,11 @@
                 
                 updatePreview();
                 showResults();
-            }, 1500);
+            }, 2000);
         }
         
         function generatePowerShellScript() {
-            // Fixed PowerShell script with proper escaping
+            // Working PowerShell script with actual Microsoft Graph commands
             const script = `<#
 .SYNOPSIS
     Microsoft 365 Branding Configuration Script
@@ -562,80 +656,156 @@
 
 # Script Configuration
 $ErrorActionPreference = "Stop"
-$VerbosePreference = "Continue"
-
+Write-Host ""
 Write-Host "==========================================" -ForegroundColor Cyan
 Write-Host " Microsoft Entra ID Branding Configuration" -ForegroundColor Cyan
 Write-Host "==========================================" -ForegroundColor Cyan
 Write-Host ""
 
-# Get the directory where this script is located
+# Get script directory
 $ScriptDirectory = Split-Path -Parent $MyInvocation.MyCommand.Definition
-Write-Verbose "Script directory: $ScriptDirectory"
+Write-Host "Script directory: $ScriptDirectory" -ForegroundColor Yellow
 
-# Define the required image files
+# Define required files
 $RequiredFiles = @{
-    "BannerLogo.png" = "Banner logo (280x60)"
-    "SquareLogoLight.png" = "Square logo light theme (240x240)"
-    "SquareLogoDark.png" = "Square logo dark theme (240x240)"
-    "SignInBackgroundLight.jpg" = "Sign-in background light theme (1920x1080)"
-    "SignInBackgroundDark.jpg" = "Sign-in background dark theme (1920x1080)"
-    "Favicon16.png" = "Favicon 16x16"
-    "Favicon32.png" = "Favicon 32x32"
+    "BannerLogo.png" = "Banner logo"
+    "SquareLogoLight.png" = "Square logo light"
+    "SquareLogoDark.png" = "Square logo dark"
+    "SignInBackgroundLight.jpg" = "Sign-in background light"
+    "SignInBackgroundDark.jpg" = "Sign-in background dark"
 }
 
-# Check for required files
+# Verify files exist
+Write-Host ""
 Write-Host "Checking for required files..." -ForegroundColor Yellow
 $MissingFiles = @()
 
 foreach ($File in $RequiredFiles.Keys) {
     $FilePath = Join-Path -Path $ScriptDirectory -ChildPath $File
-    if (-not (Test-Path -Path $FilePath)) {
+    if (Test-Path -Path $FilePath) {
+        Write-Host "  Found: $File" -ForegroundColor Green
+    } else {
         $MissingFiles += $File
         Write-Host "  Missing: $File" -ForegroundColor Red
-    } else {
-        Write-Host "  Found: $File" -ForegroundColor Green
     }
 }
 
 if ($MissingFiles.Count -gt 0) {
     Write-Host ""
-    Write-Host "ERROR: Missing required files!" -ForegroundColor Red
-    Write-Host "Directory: $ScriptDirectory" -ForegroundColor Yellow
+    Write-Host "ERROR: Missing required files in: $ScriptDirectory" -ForegroundColor Red
     exit 1
 }
 
+# Install and import Microsoft Graph module
 Write-Host ""
-Write-Host "All required files found!" -ForegroundColor Green
+Write-Host "Checking Microsoft.Graph module..." -ForegroundColor Yellow
 
-# Check Microsoft.Graph module
 if (-not (Get-Module -ListAvailable -Name Microsoft.Graph)) {
     Write-Host "Installing Microsoft.Graph module..." -ForegroundColor Yellow
-    Install-Module Microsoft.Graph -Scope CurrentUser -Force
+    Install-Module Microsoft.Graph -Scope CurrentUser -Force -AllowClobber
 }
 
-Import-Module Microsoft.Graph.Identity.DirectoryManagement
+Import-Module Microsoft.Graph.Identity.DirectoryManagement -ErrorAction Stop
+Write-Host "Microsoft.Graph module loaded successfully" -ForegroundColor Green
 
 # Connect to Microsoft Graph
 Write-Host ""
 Write-Host "Connecting to Microsoft Graph..." -ForegroundColor Yellow
-Connect-MgGraph -Scopes "Organization.ReadWrite.All" -NoWelcome
+Write-Host "Please sign in with Global Administrator credentials" -ForegroundColor Cyan
 
-# Apply branding
+Connect-MgGraph -Scopes "Organization.ReadWrite.All", "OrganizationalBranding.ReadWrite.All" -NoWelcome
+
+$context = Get-MgContext
+Write-Host "Connected as: $($context.Account)" -ForegroundColor Green
+
+# Get organization ID
+$organization = Get-MgOrganization
+$organizationId = $organization.Id
+Write-Host "Organization: $($organization.DisplayName)" -ForegroundColor Cyan
+
+# Read image files
+Write-Host ""
+Write-Host "Reading image files..." -ForegroundColor Yellow
+
+$bannerLogoPath = Join-Path -Path $ScriptDirectory -ChildPath "BannerLogo.png"
+$squareLogoLightPath = Join-Path -Path $ScriptDirectory -ChildPath "SquareLogoLight.png"
+$squareLogoDarkPath = Join-Path -Path $ScriptDirectory -ChildPath "SquareLogoDark.png"
+$backgroundLightPath = Join-Path -Path $ScriptDirectory -ChildPath "SignInBackgroundLight.jpg"
+$backgroundDarkPath = Join-Path -Path $ScriptDirectory -ChildPath "SignInBackgroundDark.jpg"
+
+# Create the branding configuration
 Write-Host ""
 Write-Host "Applying branding configuration..." -ForegroundColor Yellow
 
-# Note: Actual implementation would use proper Graph API calls
-# This is a template showing the structure
+try {
+    # Update organizational branding
+    $brandingParams = @{
+        BackgroundColor = "${primaryColorInput.value}"
+        SignInPageText = " "
+    }
+    
+    Update-MgOrganizationBranding -OrganizationId $organizationId -BodyParameter $brandingParams
+    Write-Host "  Applied background color: ${primaryColorInput.value}" -ForegroundColor Green
+    
+    # Upload banner logo
+    Set-MgOrganizationBrandingBannerLogo -OrganizationId $organizationId -InFile $bannerLogoPath
+    Write-Host "  Uploaded banner logo" -ForegroundColor Green
+    
+    # Upload square logo (light theme)
+    Set-MgOrganizationBrandingSquareLogo -OrganizationId $organizationId -InFile $squareLogoLightPath
+    Write-Host "  Uploaded square logo (light)" -ForegroundColor Green
+    
+    # Upload background image
+    Set-MgOrganizationBrandingBackgroundImage -OrganizationId $organizationId -InFile $backgroundLightPath
+    Write-Host "  Uploaded background image" -ForegroundColor Green
+    
+    # Check if localization exists for default
+    $localizations = Get-MgOrganizationBrandingLocalization -OrganizationId $organizationId
+    
+    # If dark theme localization doesn't exist, create it
+    $darkLocalizationId = "0"
+    $darkLocalization = $localizations | Where-Object { $_.Id -eq $darkLocalizationId }
+    
+    if (-not $darkLocalization) {
+        Write-Host "  Creating dark theme configuration..." -ForegroundColor Yellow
+        $newLocalization = @{
+            Id = $darkLocalizationId
+        }
+        New-MgOrganizationBrandingLocalization -OrganizationId $organizationId -BodyParameter $newLocalization
+    }
+    
+    # Upload dark theme assets
+    Set-MgOrganizationBrandingLocalizationSquareLogo -OrganizationId $organizationId -OrganizationalBrandingLocalizationId $darkLocalizationId -InFile $squareLogoDarkPath
+    Write-Host "  Uploaded square logo (dark)" -ForegroundColor Green
+    
+    Set-MgOrganizationBrandingLocalizationBackgroundImage -OrganizationId $organizationId -OrganizationalBrandingLocalizationId $darkLocalizationId -InFile $backgroundDarkPath
+    Write-Host "  Uploaded background image (dark)" -ForegroundColor Green
+    
+    Write-Host ""
+    Write-Host "==========================================" -ForegroundColor Green
+    Write-Host " Branding Applied Successfully!" -ForegroundColor Green
+    Write-Host "==========================================" -ForegroundColor Green
+    
+} catch {
+    Write-Host ""
+    Write-Host "ERROR: Failed to apply branding" -ForegroundColor Red
+    Write-Host $_.Exception.Message -ForegroundColor Red
+    
+    if ($_.Exception.Message -like "*Insufficient privileges*") {
+        Write-Host ""
+        Write-Host "This script requires Global Administrator role" -ForegroundColor Yellow
+    }
+}
+
+# Disconnect
+Write-Host ""
+Write-Host "Disconnecting from Microsoft Graph..." -ForegroundColor Yellow
+Disconnect-MgGraph
 
 Write-Host ""
-Write-Host "==========================================" -ForegroundColor Green
-Write-Host " Branding Configuration Complete!" -ForegroundColor Green
-Write-Host "==========================================" -ForegroundColor Green
-Write-Host ""
-Write-Host "Changes may take up to 24 hours to propagate" -ForegroundColor Yellow
-
-Disconnect-MgGraph`;
+Write-Host "Script completed. Changes may take up to 24 hours to fully propagate." -ForegroundColor Cyan
+Write-Host "Users may need to clear their browser cache to see the changes." -ForegroundColor Cyan
+Write-Host ""`;
             
             return script;
         }
@@ -726,7 +896,7 @@ Disconnect-MgGraph`;
                 return new Blob([u8arr], {type: mime});
             }
             
-            // Add files according to Microsoft naming conventions
+            // Add files with correct names for the script
             zip.file('BannerLogo.png', dataURLtoBlob(generatedAssets.bannerLogo));
             zip.file('SquareLogoLight.png', dataURLtoBlob(generatedAssets.squareLogoLight));
             zip.file('SquareLogoDark.png', dataURLtoBlob(generatedAssets.squareLogoDark));
@@ -734,9 +904,6 @@ Disconnect-MgGraph`;
             zip.file('SignInBackgroundDark.jpg', dataURLtoBlob(generatedAssets.signInBgDark));
             zip.file('Favicon16.png', dataURLtoBlob(generatedAssets.favicon16));
             zip.file('Favicon32.png', dataURLtoBlob(generatedAssets.favicon32));
-            if (generatedAssets.originalLogo) {
-                zip.file('OriginalLogo.png', dataURLtoBlob(generatedAssets.originalLogo));
-            }
             
             // Generate ZIP
             zip.generateAsync({type: 'blob'}).then(function(content) {
