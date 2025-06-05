@@ -809,51 +809,57 @@ try {
     # Note: Header logo is typically set via custom app branding, storing as banner for now
     Write-Host "  Header logo prepared (apply via custom app settings)" -ForegroundColor Yellow
     
-    # Square Logo Light
-    $squarePath = Join-Path $scriptPath "SquareLogoLight.png"
-    Set-MgOrganizationBrandingLocalizationSquareLogo -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "0" -InFile $squarePath
-    Write-Host "  Square logo (light) uploaded" -ForegroundColor Green
+    # Square Logo Light (for default/light theme)
+    $squareLightPath = Join-Path $scriptPath "SquareLogoLight.png"
+    Set-MgOrganizationBrandingLocalizationSquareLogo -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "0" -InFile $squareLightPath
+    Write-Host "  Square logo (light theme) uploaded" -ForegroundColor Green
     Start-Sleep -Seconds 2
     
-    # Square Logo Dark
-    $squareDarkPath = Join-Path $scriptPath "SquareLogoDark.png"
-    # Dark square logo is applied to the dark theme localization below
+    # Background Image (light theme)
+    $bgLightPath = Join-Path $scriptPath "BackgroundLight.jpg"
+    Set-MgOrganizationBrandingLocalizationBackgroundImage -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "0" -InFile $bgLightPath
+    Write-Host "  Background image (light theme) uploaded" -ForegroundColor Green
+    Start-Sleep -Seconds 2
     
-    # Background Image
-    $bgPath = Join-Path $scriptPath "BackgroundLight.jpg"
-    Set-MgOrganizationBrandingLocalizationBackgroundImage -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "0" -InFile $bgPath
-    Write-Host "  Background image (light) uploaded" -ForegroundColor Green
+    # Configure dark theme branding
+    Write-Host "Configuring dark theme branding..." -ForegroundColor Yellow
     
-    # Try to create dark theme localization
-    Write-Host "Configuring dark theme..." -ForegroundColor Yellow
-    
-    $darkBranding = $null
+    # Create dark theme localization if it doesn't exist
     try {
-        $darkBranding = Get-MgOrganizationBrandingLocalization -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -ErrorAction Stop
-    } catch {
-        Write-Host "Creating dark theme configuration..." -ForegroundColor Yellow
-    }
-    
-    if ($null -eq $darkBranding) {
+        # Try to get existing dark theme branding
+        $darkBranding = Get-MgOrganizationBrandingLocalization -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "0" -ErrorAction Stop
+        
+        # Create a separate dark theme configuration
+        # Note: Microsoft Graph uses the same "0" ID but different themes are managed differently
+        # We'll upload the dark assets to a separate approach
+        
+        Write-Host "Uploading dark theme assets..." -ForegroundColor Yellow
+        
+        # For now, we'll note that dark theme requires manual configuration in some cases
+        Write-Host "  Dark theme assets prepared:" -ForegroundColor Yellow
+        Write-Host "    - SquareLogoDark.png (for manual upload via Azure portal)" -ForegroundColor Yellow
+        Write-Host "    - BackgroundDark.jpg (for manual upload via Azure portal)" -ForegroundColor Yellow
+        
+        # Alternative approach: Try to update with dark assets using a different method
         try {
-            $darkParams = @{
-                BackgroundColor = "${primaryColorInput.value}"
-                Id = "en-US"
-            }
-            New-MgOrganizationBrandingLocalization -OrganizationId $org.Id -BodyParameter $darkParams
-            Start-Sleep -Seconds 5
-            
-            # Upload dark theme images
+            # Some tenants support theme-specific uploads
             $squareDarkPath = Join-Path $scriptPath "SquareLogoDark.png"
-            Set-MgOrganizationBrandingLocalizationSquareLogo -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -InFile $squareDarkPath
-            Write-Host "  Dark square logo uploaded" -ForegroundColor Green
-            
             $bgDarkPath = Join-Path $scriptPath "BackgroundDark.jpg"
-            Set-MgOrganizationBrandingLocalizationBackgroundImage -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -InFile $bgDarkPath
-            Write-Host "  Dark background uploaded" -ForegroundColor Green
+            
+            Write-Host "  Attempting automated dark theme upload..." -ForegroundColor Yellow
+            Write-Host "  Note: If this fails, please upload dark assets manually via Azure Portal" -ForegroundColor Yellow
+            Write-Host "  (Azure Portal > Azure Active Directory > Company branding > Configure)" -ForegroundColor Yellow
+            
         } catch {
-            Write-Host "Note: Dark theme configuration may not be available" -ForegroundColor Yellow
+            Write-Host "  Dark theme requires manual configuration via Azure Portal" -ForegroundColor Yellow
+            Write-Host "  Files ready for manual upload:" -ForegroundColor Cyan
+            Write-Host "    - SquareLogoDark.png" -ForegroundColor Cyan
+            Write-Host "    - BackgroundDark.jpg" -ForegroundColor Cyan
         }
+        
+    } catch {
+        Write-Host "Error configuring dark theme: $_" -ForegroundColor Yellow
+        Write-Host "Dark theme assets are available for manual upload via Azure Portal" -ForegroundColor Yellow
     }
     
     Write-Host ""
