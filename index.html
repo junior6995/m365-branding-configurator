@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Microsoft Entra ID & M365 Branding Configurator - Enterprise Admin Tool</title>
+    <title>Microsoft Entra ID Branding Configurator</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
@@ -22,46 +22,25 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        .shimmer {
-            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
-            background-size: 200% 100%;
-            animation: shimmer 3s ease-in-out infinite;
-        }
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
     </style>
 </head>
 <body>
     <div id="app" class="min-h-screen bg-gray-50">
-        <!-- Enhanced Header -->
+        <!-- Header -->
         <div class="bg-white shadow-sm border-b">
             <div class="max-w-7xl mx-auto px-8 py-6">
-                <h1 class="text-3xl font-bold text-gray-800 mb-3">Microsoft Entra ID & M365 Branding Configurator</h1>
+                <h1 class="text-3xl font-bold text-gray-800 mb-3">Microsoft Entra ID Branding Configurator</h1>
                 <div class="text-gray-600 space-y-2">
-                    <p class="text-lg">🎨 <strong>Automate your Microsoft 365 tenant branding</strong> following Microsoft's official guidelines</p>
-                    <div class="grid grid-cols-3 gap-4 mt-4 text-sm">
+                    <p class="text-lg">🎨 <strong>Generate Microsoft 365 branding assets</strong> that meet all official size and dimension requirements</p>
+                    <div class="grid grid-cols-2 gap-4 mt-4 text-sm">
                         <div class="flex items-start">
                             <span class="text-green-500 mr-2">✓</span>
-                            <span>Generate high-quality branding images according to <a href="https://learn.microsoft.com/en-us/entra/fundamentals/how-to-customize-branding" target="_blank" class="text-blue-600 underline">Microsoft's official specifications</a></span>
+                            <span>Creates optimized images following <a href="https://learn.microsoft.com/en-us/entra/fundamentals/how-to-customize-branding" target="_blank" class="text-blue-600 underline">Microsoft's specifications</a></span>
                         </div>
                         <div class="flex items-start">
                             <span class="text-green-500 mr-2">✓</span>
-                            <span>Create a working PowerShell script using Microsoft Graph API for automatic deployment</span>
+                            <span>Includes ready-to-run PowerShell script for easy deployment</span>
                         </div>
-                        <div class="flex items-start">
-                            <span class="text-green-500 mr-2">✓</span>
-                            <span>Apply consistent branding across Microsoft Entra ID, Office.com, Teams, SharePoint, and all M365 services</span>
-                        </div>
-                    </div>
-                    <div class="mt-4 p-3 bg-blue-50 rounded-lg">
-                        <p class="text-sm text-blue-800">
-                            <strong>📖 Official Documentation:</strong> This tool follows Microsoft's branding guidelines. 
-                            <a href="https://learn.microsoft.com/en-us/entra/fundamentals/how-to-customize-branding" target="_blank" class="underline font-semibold">
-                                View Microsoft Entra ID Custom Branding Documentation →
-                            </a>
-                        </p>
                     </div>
                 </div>
             </div>
@@ -72,7 +51,7 @@
             <div class="grid grid-cols-2 gap-8">
                 <!-- Configuration Panel -->
                 <div class="bg-white rounded-lg shadow-lg p-6">
-                    <h2 class="text-xl font-semibold mb-6">Configuration</h2>
+                    <h2 class="text-xl font-semibold mb-6">Branding Configuration</h2>
                     
                     <!-- Primary Color -->
                     <div class="mb-6">
@@ -83,35 +62,32 @@
                             <input type="color" id="primaryColor" value="#0078D4" class="h-12 w-24 rounded cursor-pointer">
                             <input type="text" id="primaryColorText" value="#0078D4" class="flex-1 px-3 py-2 border border-gray-300 rounded-md font-mono">
                         </div>
-                        <p class="text-xs text-gray-500 mt-1">Main color for your organization's branding</p>
                     </div>
                     
                     <!-- Secondary Color -->
                     <div class="mb-6">
                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                            Secondary/Accent Color
+                            Secondary Color
                         </label>
                         <div class="flex items-center space-x-4">
                             <input type="color" id="secondaryColor" value="#106EBE" class="h-12 w-24 rounded cursor-pointer">
                             <input type="text" id="secondaryColorText" value="#106EBE" class="flex-1 px-3 py-2 border border-gray-300 rounded-md font-mono">
                         </div>
-                        <p class="text-xs text-gray-500 mt-1">Complementary color for gradients and accents</p>
                     </div>
                     
                     <!-- Logo Upload -->
                     <div class="mb-6">
                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                            Company Logo (Transparent PNG recommended)
+                            Company Logo (PNG with transparent background)
                         </label>
                         <input type="file" id="logoInput" accept="image/*" class="hidden">
                         <button id="uploadBtn" class="w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-gray-400 transition-colors">
                             <span id="uploadText" class="text-gray-500">Click to upload logo</span>
                             <div id="logoPreview" class="hidden flex items-center justify-center">
                                 <img id="logoImg" class="h-16 mr-4">
-                                <span class="text-green-600">✓ Logo uploaded successfully</span>
+                                <span class="text-green-600">✓ Logo uploaded</span>
                             </div>
                         </button>
-                        <p class="text-xs text-gray-500 mt-1">Logo will be automatically optimized for Microsoft's requirements</p>
                     </div>
                     
                     <!-- Generate Button -->
@@ -119,19 +95,18 @@
                         <span id="generateText">Generate Branding Package</span>
                         <div id="generateSpinner" class="hidden">
                             <div class="spinner"></div>
-                            Generating High-Quality Assets...
+                            Generating Assets...
                         </div>
                     </button>
                     
                     <!-- Info Box -->
                     <div class="mt-6 p-4 bg-blue-50 rounded-lg">
-                        <h3 class="font-semibold text-sm text-blue-900 mb-2">Microsoft Entra ID Image Requirements:</h3>
+                        <h3 class="font-semibold text-sm text-blue-900 mb-2">Image Requirements (Microsoft Specs):</h3>
                         <ul class="text-xs text-blue-800 space-y-1">
-                            <li>• <strong>Sign-in background:</strong> 1920x1080 px, max 300 KB</li>
-                            <li>• <strong>Banner logo:</strong> 280x60 px, max 10 KB</li>
-                            <li>• <strong>Header logo:</strong> 245x36 px, max 10 KB</li>
-                            <li>• <strong>Square logos:</strong> 240x240 px, max 10 KB each</li>
-                            <li>• <strong>Format:</strong> PNG or JPG (PNG for logos, JPG for backgrounds)</li>
+                            <li>• <strong>Sign-in background:</strong> 1920×1080px, max 300KB</li>
+                            <li>• <strong>Banner logo:</strong> 280×60px, max 10KB</li>
+                            <li>• <strong>Header logo:</strong> 245×36px, max 10KB</li>
+                            <li>• <strong>Square logos:</strong> 240×240px, max 10KB</li>
                         </ul>
                     </div>
                 </div>
@@ -139,117 +114,54 @@
                 <!-- Preview Panel -->
                 <div class="bg-white rounded-lg shadow-lg p-6">
                     <div class="flex items-center justify-between mb-4">
-                        <h2 class="text-xl font-semibold">Live Preview</h2>
-                        <div class="flex items-center space-x-2">
-                            <span class="text-sm text-gray-500">Theme:</span>
-                            <button id="darkModeBtn" class="px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-200 text-sm font-medium">
-                                <span id="darkModeText">Light</span>
-                            </button>
-                        </div>
+                        <h2 class="text-xl font-semibold">Preview</h2>
+                        <button id="darkModeBtn" class="px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-200 text-sm font-medium">
+                            <span id="darkModeText">Light Theme</span>
+                        </button>
                     </div>
                     
                     <div id="previewArea" class="bg-gray-100 rounded-lg p-4 min-h-[500px] flex items-center justify-center">
                         <div class="text-center text-gray-400">
-                            <svg class="w-24 h-24 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                            </svg>
-                            <p>Upload your company logo to see a preview</p>
-                            <p class="text-sm mt-2">Preview will show how your branding appears in Microsoft Entra ID</p>
+                            <p>Upload your logo and generate assets to see preview</p>
                         </div>
                     </div>
                 </div>
             </div>
             
             <!-- Results Section -->
-            <div id="resultsSection" class="hidden mt-8 space-y-6">
-                <!-- PowerShell Instructions -->
-                <div class="bg-white rounded-lg shadow-lg p-8">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-6">📋 Deployment Instructions</h2>
-                    
-                    <div class="grid grid-cols-2 gap-8">
-                        <div>
-                            <h3 class="font-semibold text-lg mb-4">Step-by-Step Guide:</h3>
-                            <ol class="space-y-3 text-sm">
-                                <li class="flex">
-                                    <span class="font-bold text-blue-600 mr-3">1.</span>
-                                    <div>
-                                        <strong>Download the image package</strong> using the green button below
-                                        <p class="text-gray-600 text-xs mt-1">Extract the ZIP file to a folder (e.g., C:\M365Branding)</p>
-                                    </div>
-                                </li>
-                                <li class="flex">
-                                    <span class="font-bold text-blue-600 mr-3">2.</span>
-                                    <div>
-                                        <strong>Copy the PowerShell script</strong> below and save it as:
-                                        <code class="bg-gray-100 px-2 py-1 rounded text-xs block mt-1">ApplyM365Branding.ps1</code>
-                                        <p class="text-gray-600 text-xs mt-1">Save it in the same folder as the images</p>
-                                    </div>
-                                </li>
-                                <li class="flex">
-                                    <span class="font-bold text-blue-600 mr-3">3.</span>
-                                    <div>
-                                        <strong>Open PowerShell as Administrator</strong> and navigate to the folder:
-                                        <code class="bg-gray-100 px-2 py-1 rounded text-xs block mt-1">cd C:\M365Branding</code>
-                                    </div>
-                                </li>
-                                <li class="flex">
-                                    <span class="font-bold text-blue-600 mr-3">4.</span>
-                                    <div>
-                                        <strong>Run the script:</strong>
-                                        <code class="bg-gray-100 px-2 py-1 rounded text-xs block mt-1">.\ApplyM365Branding.ps1</code>
-                                    </div>
-                                </li>
-                            </ol>
-                        </div>
-                        
-                        <div>
-                            <h3 class="font-semibold text-lg mb-4">Prerequisites:</h3>
-                            <ul class="space-y-2 text-sm">
-                                <li class="flex items-start">
-                                    <span class="text-green-500 mr-2">✓</span>
-                                    <div>
-                                        <strong>Microsoft Graph PowerShell SDK</strong>
-                                        <code class="bg-gray-100 px-2 py-1 rounded text-xs block mt-1">Install-Module Microsoft.Graph -Scope CurrentUser</code>
-                                    </div>
-                                </li>
-                                <li class="flex items-start">
-                                    <span class="text-green-500 mr-2">✓</span>
-                                    <span><strong>Global Administrator</strong> or <strong>Application Administrator</strong> role</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <span class="text-green-500 mr-2">✓</span>
-                                    <span>PowerShell 5.1 or higher (7.x recommended)</span>
-                                </li>
-                            </ul>
-                            
-                            <div class="mt-4 p-4 bg-yellow-50 rounded-lg">
-                                <p class="text-sm text-yellow-800">
-                                    <strong>⚠️ Important:</strong> The script will create and configure your organization's branding profile automatically.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- PowerShell Script -->
-                <div class="bg-white rounded-lg shadow-lg p-8">
-                    <div class="flex items-center justify-between mb-4">
-                        <h2 class="text-2xl font-bold text-gray-800">🔧 PowerShell Script</h2>
-                        <button id="copyBtn" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors font-medium text-sm">
-                            📋 Copy Script
-                        </button>
-                    </div>
-                    <pre id="scriptContent" class="bg-gray-900 text-gray-100 p-6 rounded-lg overflow-x-auto text-sm font-mono leading-relaxed whitespace-pre-wrap"></pre>
-                </div>
-                
-                <!-- Download Button -->
+            <div id="resultsSection" class="hidden mt-8">
                 <div class="bg-white rounded-lg shadow-lg p-8 text-center">
-                    <h3 class="text-xl font-semibold mb-4">Ready to Deploy!</h3>
-                    <p class="text-gray-600 mb-6">Your Microsoft 365 branding package has been generated with high-quality images optimized for Microsoft Entra ID.</p>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">✅ Your Branding Package is Ready!</h2>
+                    <p class="text-gray-600 mb-6">Download the ZIP file containing all images and deployment script</p>
+                    
+                    <div class="grid grid-cols-3 gap-4 mb-8 max-w-3xl mx-auto">
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-green-800">6 Images</h3>
+                            <p class="text-sm text-green-600">Optimized for Microsoft Entra ID</p>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-blue-800">PowerShell Script</h3>
+                            <p class="text-sm text-blue-600">Ready to deploy</p>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-purple-800">Instructions</h3>
+                            <p class="text-sm text-purple-600">Step-by-step guide included</p>
+                        </div>
+                    </div>
+                    
                     <button id="downloadBtn" class="px-8 py-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-semibold text-lg">
-                        ⬇️ Download Image Package (ZIP)
+                        ⬇️ Download Branding Package
                     </button>
-                    <p class="text-sm text-gray-500 mt-4">Contains 6 optimized images for Microsoft Entra ID branding</p>
+                    
+                    <div class="mt-8 text-left max-w-2xl mx-auto">
+                        <h3 class="font-semibold mb-3">Quick Deployment Steps:</h3>
+                        <ol class="text-sm text-gray-600 space-y-2">
+                            <li>1. Extract the ZIP file to a folder</li>
+                            <li>2. Open PowerShell as Administrator</li>
+                            <li>3. Navigate to the extracted folder</li>
+                            <li>4. Run: <code class="bg-gray-100 px-2 py-1 rounded">.\Deploy-M365Branding.ps1</code></li>
+                        </ol>
+                    </div>
                 </div>
             </div>
         </div>
@@ -282,8 +194,6 @@
         const darkModeText = document.getElementById('darkModeText');
         const previewArea = document.getElementById('previewArea');
         const resultsSection = document.getElementById('resultsSection');
-        const scriptContent = document.getElementById('scriptContent');
-        const copyBtn = document.getElementById('copyBtn');
         const downloadBtn = document.getElementById('downloadBtn');
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
@@ -334,61 +244,30 @@
         // Dark mode toggle
         darkModeBtn.addEventListener('click', () => {
             darkMode = !darkMode;
-            darkModeText.textContent = darkMode ? 'Dark' : 'Light';
-            darkModeBtn.classList.toggle('bg-gray-800');
-            darkModeBtn.classList.toggle('text-white');
+            darkModeText.textContent = darkMode ? 'Dark Theme' : 'Light Theme';
             updatePreview();
         });
         
         // Generate assets
         generateBtn.addEventListener('click', generateAssets);
         
-        // Generate banner logo (280x60) - Enhanced quality
-        function generateBannerLogo(theme) {
+        // Generate banner logo (280x60) - Max 10KB
+        function generateBannerLogo() {
             canvas.width = 280;
             canvas.height = 60;
             
             ctx.clearRect(0, 0, 280, 60);
-            ctx.imageSmoothingEnabled = true;
-            ctx.imageSmoothingQuality = 'high';
             
-            // Gradient background with shimmer effect
-            const gradient = ctx.createLinearGradient(0, 0, 280, 60);
-            if (theme === 'light') {
-                gradient.addColorStop(0, '#ffffff');
-                gradient.addColorStop(0.5, '#fafafa');
-                gradient.addColorStop(1, '#f5f5f5');
-            } else {
-                gradient.addColorStop(0, '#1a1a1a');
-                gradient.addColorStop(0.5, '#0f0f0f');
-                gradient.addColorStop(1, '#000000');
-            }
-            ctx.fillStyle = gradient;
+            // Simple white background
+            ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, 280, 60);
             
-            // Add subtle pattern
-            ctx.globalAlpha = 0.03;
-            for (let i = 0; i < 280; i += 10) {
-                ctx.beginPath();
-                ctx.moveTo(i, 0);
-                ctx.lineTo(i + 60, 60);
-                ctx.strokeStyle = primaryColorInput.value;
-                ctx.lineWidth = 0.5;
-                ctx.stroke();
-            }
-            ctx.globalAlpha = 1;
-            
             if (logo) {
-                // Add subtle shadow
-                ctx.shadowColor = 'rgba(0,0,0,0.1)';
-                ctx.shadowBlur = 5;
-                ctx.shadowOffsetY = 2;
-                
                 const logoAspect = logo.width / logo.height;
                 let drawWidth, drawHeight;
                 
                 if (logoAspect > 280/60) {
-                    drawWidth = 250;
+                    drawWidth = 260;
                     drawHeight = drawWidth / logoAspect;
                 } else {
                     drawHeight = 50;
@@ -399,34 +278,26 @@
                 const y = (60 - drawHeight) / 2;
                 
                 ctx.drawImage(logo, x, y, drawWidth, drawHeight);
-                ctx.shadowColor = 'transparent';
             } else {
-                // Stylized text logo
-                const textGradient = ctx.createLinearGradient(0, 20, 0, 40);
-                textGradient.addColorStop(0, primaryColorInput.value);
-                textGradient.addColorStop(1, secondaryColorInput.value);
-                
-                ctx.fillStyle = textGradient;
-                ctx.font = 'bold 28px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif';
+                ctx.fillStyle = primaryColorInput.value;
+                ctx.font = 'bold 24px Arial';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillText('Your Company', 140, 30);
             }
             
-            return canvas.toDataURL('image/png', 1.0);
+            // Low quality for small file size
+            return canvas.toDataURL('image/png', 0.1);
         }
         
-        // Generate header logo (245x36) - NEW
-        function generateHeaderLogo(theme) {
+        // Generate header logo (245x36) - Max 10KB
+        function generateHeaderLogo() {
             canvas.width = 245;
             canvas.height = 36;
             
             ctx.clearRect(0, 0, 245, 36);
-            ctx.imageSmoothingEnabled = true;
-            ctx.imageSmoothingQuality = 'high';
             
-            // Clean background
-            ctx.fillStyle = theme === 'light' ? '#ffffff' : '#1a1a1a';
+            ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, 245, 36);
             
             if (logo) {
@@ -446,50 +317,27 @@
                 
                 ctx.drawImage(logo, x, y, drawWidth, drawHeight);
             } else {
-                // Compact text version
                 ctx.fillStyle = primaryColorInput.value;
-                ctx.font = 'bold 20px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif';
+                ctx.font = 'bold 18px Arial';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillText('Your Company', 122.5, 18);
             }
             
-            return canvas.toDataURL('image/png', 1.0);
+            return canvas.toDataURL('image/png', 0.1);
         }
         
-        // Generate square logo (240x240) - Enhanced
+        // Generate square logo (240x240) - Max 10KB
         function generateSquareLogo(theme) {
             canvas.width = 240;
             canvas.height = 240;
             
             ctx.clearRect(0, 0, 240, 240);
-            ctx.imageSmoothingEnabled = true;
-            ctx.imageSmoothingQuality = 'high';
             
-            // Create layered background
-            if (theme === 'light') {
-                // White base with subtle gradient
-                const baseGradient = ctx.createRadialGradient(120, 120, 0, 120, 120, 170);
-                baseGradient.addColorStop(0, '#ffffff');
-                baseGradient.addColorStop(1, '#f8f9fa');
-                ctx.fillStyle = baseGradient;
-                ctx.fillRect(0, 0, 240, 240);
-            } else {
-                // Dark base with gradient
-                const baseGradient = ctx.createRadialGradient(120, 120, 0, 120, 120, 170);
-                baseGradient.addColorStop(0, '#1a1a1a');
-                baseGradient.addColorStop(1, '#000000');
-                ctx.fillStyle = baseGradient;
-                ctx.fillRect(0, 0, 240, 240);
-            }
+            ctx.fillStyle = theme === 'light' ? '#ffffff' : '#1a1a1a';
+            ctx.fillRect(0, 0, 240, 240);
             
             if (logo) {
-                // Add subtle glow effect
-                if (theme === 'dark') {
-                    ctx.shadowColor = primaryColorInput.value + '40';
-                    ctx.shadowBlur = 20;
-                }
-                
                 const logoAspect = logo.width / logo.height;
                 let drawWidth, drawHeight;
                 const maxSize = 180;
@@ -506,169 +354,59 @@
                 const y = (240 - drawHeight) / 2;
                 
                 ctx.drawImage(logo, x, y, drawWidth, drawHeight);
-                ctx.shadowColor = 'transparent';
             } else {
-                // Create stylized monogram
-                const gradient = ctx.createRadialGradient(120, 120, 0, 120, 120, 120);
-                gradient.addColorStop(0, adjustColor(primaryColorInput.value, 30));
-                gradient.addColorStop(0.5, primaryColorInput.value);
+                // Simple gradient
+                const gradient = ctx.createLinearGradient(0, 0, 240, 240);
+                gradient.addColorStop(0, primaryColorInput.value);
                 gradient.addColorStop(1, secondaryColorInput.value);
                 ctx.fillStyle = gradient;
                 ctx.fillRect(0, 0, 240, 240);
                 
-                // Add geometric pattern overlay
-                ctx.globalAlpha = 0.1;
-                ctx.strokeStyle = '#ffffff';
-                ctx.lineWidth = 1;
-                
-                // Hexagon pattern
-                for (let x = 0; x < 240; x += 40) {
-                    for (let y = 0; y < 240; y += 35) {
-                        ctx.beginPath();
-                        for (let i = 0; i < 6; i++) {
-                            const angle = (Math.PI / 3) * i;
-                            const px = x + 20 * Math.cos(angle);
-                            const py = y + 20 * Math.sin(angle);
-                            if (i === 0) ctx.moveTo(px, py);
-                            else ctx.lineTo(px, py);
-                        }
-                        ctx.closePath();
-                        ctx.stroke();
-                    }
-                }
-                ctx.globalAlpha = 1;
-                
-                // Letter with effects
                 ctx.fillStyle = '#ffffff';
-                ctx.font = '900 120px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif';
+                ctx.font = 'bold 100px Arial';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                ctx.shadowColor = 'rgba(0,0,0,0.3)';
-                ctx.shadowBlur = 8;
-                ctx.shadowOffsetY = 4;
                 ctx.fillText('M', 120, 120);
-                ctx.shadowColor = 'transparent';
             }
             
-            return canvas.toDataURL('image/png', 1.0);
+            return canvas.toDataURL('image/png', 0.1);
         }
         
-        // Generate ultra high-quality sign-in background (1920x1080)
+        // Generate sign-in background (1920x1080) - Max 300KB
         function generateSignInBackground(theme) {
             canvas.width = 1920;
             canvas.height = 1080;
             
             ctx.clearRect(0, 0, 1920, 1080);
-            ctx.imageSmoothingEnabled = true;
-            ctx.imageSmoothingQuality = 'high';
             
-            // Layer 1: Base gradient
-            const baseGradient = ctx.createLinearGradient(0, 0, 1920, 1080);
+            // Simple gradient - no complex patterns to reduce file size
+            const gradient = ctx.createLinearGradient(0, 0, 1920, 1080);
             
             if (theme === 'light') {
-                baseGradient.addColorStop(0, '#ffffff');
-                baseGradient.addColorStop(0.2, adjustColor(primaryColorInput.value, 140));
-                baseGradient.addColorStop(0.5, adjustColor(primaryColorInput.value, 100));
-                baseGradient.addColorStop(0.8, adjustColor(secondaryColorInput.value, 120));
-                baseGradient.addColorStop(1, adjustColor(secondaryColorInput.value, 80));
+                gradient.addColorStop(0, '#f8f9fa');
+                gradient.addColorStop(0.5, adjustColor(primaryColorInput.value, 100));
+                gradient.addColorStop(1, adjustColor(secondaryColorInput.value, 80));
             } else {
-                baseGradient.addColorStop(0, '#000000');
-                baseGradient.addColorStop(0.2, adjustColor(primaryColorInput.value, -100));
-                baseGradient.addColorStop(0.5, adjustColor(primaryColorInput.value, -80));
-                baseGradient.addColorStop(0.8, adjustColor(secondaryColorInput.value, -100));
-                baseGradient.addColorStop(1, adjustColor(secondaryColorInput.value, -120));
+                gradient.addColorStop(0, '#1a1a1a');
+                gradient.addColorStop(0.5, adjustColor(primaryColorInput.value, -80));
+                gradient.addColorStop(1, adjustColor(secondaryColorInput.value, -100));
             }
             
-            ctx.fillStyle = baseGradient;
+            ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, 1920, 1080);
             
-            // Layer 2: Mesh gradient overlay
-            ctx.globalAlpha = 0.3;
-            for (let i = 0; i < 12; i++) {
-                const x = Math.random() * 1920;
-                const y = Math.random() * 1080;
-                const r = Math.random() * 600 + 300;
-                
-                const meshGradient = ctx.createRadialGradient(x, y, 0, x, y, r);
-                meshGradient.addColorStop(0, i % 2 === 0 ? primaryColorInput.value : secondaryColorInput.value);
-                meshGradient.addColorStop(0.5, i % 2 === 0 ? secondaryColorInput.value : primaryColorInput.value);
-                meshGradient.addColorStop(1, 'transparent');
-                
-                ctx.fillStyle = meshGradient;
-                ctx.fillRect(0, 0, 1920, 1080);
-            }
-            
-            // Layer 3: Geometric patterns
-            ctx.globalAlpha = 0.04;
-            ctx.strokeStyle = theme === 'light' ? primaryColorInput.value : '#ffffff';
-            ctx.lineWidth = 2;
-            
-            // Create flowing curves
-            for (let i = 0; i < 15; i++) {
-                ctx.beginPath();
-                let x = -100;
-                let y = Math.random() * 1080;
-                ctx.moveTo(x, y);
-                
-                for (let j = 0; j < 10; j++) {
-                    x += 220;
-                    y += (Math.random() - 0.5) * 300;
-                    const cx = x - 110;
-                    const cy = y + (Math.random() - 0.5) * 150;
-                    ctx.quadraticCurveTo(cx, cy, x, y);
-                }
-                
-                ctx.stroke();
-            }
-            
-            // Layer 4: Particle field
-            ctx.globalAlpha = 0.02;
-            for (let i = 0; i < 2000; i++) {
-                const x = Math.random() * 1920;
-                const y = Math.random() * 1080;
-                const size = Math.random() * 3 + 1;
-                
-                ctx.beginPath();
-                ctx.arc(x, y, size, 0, Math.PI * 2);
-                ctx.fillStyle = theme === 'light' ? primaryColorInput.value : '#ffffff';
-                ctx.fill();
-            }
-            
-            // Layer 5: Light rays
-            ctx.globalAlpha = 0.03;
-            const rayGradient = ctx.createLinearGradient(960, 0, 960, 1080);
-            rayGradient.addColorStop(0, 'transparent');
-            rayGradient.addColorStop(0.5, theme === 'light' ? primaryColorInput.value : '#ffffff');
-            rayGradient.addColorStop(1, 'transparent');
-            
-            for (let i = 0; i < 20; i++) {
-                ctx.save();
-                ctx.translate(960, 540);
-                ctx.rotate((i * 18) * Math.PI / 180);
-                ctx.fillStyle = rayGradient;
-                ctx.fillRect(-2, -1080, 4, 2160);
-                ctx.restore();
-            }
-            
-            // Layer 6: Noise texture for quality
-            ctx.globalAlpha = 0.03;
-            const imageData = ctx.createImageData(1920, 1080);
-            const data = imageData.data;
-            
-            for (let i = 0; i < data.length; i += 4) {
-                const noise = Math.random() * 30;
-                data[i] = noise;
-                data[i + 1] = noise;
-                data[i + 2] = noise;
-                data[i + 3] = 255;
-            }
-            
-            ctx.putImageData(imageData, 0, 0);
+            // Add simple overlay for depth
+            ctx.globalAlpha = 0.1;
+            const overlay = ctx.createRadialGradient(960, 540, 0, 960, 540, 800);
+            overlay.addColorStop(0, theme === 'light' ? '#ffffff' : '#000000');
+            overlay.addColorStop(1, 'transparent');
+            ctx.fillStyle = overlay;
+            ctx.fillRect(0, 0, 1920, 1080);
             
             ctx.globalAlpha = 1;
             
-            // Return as very high-quality JPEG
-            return canvas.toDataURL('image/jpeg', 0.98);
+            // Return as JPEG with compression to stay under 300KB
+            return canvas.toDataURL('image/jpeg', 0.6);
         }
         
         function adjustColor(hex, amount) {
@@ -686,16 +424,14 @@
             
             setTimeout(() => {
                 generatedAssets = {
-                    // Microsoft Entra ID specific assets
-                    bannerLogo: generateBannerLogo('light'),
-                    headerLogo: generateHeaderLogo('light'), // NEW
+                    bannerLogo: generateBannerLogo(),
+                    headerLogo: generateHeaderLogo(),
                     squareLogoLight: generateSquareLogo('light'),
                     squareLogoDark: generateSquareLogo('dark'),
                     signInBgLight: generateSignInBackground('light'),
                     signInBgDark: generateSignInBackground('dark'),
-                    
-                    // Generate script
-                    script: generatePowerShellScript()
+                    script: generatePowerShellScript(),
+                    readme: generateReadme()
                 };
                 
                 generateText.classList.remove('hidden');
@@ -704,238 +440,142 @@
                 
                 updatePreview();
                 showResults();
-            }, 2500);
+            }, 1500);
         }
         
         function generatePowerShellScript() {
-            // Fixed PowerShell script that creates branding first
-            const script = `<#
-.SYNOPSIS
-    Microsoft 365 Branding Configuration Script
-    
-.DESCRIPTION
-    Applies custom branding to Microsoft 365 tenant using Microsoft Graph API
-    Generated on: ${new Date().toLocaleString()}
-    Primary Color: ${primaryColorInput.value}
-    Secondary Color: ${secondaryColorInput.value}
+            return `# Microsoft Entra ID Branding Deployment Script
+# Generated: ${new Date().toLocaleString()}
+# Primary Color: ${primaryColorInput.value}
 
-.NOTES
-    Requires: Microsoft.Graph PowerShell module v2.0+
-    Requires: Global Administrator or Application Administrator role
-#>
+Write-Host "Microsoft Entra ID Branding Deployment" -ForegroundColor Cyan
+Write-Host "======================================" -ForegroundColor Cyan
 
-# Script Configuration
-$ErrorActionPreference = "Stop"
-Write-Host ""
-Write-Host "==========================================" -ForegroundColor Cyan
-Write-Host " Microsoft Entra ID Branding Configuration" -ForegroundColor Cyan
-Write-Host "==========================================" -ForegroundColor Cyan
-Write-Host ""
+# Check files
+$requiredFiles = @(
+    "BannerLogo.png",
+    "HeaderLogo.png", 
+    "SquareLogoLight.png",
+    "SquareLogoDark.png",
+    "BackgroundLight.jpg",
+    "BackgroundDark.jpg"
+)
 
-# Get script directory
-$ScriptDirectory = Split-Path -Parent $MyInvocation.MyCommand.Definition
-Write-Host "Script directory: $ScriptDirectory" -ForegroundColor Yellow
+$scriptPath = $PSScriptRoot
+$missingFiles = @()
 
-# Define required files
-$RequiredFiles = @{
-    "BannerLogo.png" = "Banner logo"
-    "HeaderLogo.png" = "Header logo"
-    "SquareLogoLight.png" = "Square logo light"
-    "SquareLogoDark.png" = "Square logo dark"
-    "SignInBackgroundLight.jpg" = "Sign-in background light"
-    "SignInBackgroundDark.jpg" = "Sign-in background dark"
-}
-
-# Verify files exist
-Write-Host ""
-Write-Host "Checking for required files..." -ForegroundColor Yellow
-$AllFilesExist = $true
-
-foreach ($File in $RequiredFiles.Keys) {
-    $FilePath = Join-Path -Path $ScriptDirectory -ChildPath $File
-    if (Test-Path -Path $FilePath) {
-        Write-Host "  Found: $File" -ForegroundColor Green
-    } else {
-        Write-Host "  Missing: $File" -ForegroundColor Red
-        $AllFilesExist = $false
+foreach ($file in $requiredFiles) {
+    if (-not (Test-Path (Join-Path $scriptPath $file))) {
+        $missingFiles += $file
     }
 }
 
-if (-not $AllFilesExist) {
-    Write-Host ""
-    Write-Host "ERROR: Missing required files!" -ForegroundColor Red
-    Write-Host "Please ensure all files are in: $ScriptDirectory" -ForegroundColor Yellow
+if ($missingFiles.Count -gt 0) {
+    Write-Host "Missing files:" -ForegroundColor Red
+    $missingFiles | ForEach-Object { Write-Host "  - $_" -ForegroundColor Red }
     exit 1
 }
 
-# Install and import Microsoft Graph module
-Write-Host ""
-Write-Host "Checking Microsoft.Graph module..." -ForegroundColor Yellow
+Write-Host "All files found!" -ForegroundColor Green
 
-$modules = @("Microsoft.Graph.Authentication", "Microsoft.Graph.Identity.DirectoryManagement")
-foreach ($module in $modules) {
-    if (-not (Get-Module -ListAvailable -Name $module)) {
-        Write-Host "Installing $module..." -ForegroundColor Yellow
-        Install-Module $module -Scope CurrentUser -Force -AllowClobber
-    }
-    Import-Module $module -ErrorAction Stop
+# Import module
+if (-not (Get-Module -ListAvailable -Name Microsoft.Graph)) {
+    Write-Host "Installing Microsoft.Graph module..." -ForegroundColor Yellow
+    Install-Module Microsoft.Graph -Scope CurrentUser -Force
 }
 
-Write-Host "Microsoft.Graph modules loaded successfully" -ForegroundColor Green
+Import-Module Microsoft.Graph.Identity.DirectoryManagement
 
-# Connect to Microsoft Graph
-Write-Host ""
+# Connect
 Write-Host "Connecting to Microsoft Graph..." -ForegroundColor Yellow
-Write-Host "Please sign in with Global Administrator credentials" -ForegroundColor Cyan
-
-try {
-    Connect-MgGraph -Scopes "Organization.ReadWrite.All", "OrganizationalBranding.ReadWrite.All" -NoWelcome
-    $context = Get-MgContext
-    Write-Host "Connected as: $($context.Account)" -ForegroundColor Green
-}
-catch {
-    Write-Host "Failed to connect to Microsoft Graph: $_" -ForegroundColor Red
-    exit 1
-}
+Connect-MgGraph -Scopes "Organization.ReadWrite.All"
 
 # Get organization
-$organization = Get-MgOrganization
-$organizationId = $organization.Id
-Write-Host "Organization: $($organization.DisplayName)" -ForegroundColor Cyan
+$org = Get-MgOrganization
+Write-Host "Organization: $($org.DisplayName)" -ForegroundColor Cyan
 
-# Check if branding exists
-Write-Host ""
-Write-Host "Checking existing branding configuration..." -ForegroundColor Yellow
-
+# Apply branding
 try {
-    $existingBranding = Get-MgOrganizationBranding -OrganizationId $organizationId -ErrorAction SilentlyContinue
+    # Create or update branding
+    $brandingParams = @{
+        BackgroundColor = "${primaryColorInput.value}"
+    }
     
-    if ($null -eq $existingBranding) {
-        Write-Host "No branding configuration found. Creating new configuration..." -ForegroundColor Yellow
-        
-        # Create new branding configuration
-        $newBrandingParams = @{
-            BackgroundColor = "${primaryColorInput.value}"
-            SignInPageText = " "
-        }
-        
-        New-MgOrganizationBranding -OrganizationId $organizationId -BodyParameter $newBrandingParams
-        Write-Host "Branding configuration created successfully" -ForegroundColor Green
-        
-        # Wait for creation to complete
+    $existingBranding = Get-MgOrganizationBranding -OrganizationId $org.Id -ErrorAction SilentlyContinue
+    
+    if (-not $existingBranding) {
+        New-MgOrganizationBranding -OrganizationId $org.Id -BodyParameter $brandingParams
         Start-Sleep -Seconds 3
-    }
-    else {
-        Write-Host "Existing branding configuration found. Updating..." -ForegroundColor Yellow
-        
-        # Update background color
-        $updateParams = @{
-            BackgroundColor = "${primaryColorInput.value}"
-        }
-        Update-MgOrganizationBranding -OrganizationId $organizationId -BodyParameter $updateParams
-        Write-Host "Background color updated to: ${primaryColorInput.value}" -ForegroundColor Green
-    }
-}
-catch {
-    Write-Host "Error managing branding configuration: $_" -ForegroundColor Red
-}
-
-# Upload images
-Write-Host ""
-Write-Host "Uploading branding images..." -ForegroundColor Yellow
-
-try {
-    # Banner Logo
-    $bannerPath = Join-Path -Path $ScriptDirectory -ChildPath "BannerLogo.png"
-    Set-MgOrganizationBrandingBannerLogo -OrganizationId $organizationId -InFile $bannerPath
-    Write-Host "  Uploaded: Banner logo" -ForegroundColor Green
-    
-    # Wait between uploads
-    Start-Sleep -Seconds 2
-    
-    # Square Logo Light
-    $squareLightPath = Join-Path -Path $ScriptDirectory -ChildPath "SquareLogoLight.png"
-    Set-MgOrganizationBrandingSquareLogo -OrganizationId $organizationId -InFile $squareLightPath
-    Write-Host "  Uploaded: Square logo (light)" -ForegroundColor Green
-    
-    Start-Sleep -Seconds 2
-    
-    # Background Image Light
-    $bgLightPath = Join-Path -Path $ScriptDirectory -ChildPath "SignInBackgroundLight.jpg"
-    Set-MgOrganizationBrandingBackgroundImage -OrganizationId $organizationId -InFile $bgLightPath
-    Write-Host "  Uploaded: Background image (light)" -ForegroundColor Green
-    
-    # Check for dark theme localization
-    Write-Host ""
-    Write-Host "Configuring dark theme..." -ForegroundColor Yellow
-    
-    $localizations = Get-MgOrganizationBrandingLocalization -OrganizationId $organizationId -ErrorAction SilentlyContinue
-    $darkLocalization = $localizations | Where-Object { $_.Id -eq "0" }
-    
-    if (-not $darkLocalization) {
-        Write-Host "Creating dark theme configuration..." -ForegroundColor Yellow
-        
-        try {
-            $localizationParams = @{
-                Id = "0"
-                BackgroundColor = "${primaryColorInput.value}"
-            }
-            New-MgOrganizationBrandingLocalization -OrganizationId $organizationId -BodyParameter $localizationParams
-            Write-Host "Dark theme configuration created" -ForegroundColor Green
-            Start-Sleep -Seconds 3
-        }
-        catch {
-            Write-Host "Note: Dark theme configuration may not be available in your tenant" -ForegroundColor Yellow
-        }
+    } else {
+        Update-MgOrganizationBranding -OrganizationId $org.Id -BodyParameter $brandingParams
     }
     
-    # Try to upload dark theme assets
-    if (Get-MgOrganizationBrandingLocalization -OrganizationId $organizationId -OrganizationalBrandingLocalizationId "0" -ErrorAction SilentlyContinue) {
-        # Square Logo Dark
-        $squareDarkPath = Join-Path -Path $ScriptDirectory -ChildPath "SquareLogoDark.png"
-        Set-MgOrganizationBrandingLocalizationSquareLogo -OrganizationId $organizationId -OrganizationalBrandingLocalizationId "0" -InFile $squareDarkPath
-        Write-Host "  Uploaded: Square logo (dark)" -ForegroundColor Green
-        
-        Start-Sleep -Seconds 2
-        
-        # Background Image Dark
-        $bgDarkPath = Join-Path -Path $ScriptDirectory -ChildPath "SignInBackgroundDark.jpg"
-        Set-MgOrganizationBrandingLocalizationBackgroundImage -OrganizationId $organizationId -OrganizationalBrandingLocalizationId "0" -InFile $bgDarkPath
-        Write-Host "  Uploaded: Background image (dark)" -ForegroundColor Green
-    }
+    # Upload images
+    Write-Host "Uploading images..." -ForegroundColor Yellow
+    
+    Set-MgOrganizationBrandingBannerLogo -OrganizationId $org.Id -InFile (Join-Path $scriptPath "BannerLogo.png")
+    Write-Host "  Banner logo uploaded" -ForegroundColor Green
+    
+    Set-MgOrganizationBrandingSquareLogo -OrganizationId $org.Id -InFile (Join-Path $scriptPath "SquareLogoLight.png")
+    Write-Host "  Square logo uploaded" -ForegroundColor Green
+    
+    Set-MgOrganizationBrandingBackgroundImage -OrganizationId $org.Id -InFile (Join-Path $scriptPath "BackgroundLight.jpg")
+    Write-Host "  Background image uploaded" -ForegroundColor Green
     
     Write-Host ""
-    Write-Host "==========================================" -ForegroundColor Green
-    Write-Host " Branding Applied Successfully!" -ForegroundColor Green
-    Write-Host "==========================================" -ForegroundColor Green
-}
-catch {
-    Write-Host ""
-    Write-Host "ERROR during image upload: $_" -ForegroundColor Red
+    Write-Host "Branding applied successfully!" -ForegroundColor Green
+    Write-Host "Changes may take up to 24 hours to propagate." -ForegroundColor Yellow
     
-    if ($_.Exception.Message -like "*404*" -or $_.Exception.Message -like "*NotFound*") {
-        Write-Host ""
-        Write-Host "The branding configuration may not be fully initialized." -ForegroundColor Yellow
-        Write-Host "Please wait a few minutes and try running the script again." -ForegroundColor Yellow
-    }
+} catch {
+    Write-Host "Error: $_" -ForegroundColor Red
 }
 
 # Disconnect
-Write-Host ""
-Write-Host "Disconnecting from Microsoft Graph..." -ForegroundColor Yellow
 Disconnect-MgGraph
+Write-Host "Done!" -ForegroundColor Green`;
+        }
+        
+        function generateReadme() {
+            return `Microsoft Entra ID Branding Package
+===================================
 
-Write-Host ""
-Write-Host "IMPORTANT NOTES:" -ForegroundColor Cyan
-Write-Host "- Changes may take up to 24 hours to fully propagate" -ForegroundColor Yellow
-Write-Host "- Users may need to clear browser cache to see changes" -ForegroundColor Yellow
-Write-Host "- Some services require sign-out/sign-in to reflect changes" -ForegroundColor Yellow
-Write-Host ""
-Write-Host "Primary Color Applied: ${primaryColorInput.value}" -ForegroundColor Cyan
-Write-Host "Secondary Color Applied: ${secondaryColorInput.value}" -ForegroundColor Cyan
-Write-Host ""`;
-            
-            return script;
+Generated: ${new Date().toLocaleString()}
+Primary Color: ${primaryColorInput.value}
+Secondary Color: ${secondaryColorInput.value}
+
+Package Contents:
+----------------
+- BannerLogo.png (280x60px) - For email headers
+- HeaderLogo.png (245x36px) - For app headers  
+- SquareLogoLight.png (240x240px) - Light theme logo
+- SquareLogoDark.png (240x240px) - Dark theme logo
+- BackgroundLight.jpg (1920x1080px) - Light theme sign-in background
+- BackgroundDark.jpg (1920x1080px) - Dark theme sign-in background
+- Deploy-M365Branding.ps1 - PowerShell deployment script
+- README.txt - This file
+
+Deployment Instructions:
+-----------------------
+1. Open PowerShell as Administrator
+2. Navigate to this folder
+3. Run: .\\Deploy-M365Branding.ps1
+4. Sign in with Global Administrator account
+5. Wait for "Done!" message
+
+Requirements:
+------------
+- Global Administrator or Application Administrator role
+- PowerShell 5.1 or higher
+- Internet connection
+
+Notes:
+------
+- Changes may take up to 24 hours to fully propagate
+- Users may need to clear browser cache to see changes
+- Some services require sign-out/sign-in to reflect changes
+
+For more information:
+https://learn.microsoft.com/en-us/entra/fundamentals/how-to-customize-branding`;
         }
         
         function updatePreview() {
@@ -945,29 +585,26 @@ Write-Host ""`;
                 previewArea.innerHTML = `
                     <div class="space-y-4">
                         <div>
-                            <p class="text-sm text-gray-600 mb-2 font-semibold">Header Logo (245x36)</p>
-                            <div class="bg-gray-200 p-2 rounded">
-                                <img src="${generatedAssets.headerLogo}" style="width: 245px; height: 36px;">
+                            <p class="text-sm text-gray-600 mb-2 font-semibold">Logos</p>
+                            <div class="flex space-x-4 mb-4">
+                                <div class="bg-gray-200 p-2 rounded">
+                                    <img src="${generatedAssets.headerLogo}" style="height: 36px;">
+                                </div>
+                                <div class="bg-gray-200 p-2 rounded">
+                                    <img src="${generatedAssets.bannerLogo}" style="height: 60px;">
+                                </div>
                             </div>
                         </div>
                         <div>
-                            <p class="text-sm text-gray-600 mb-2 font-semibold">Banner Logo (280x60)</p>
-                            <div class="bg-gray-200 p-2 rounded">
-                                <img src="${generatedAssets.bannerLogo}" style="width: 280px; height: 60px;">
-                            </div>
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-600 mb-2 font-semibold">Microsoft Entra ID Sign-in Page</p>
+                            <p class="text-sm text-gray-600 mb-2 font-semibold">Sign-in Page Preview</p>
                             <div class="relative rounded-lg overflow-hidden shadow-lg">
-                                <img src="${bgImage}" class="w-full" style="height: 320px; object-fit: cover;">
+                                <img src="${bgImage}" class="w-full" style="height: 300px; object-fit: cover;">
                                 <div class="absolute inset-0 flex items-center justify-center">
-                                    <div class="bg-white bg-opacity-95 p-8 rounded-lg shadow-2xl" style="width: 360px;">
-                                        <img src="${darkMode ? generatedAssets.squareLogoDark : generatedAssets.squareLogoLight}" class="h-16 mb-4 mx-auto">
-                                        <h2 class="text-xl font-semibold text-center mb-1">Sign in</h2>
-                                        <p class="text-sm text-gray-600 text-center mb-6">Use your work or school account</p>
-                                        <input type="text" placeholder="someone@example.com" class="w-full px-4 py-3 border border-gray-300 rounded-md mb-4 text-sm">
-                                        <button style="background-color: ${primaryColorInput.value}" class="w-full px-4 py-3 text-white rounded-md font-medium hover:opacity-90 transition-opacity">Next</button>
-                                        <p class="text-xs text-gray-500 text-center mt-4">Can't access your account?</p>
+                                    <div class="bg-white bg-opacity-95 p-6 rounded-lg shadow-xl" style="width: 320px;">
+                                        <img src="${darkMode ? generatedAssets.squareLogoDark : generatedAssets.squareLogoLight}" class="h-14 mb-3 mx-auto">
+                                        <h2 class="text-lg font-semibold text-center mb-4">Sign in</h2>
+                                        <input type="text" placeholder="Email" class="w-full px-3 py-2 border rounded mb-3 text-sm">
+                                        <button style="background-color: ${primaryColorInput.value}" class="w-full px-3 py-2 text-white rounded text-sm">Next</button>
                                     </div>
                                 </div>
                             </div>
@@ -979,40 +616,8 @@ Write-Host ""`;
         
         function showResults() {
             resultsSection.classList.remove('hidden');
-            scriptContent.textContent = generatedAssets.script;
             resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-        
-        // Copy script
-        copyBtn.addEventListener('click', () => {
-            navigator.clipboard.writeText(generatedAssets.script).then(() => {
-                const originalText = copyBtn.innerHTML;
-                copyBtn.innerHTML = '✅ Copied to clipboard!';
-                copyBtn.classList.add('bg-green-100', 'text-green-700');
-                setTimeout(() => {
-                    copyBtn.innerHTML = originalText;
-                    copyBtn.classList.remove('bg-green-100', 'text-green-700');
-                }, 3000);
-            }).catch(() => {
-                // Fallback
-                const textarea = document.createElement('textarea');
-                textarea.value = generatedAssets.script;
-                textarea.style.position = 'fixed';
-                textarea.style.opacity = '0';
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                
-                const originalText = copyBtn.innerHTML;
-                copyBtn.innerHTML = '✅ Copied!';
-                copyBtn.classList.add('bg-green-100', 'text-green-700');
-                setTimeout(() => {
-                    copyBtn.innerHTML = originalText;
-                    copyBtn.classList.remove('bg-green-100', 'text-green-700');
-                }, 3000);
-            });
-        });
         
         // Download ZIP
         downloadBtn.addEventListener('click', () => {
@@ -1030,13 +635,17 @@ Write-Host ""`;
                 return new Blob([u8arr], {type: mime});
             }
             
-            // Add files with correct names for the script
+            // Add images
             zip.file('BannerLogo.png', dataURLtoBlob(generatedAssets.bannerLogo));
             zip.file('HeaderLogo.png', dataURLtoBlob(generatedAssets.headerLogo));
             zip.file('SquareLogoLight.png', dataURLtoBlob(generatedAssets.squareLogoLight));
             zip.file('SquareLogoDark.png', dataURLtoBlob(generatedAssets.squareLogoDark));
-            zip.file('SignInBackgroundLight.jpg', dataURLtoBlob(generatedAssets.signInBgLight));
-            zip.file('SignInBackgroundDark.jpg', dataURLtoBlob(generatedAssets.signInBgDark));
+            zip.file('BackgroundLight.jpg', dataURLtoBlob(generatedAssets.signInBgLight));
+            zip.file('BackgroundDark.jpg', dataURLtoBlob(generatedAssets.signInBgDark));
+            
+            // Add script and readme
+            zip.file('Deploy-M365Branding.ps1', generatedAssets.script);
+            zip.file('README.txt', generatedAssets.readme);
             
             // Generate ZIP
             zip.generateAsync({type: 'blob'}).then(function(content) {
