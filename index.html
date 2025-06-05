@@ -251,28 +251,46 @@
         // Generate assets
         generateBtn.addEventListener('click', generateAssets);
         
-        // Generate banner logo (280x60) - Max 10KB with color gradient
+        // Generate banner logo (280x60) - Max 10KB with sophisticated design
         function generateBannerLogo() {
             canvas.width = 280;
             canvas.height = 60;
             
             ctx.clearRect(0, 0, 280, 60);
             
-            // Gradient background matching the theme
+            // Multi-layer gradient background
             const gradient = ctx.createLinearGradient(0, 0, 280, 60);
-            gradient.addColorStop(0, adjustColor(primaryColorInput.value, 120));
-            gradient.addColorStop(0.5, adjustColor(primaryColorInput.value, 100));
-            gradient.addColorStop(1, adjustColor(secondaryColorInput.value, 120));
+            gradient.addColorStop(0, adjustColor(primaryColorInput.value, 140));
+            gradient.addColorStop(0.3, adjustColor(primaryColorInput.value, 120));
+            gradient.addColorStop(0.7, adjustColor(secondaryColorInput.value, 130));
+            gradient.addColorStop(1, adjustColor(secondaryColorInput.value, 110));
             
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, 280, 60);
             
-            // Add subtle overlay
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
-            ctx.fillRect(0, 0, 280, 60);
+            // Add geometric shapes
+            ctx.globalAlpha = 0.1;
+            // Circles
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            ctx.arc(-20, 30, 50, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(300, 30, 40, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Diagonal lines
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 1;
+            for (let i = -60; i < 340; i += 20) {
+                ctx.beginPath();
+                ctx.moveTo(i, 0);
+                ctx.lineTo(i + 60, 60);
+                ctx.stroke();
+            }
+            ctx.globalAlpha = 1;
             
             if (logo) {
-                // White background for logo area
                 const logoAspect = logo.width / logo.height;
                 let drawWidth, drawHeight;
                 
@@ -280,51 +298,71 @@
                     drawWidth = 240;
                     drawHeight = drawWidth / logoAspect;
                 } else {
-                    drawHeight = 45;
+                    drawHeight = 48;
                     drawWidth = drawHeight * logoAspect;
                 }
                 
                 const x = (280 - drawWidth) / 2;
                 const y = (60 - drawHeight) / 2;
                 
-                // White background behind logo
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-                ctx.fillRect(x - 5, y - 5, drawWidth + 10, drawHeight + 10);
+                // Subtle white glow behind logo
+                const glowGradient = ctx.createRadialGradient(140, 30, 0, 140, 30, 140);
+                glowGradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
+                glowGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+                ctx.fillStyle = glowGradient;
+                ctx.fillRect(0, 0, 280, 60);
                 
                 ctx.drawImage(logo, x, y, drawWidth, drawHeight);
             } else {
                 ctx.fillStyle = '#ffffff';
-                ctx.font = 'bold 24px Arial';
+                ctx.font = 'bold 26px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
+                ctx.shadowColor = 'rgba(0,0,0,0.3)';
+                ctx.shadowBlur = 4;
                 ctx.fillText('Your Company', 140, 30);
             }
             
-            // Low quality for small file size
-            return canvas.toDataURL('image/png', 0.1);
+            // Return with balanced compression
+            return canvas.toDataURL('image/png', 0.3);
         }
         
-        // Generate header logo (245x36) - Max 10KB with color gradient
+        // Generate header logo (245x36) - Max 10KB with enhanced design
         function generateHeaderLogo() {
             canvas.width = 245;
             canvas.height = 36;
             
             ctx.clearRect(0, 0, 245, 36);
             
-            // Gradient background
+            // Sophisticated gradient
             const gradient = ctx.createLinearGradient(0, 0, 245, 36);
-            gradient.addColorStop(0, adjustColor(primaryColorInput.value, 110));
-            gradient.addColorStop(1, adjustColor(secondaryColorInput.value, 110));
+            gradient.addColorStop(0, adjustColor(primaryColorInput.value, 130));
+            gradient.addColorStop(0.5, primaryColorInput.value);
+            gradient.addColorStop(1, adjustColor(secondaryColorInput.value, 120));
             
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, 245, 36);
+            
+            // Add wave pattern
+            ctx.globalAlpha = 0.15;
+            ctx.beginPath();
+            ctx.moveTo(0, 18);
+            for (let i = 0; i <= 245; i += 5) {
+                ctx.lineTo(i, 18 + Math.sin(i * 0.05) * 10);
+            }
+            ctx.lineTo(245, 36);
+            ctx.lineTo(0, 36);
+            ctx.closePath();
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+            ctx.globalAlpha = 1;
             
             if (logo) {
                 const logoAspect = logo.width / logo.height;
                 let drawWidth, drawHeight;
                 
                 if (logoAspect > 245/36) {
-                    drawWidth = 215;
+                    drawWidth = 210;
                     drawHeight = drawWidth / logoAspect;
                 } else {
                     drawHeight = 30;
@@ -334,36 +372,101 @@
                 const x = (245 - drawWidth) / 2;
                 const y = (36 - drawHeight) / 2;
                 
-                // White background behind logo
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-                ctx.fillRect(x - 3, y - 3, drawWidth + 6, drawHeight + 6);
+                // Soft white backdrop
+                const backdropGradient = ctx.createRadialGradient(122.5, 18, 0, 122.5, 18, 100);
+                backdropGradient.addColorStop(0, 'rgba(255, 255, 255, 0.7)');
+                backdropGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+                ctx.fillStyle = backdropGradient;
+                ctx.fillRect(0, 0, 245, 36);
                 
                 ctx.drawImage(logo, x, y, drawWidth, drawHeight);
             } else {
                 ctx.fillStyle = '#ffffff';
-                ctx.font = 'bold 18px Arial';
+                ctx.font = 'bold 18px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
+                ctx.shadowColor = 'rgba(0,0,0,0.2)';
+                ctx.shadowBlur = 3;
                 ctx.fillText('Your Company', 122.5, 18);
             }
             
-            return canvas.toDataURL('image/png', 0.1);
+            return canvas.toDataURL('image/png', 0.3);
         }
         
-        // Generate square logo (240x240) - Max 10KB
+        // Generate square logo (240x240) - Max 10KB preserving transparency
         function generateSquareLogo(theme) {
             canvas.width = 240;
             canvas.height = 240;
             
+            // Clear with transparency
             ctx.clearRect(0, 0, 240, 240);
             
-            ctx.fillStyle = theme === 'light' ? '#ffffff' : '#1a1a1a';
-            ctx.fillRect(0, 0, 240, 240);
-            
             if (logo) {
+                // For logos with transparency, create a subtle background pattern
+                // but keep the logo itself transparent
+                
+                // Subtle gradient background
+                const bgGradient = ctx.createRadialGradient(120, 120, 0, 120, 120, 170);
+                if (theme === 'light') {
+                    bgGradient.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
+                    bgGradient.addColorStop(0.5, `${adjustColor(primaryColorInput.value, 150)}20`);
+                    bgGradient.addColorStop(1, `${adjustColor(secondaryColorInput.value, 140)}15`);
+                } else {
+                    bgGradient.addColorStop(0, 'rgba(20, 20, 20, 0.95)');
+                    bgGradient.addColorStop(0.5, `${adjustColor(primaryColorInput.value, -80)}30`);
+                    bgGradient.addColorStop(1, `${adjustColor(secondaryColorInput.value, -90)}25`);
+                }
+                ctx.fillStyle = bgGradient;
+                ctx.fillRect(0, 0, 240, 240);
+                
+                // Add geometric pattern
+                ctx.globalAlpha = theme === 'light' ? 0.05 : 0.08;
+                
+                // Concentric circles
+                ctx.strokeStyle = theme === 'light' ? primaryColorInput.value : '#ffffff';
+                ctx.lineWidth = 1;
+                for (let r = 30; r < 200; r += 30) {
+                    ctx.beginPath();
+                    ctx.arc(120, 120, r, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+                
+                // Radial lines
+                ctx.save();
+                ctx.translate(120, 120);
+                for (let i = 0; i < 12; i++) {
+                    ctx.rotate(Math.PI / 6);
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    ctx.lineTo(170, 0);
+                    ctx.stroke();
+                }
+                ctx.restore();
+                
+                // Add corner accents
+                ctx.globalAlpha = theme === 'light' ? 0.1 : 0.15;
+                ctx.fillStyle = primaryColorInput.value;
+                // Top left
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(60, 0);
+                ctx.lineTo(0, 60);
+                ctx.closePath();
+                ctx.fill();
+                // Bottom right
+                ctx.beginPath();
+                ctx.moveTo(240, 240);
+                ctx.lineTo(180, 240);
+                ctx.lineTo(240, 180);
+                ctx.closePath();
+                ctx.fill();
+                
+                ctx.globalAlpha = 1;
+                
+                // Draw logo with preserved transparency
                 const logoAspect = logo.width / logo.height;
                 let drawWidth, drawHeight;
-                const maxSize = 180;
+                const maxSize = 160; // Smaller to show background pattern
                 
                 if (logoAspect > 1) {
                     drawWidth = maxSize;
@@ -376,60 +479,172 @@
                 const x = (240 - drawWidth) / 2;
                 const y = (240 - drawHeight) / 2;
                 
+                // Add subtle shadow for depth
+                ctx.shadowColor = theme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0.3)';
+                ctx.shadowBlur = 10;
+                ctx.shadowOffsetY = 3;
+                
                 ctx.drawImage(logo, x, y, drawWidth, drawHeight);
+                
+                ctx.shadowColor = 'transparent';
             } else {
-                // Simple gradient
-                const gradient = ctx.createLinearGradient(0, 0, 240, 240);
-                gradient.addColorStop(0, primaryColorInput.value);
+                // No logo - create branded monogram
+                const gradient = ctx.createRadialGradient(120, 120, 0, 120, 120, 120);
+                gradient.addColorStop(0, adjustColor(primaryColorInput.value, theme === 'light' ? 20 : -20));
+                gradient.addColorStop(0.5, primaryColorInput.value);
                 gradient.addColorStop(1, secondaryColorInput.value);
                 ctx.fillStyle = gradient;
                 ctx.fillRect(0, 0, 240, 240);
                 
+                // Add pattern overlay
+                ctx.globalAlpha = 0.1;
+                for (let x = 0; x < 240; x += 30) {
+                    for (let y = 0; y < 240; y += 30) {
+                        ctx.strokeStyle = theme === 'light' ? '#000000' : '#ffffff';
+                        ctx.lineWidth = 1;
+                        ctx.strokeRect(x, y, 30, 30);
+                        // Diamond pattern
+                        ctx.beginPath();
+                        ctx.moveTo(x + 15, y);
+                        ctx.lineTo(x + 30, y + 15);
+                        ctx.lineTo(x + 15, y + 30);
+                        ctx.lineTo(x, y + 15);
+                        ctx.closePath();
+                        ctx.stroke();
+                    }
+                }
+                ctx.globalAlpha = 1;
+                
+                // Large monogram
                 ctx.fillStyle = '#ffffff';
-                ctx.font = 'bold 100px Arial';
+                ctx.font = '900 110px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
+                ctx.shadowColor = 'rgba(0,0,0,0.3)';
+                ctx.shadowBlur = 8;
+                ctx.shadowOffsetY = 4;
                 ctx.fillText('M', 120, 120);
+                ctx.shadowColor = 'transparent';
             }
             
-            return canvas.toDataURL('image/png', 0.1);
+            // Return with better compression to use more of the 10KB limit
+            return canvas.toDataURL('image/png', 0.5);
         }
         
-        // Generate sign-in background (1920x1080) - Max 300KB
+        // Generate sign-in background (1920x1080) - Max 300KB with rich design
         function generateSignInBackground(theme) {
             canvas.width = 1920;
             canvas.height = 1080;
             
             ctx.clearRect(0, 0, 1920, 1080);
             
-            // Simple gradient - no complex patterns to reduce file size
-            const gradient = ctx.createLinearGradient(0, 0, 1920, 1080);
+            // Layer 1: Rich gradient base
+            const baseGradient = ctx.createLinearGradient(0, 0, 1920, 1080);
             
             if (theme === 'light') {
-                gradient.addColorStop(0, '#f8f9fa');
-                gradient.addColorStop(0.5, adjustColor(primaryColorInput.value, 100));
-                gradient.addColorStop(1, adjustColor(secondaryColorInput.value, 80));
+                baseGradient.addColorStop(0, '#ffffff');
+                baseGradient.addColorStop(0.2, adjustColor(primaryColorInput.value, 150));
+                baseGradient.addColorStop(0.5, adjustColor(primaryColorInput.value, 120));
+                baseGradient.addColorStop(0.8, adjustColor(secondaryColorInput.value, 140));
+                baseGradient.addColorStop(1, adjustColor(secondaryColorInput.value, 100));
             } else {
-                gradient.addColorStop(0, '#1a1a1a');
-                gradient.addColorStop(0.5, adjustColor(primaryColorInput.value, -80));
-                gradient.addColorStop(1, adjustColor(secondaryColorInput.value, -100));
+                baseGradient.addColorStop(0, '#0a0a0a');
+                baseGradient.addColorStop(0.2, adjustColor(primaryColorInput.value, -90));
+                baseGradient.addColorStop(0.5, adjustColor(primaryColorInput.value, -70));
+                baseGradient.addColorStop(0.8, adjustColor(secondaryColorInput.value, -80));
+                baseGradient.addColorStop(1, adjustColor(secondaryColorInput.value, -100));
             }
             
-            ctx.fillStyle = gradient;
+            ctx.fillStyle = baseGradient;
             ctx.fillRect(0, 0, 1920, 1080);
             
-            // Add simple overlay for depth
-            ctx.globalAlpha = 0.1;
-            const overlay = ctx.createRadialGradient(960, 540, 0, 960, 540, 800);
-            overlay.addColorStop(0, theme === 'light' ? '#ffffff' : '#000000');
-            overlay.addColorStop(1, 'transparent');
-            ctx.fillStyle = overlay;
+            // Layer 2: Mesh gradient overlay
+            ctx.globalAlpha = 0.4;
+            for (let i = 0; i < 8; i++) {
+                const x = Math.random() * 1920;
+                const y = Math.random() * 1080;
+                const r = Math.random() * 500 + 300;
+                
+                const meshGradient = ctx.createRadialGradient(x, y, 0, x, y, r);
+                meshGradient.addColorStop(0, i % 2 === 0 ? primaryColorInput.value : secondaryColorInput.value);
+                meshGradient.addColorStop(0.5, 'transparent');
+                meshGradient.addColorStop(1, i % 2 === 0 ? secondaryColorInput.value : primaryColorInput.value);
+                
+                ctx.fillStyle = meshGradient;
+                ctx.fillRect(0, 0, 1920, 1080);
+            }
+            
+            // Layer 3: Geometric shapes
+            ctx.globalAlpha = theme === 'light' ? 0.05 : 0.08;
+            
+            // Large circles
+            ctx.strokeStyle = theme === 'light' ? primaryColorInput.value : '#ffffff';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(1600, 300, 400, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(300, 800, 350, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            // Flowing lines
+            ctx.beginPath();
+            ctx.moveTo(0, 540);
+            for (let i = 0; i <= 1920; i += 40) {
+                ctx.lineTo(i, 540 + Math.sin(i * 0.01) * 200);
+            }
+            ctx.stroke();
+            
+            // Diagonal grid
+            ctx.globalAlpha = theme === 'light' ? 0.02 : 0.04;
+            for (let i = -1080; i < 1920; i += 100) {
+                ctx.beginPath();
+                ctx.moveTo(i, 0);
+                ctx.lineTo(i + 1080, 1080);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(i + 1080, 0);
+                ctx.lineTo(i, 1080);
+                ctx.stroke();
+            }
+            
+            // Layer 4: Light effects
+            ctx.globalAlpha = theme === 'light' ? 0.1 : 0.15;
+            
+            // Top light
+            const topLight = ctx.createRadialGradient(960, -200, 0, 960, -200, 1000);
+            topLight.addColorStop(0, theme === 'light' ? '#ffffff' : primaryColorInput.value);
+            topLight.addColorStop(1, 'transparent');
+            ctx.fillStyle = topLight;
             ctx.fillRect(0, 0, 1920, 1080);
+            
+            // Bottom light
+            const bottomLight = ctx.createRadialGradient(960, 1280, 0, 960, 1280, 800);
+            bottomLight.addColorStop(0, theme === 'light' ? secondaryColorInput.value : '#ffffff');
+            bottomLight.addColorStop(1, 'transparent');
+            ctx.fillStyle = bottomLight;
+            ctx.fillRect(0, 0, 1920, 1080);
+            
+            // Layer 5: Texture overlay
+            ctx.globalAlpha = theme === 'light' ? 0.03 : 0.05;
+            
+            // Create noise pattern
+            for (let x = 0; x < 1920; x += 4) {
+                for (let y = 0; y < 1080; y += 4) {
+                    if (Math.random() > 0.5) {
+                        const brightness = Math.random() * 40;
+                        ctx.fillStyle = theme === 'light' 
+                            ? `rgba(0,0,0,${brightness/200})`
+                            : `rgba(255,255,255,${brightness/200})`;
+                        ctx.fillRect(x, y, 3, 3);
+                    }
+                }
+            }
             
             ctx.globalAlpha = 1;
             
-            // Return as JPEG with compression to stay under 300KB
-            return canvas.toDataURL('image/jpeg', 0.6);
+            // Return as high-quality JPEG to maximize the 300KB limit
+            return canvas.toDataURL('image/jpeg', 0.85);
         }
         
         function adjustColor(hex, amount) {
@@ -672,13 +887,31 @@ https://learn.microsoft.com/en-us/entra/fundamentals/how-to-customize-branding`;
                 previewArea.innerHTML = `
                     <div class="space-y-4">
                         <div>
-                            <p class="text-sm text-gray-600 mb-2 font-semibold">Logos</p>
-                            <div class="space-y-2 mb-4">
-                                <div class="rounded overflow-hidden shadow">
-                                    <img src="${generatedAssets.headerLogo}" style="height: 36px; width: 245px;">
+                            <p class="text-sm text-gray-600 mb-2 font-semibold">Logo Assets</p>
+                            <div class="grid grid-cols-2 gap-2 mb-4">
+                                <div>
+                                    <p class="text-xs text-gray-500 mb-1">Header Logo (245×36)</p>
+                                    <div class="rounded overflow-hidden shadow border">
+                                        <img src="${generatedAssets.headerLogo}" style="height: 36px; width: 245px;">
+                                    </div>
                                 </div>
-                                <div class="rounded overflow-hidden shadow">
-                                    <img src="${generatedAssets.bannerLogo}" style="height: 60px; width: 280px;">
+                                <div>
+                                    <p class="text-xs text-gray-500 mb-1">Banner Logo (280×60)</p>
+                                    <div class="rounded overflow-hidden shadow border">
+                                        <img src="${generatedAssets.bannerLogo}" style="height: 60px; width: 280px;">
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500 mb-1">Square Logo Light (240×240)</p>
+                                    <div class="rounded overflow-hidden shadow border bg-gray-50">
+                                        <img src="${generatedAssets.squareLogoLight}" style="height: 120px; width: 120px;" class="mx-auto">
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500 mb-1">Square Logo Dark (240×240)</p>
+                                    <div class="rounded overflow-hidden shadow border bg-gray-800">
+                                        <img src="${generatedAssets.squareLogoDark}" style="height: 120px; width: 120px;" class="mx-auto">
+                                    </div>
                                 </div>
                             </div>
                         </div>
