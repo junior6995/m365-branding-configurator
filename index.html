@@ -251,35 +251,49 @@
         // Generate assets
         generateBtn.addEventListener('click', generateAssets);
         
-        // Generate banner logo (280x60) - Max 10KB
+        // Generate banner logo (280x60) - Max 10KB with color gradient
         function generateBannerLogo() {
             canvas.width = 280;
             canvas.height = 60;
             
             ctx.clearRect(0, 0, 280, 60);
             
-            // Simple white background
-            ctx.fillStyle = '#ffffff';
+            // Gradient background matching the theme
+            const gradient = ctx.createLinearGradient(0, 0, 280, 60);
+            gradient.addColorStop(0, adjustColor(primaryColorInput.value, 120));
+            gradient.addColorStop(0.5, adjustColor(primaryColorInput.value, 100));
+            gradient.addColorStop(1, adjustColor(secondaryColorInput.value, 120));
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 280, 60);
+            
+            // Add subtle overlay
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
             ctx.fillRect(0, 0, 280, 60);
             
             if (logo) {
+                // White background for logo area
                 const logoAspect = logo.width / logo.height;
                 let drawWidth, drawHeight;
                 
                 if (logoAspect > 280/60) {
-                    drawWidth = 260;
+                    drawWidth = 240;
                     drawHeight = drawWidth / logoAspect;
                 } else {
-                    drawHeight = 50;
+                    drawHeight = 45;
                     drawWidth = drawHeight * logoAspect;
                 }
                 
                 const x = (280 - drawWidth) / 2;
                 const y = (60 - drawHeight) / 2;
                 
+                // White background behind logo
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                ctx.fillRect(x - 5, y - 5, drawWidth + 10, drawHeight + 10);
+                
                 ctx.drawImage(logo, x, y, drawWidth, drawHeight);
             } else {
-                ctx.fillStyle = primaryColorInput.value;
+                ctx.fillStyle = '#ffffff';
                 ctx.font = 'bold 24px Arial';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
@@ -290,14 +304,19 @@
             return canvas.toDataURL('image/png', 0.1);
         }
         
-        // Generate header logo (245x36) - Max 10KB
+        // Generate header logo (245x36) - Max 10KB with color gradient
         function generateHeaderLogo() {
             canvas.width = 245;
             canvas.height = 36;
             
             ctx.clearRect(0, 0, 245, 36);
             
-            ctx.fillStyle = '#ffffff';
+            // Gradient background
+            const gradient = ctx.createLinearGradient(0, 0, 245, 36);
+            gradient.addColorStop(0, adjustColor(primaryColorInput.value, 110));
+            gradient.addColorStop(1, adjustColor(secondaryColorInput.value, 110));
+            
+            ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, 245, 36);
             
             if (logo) {
@@ -305,19 +324,23 @@
                 let drawWidth, drawHeight;
                 
                 if (logoAspect > 245/36) {
-                    drawWidth = 225;
+                    drawWidth = 215;
                     drawHeight = drawWidth / logoAspect;
                 } else {
-                    drawHeight = 32;
+                    drawHeight = 30;
                     drawWidth = drawHeight * logoAspect;
                 }
                 
                 const x = (245 - drawWidth) / 2;
                 const y = (36 - drawHeight) / 2;
                 
+                // White background behind logo
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                ctx.fillRect(x - 3, y - 3, drawWidth + 6, drawHeight + 6);
+                
                 ctx.drawImage(logo, x, y, drawWidth, drawHeight);
             } else {
-                ctx.fillStyle = primaryColorInput.value;
+                ctx.fillStyle = '#ffffff';
                 ctx.font = 'bold 18px Arial';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
@@ -488,7 +511,7 @@ Import-Module Microsoft.Graph.Identity.DirectoryManagement
 
 # Connect
 Write-Host "Connecting to Microsoft Graph..." -ForegroundColor Yellow
-Connect-MgGraph -Scopes "Organization.ReadWrite.All"
+Connect-MgGraph -Scopes "Organization.ReadWrite.All", "Directory.ReadWrite.All"
 
 # Get organization
 $org = Get-MgOrganization
@@ -496,31 +519,84 @@ Write-Host "Organization: $($org.DisplayName)" -ForegroundColor Cyan
 
 # Apply branding
 try {
-    # Create or update branding
+    Write-Host "Configuring organizational branding..." -ForegroundColor Yellow
+    
+    # Check if default branding exists
+    $defaultBranding = $null
+    try {
+        $defaultBranding = Get-MgOrganizationBrandingLocalization -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "0" -ErrorAction Stop
+    } catch {
+        Write-Host "No default branding found, creating new..." -ForegroundColor Yellow
+    }
+    
+    # Create or update default branding
     $brandingParams = @{
         BackgroundColor = "${primaryColorInput.value}"
+        Id = "0"
     }
     
-    $existingBranding = Get-MgOrganizationBranding -OrganizationId $org.Id -ErrorAction SilentlyContinue
-    
-    if (-not $existingBranding) {
-        New-MgOrganizationBranding -OrganizationId $org.Id -BodyParameter $brandingParams
-        Start-Sleep -Seconds 3
+    if ($null -eq $defaultBranding) {
+        # Create new branding localization
+        New-MgOrganizationBrandingLocalization -OrganizationId $org.Id -BodyParameter $brandingParams
+        Write-Host "Default branding created" -ForegroundColor Green
+        Start-Sleep -Seconds 5
     } else {
-        Update-MgOrganizationBranding -OrganizationId $org.Id -BodyParameter $brandingParams
+        # Update existing
+        Update-MgOrganizationBrandingLocalization -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "0" -BackgroundColor "${primaryColorInput.value}"
+        Write-Host "Background color updated" -ForegroundColor Green
     }
     
-    # Upload images
+    # Upload images to default localization
     Write-Host "Uploading images..." -ForegroundColor Yellow
     
-    Set-MgOrganizationBrandingBannerLogo -OrganizationId $org.Id -InFile (Join-Path $scriptPath "BannerLogo.png")
+    # Banner Logo
+    $bannerPath = Join-Path $scriptPath "BannerLogo.png"
+    Set-MgOrganizationBrandingLocalizationBannerLogo -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "0" -InFile $bannerPath
     Write-Host "  Banner logo uploaded" -ForegroundColor Green
+    Start-Sleep -Seconds 2
     
-    Set-MgOrganizationBrandingSquareLogo -OrganizationId $org.Id -InFile (Join-Path $scriptPath "SquareLogoLight.png")
+    # Square Logo
+    $squarePath = Join-Path $scriptPath "SquareLogoLight.png"
+    Set-MgOrganizationBrandingLocalizationSquareLogo -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "0" -InFile $squarePath
     Write-Host "  Square logo uploaded" -ForegroundColor Green
+    Start-Sleep -Seconds 2
     
-    Set-MgOrganizationBrandingBackgroundImage -OrganizationId $org.Id -InFile (Join-Path $scriptPath "BackgroundLight.jpg")
+    # Background Image
+    $bgPath = Join-Path $scriptPath "BackgroundLight.jpg"
+    Set-MgOrganizationBrandingLocalizationBackgroundImage -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "0" -InFile $bgPath
     Write-Host "  Background image uploaded" -ForegroundColor Green
+    
+    # Try to create dark theme localization
+    Write-Host "Configuring dark theme..." -ForegroundColor Yellow
+    
+    $darkBranding = $null
+    try {
+        $darkBranding = Get-MgOrganizationBrandingLocalization -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -ErrorAction Stop
+    } catch {
+        Write-Host "Creating dark theme configuration..." -ForegroundColor Yellow
+    }
+    
+    if ($null -eq $darkBranding) {
+        try {
+            $darkParams = @{
+                BackgroundColor = "${primaryColorInput.value}"
+                Id = "en-US"
+            }
+            New-MgOrganizationBrandingLocalization -OrganizationId $org.Id -BodyParameter $darkParams
+            Start-Sleep -Seconds 5
+            
+            # Upload dark theme images
+            $squareDarkPath = Join-Path $scriptPath "SquareLogoDark.png"
+            Set-MgOrganizationBrandingLocalizationSquareLogo -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -InFile $squareDarkPath
+            Write-Host "  Dark square logo uploaded" -ForegroundColor Green
+            
+            $bgDarkPath = Join-Path $scriptPath "BackgroundDark.jpg"
+            Set-MgOrganizationBrandingLocalizationBackgroundImage -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -InFile $bgDarkPath
+            Write-Host "  Dark background uploaded" -ForegroundColor Green
+        } catch {
+            Write-Host "Note: Dark theme configuration may not be available" -ForegroundColor Yellow
+        }
+    }
     
     Write-Host ""
     Write-Host "Branding applied successfully!" -ForegroundColor Green
@@ -528,6 +604,7 @@ try {
     
 } catch {
     Write-Host "Error: $_" -ForegroundColor Red
+    Write-Host "If you see 'Uri is invalid' errors, try running the script again in a few minutes." -ForegroundColor Yellow
 }
 
 # Disconnect
@@ -556,23 +633,33 @@ Package Contents:
 
 Deployment Instructions:
 -----------------------
-1. Open PowerShell as Administrator
-2. Navigate to this folder
-3. Run: .\\Deploy-M365Branding.ps1
-4. Sign in with Global Administrator account
-5. Wait for "Done!" message
+1. Extract all files to a folder (e.g., C:\\M365Branding)
+2. Open PowerShell as Administrator
+3. Navigate to the folder: cd C:\\M365Branding
+4. Run: .\\Deploy-M365Branding.ps1
+5. Sign in with Global Administrator account when prompted
+6. Wait for "Done!" message
 
 Requirements:
 ------------
 - Global Administrator or Application Administrator role
-- PowerShell 5.1 or higher
+- PowerShell 5.1 or higher (7.x recommended)
+- Microsoft Graph PowerShell module (script will install if needed)
 - Internet connection
+
+Troubleshooting:
+---------------
+If you see "Uri is invalid" errors:
+1. Wait 5 minutes and run the script again
+2. The branding profile may need time to initialize
+3. Make sure you have Global Administrator permissions
 
 Notes:
 ------
 - Changes may take up to 24 hours to fully propagate
 - Users may need to clear browser cache to see changes
 - Some services require sign-out/sign-in to reflect changes
+- The script uses the default localization (0) for branding
 
 For more information:
 https://learn.microsoft.com/en-us/entra/fundamentals/how-to-customize-branding`;
@@ -586,12 +673,12 @@ https://learn.microsoft.com/en-us/entra/fundamentals/how-to-customize-branding`;
                     <div class="space-y-4">
                         <div>
                             <p class="text-sm text-gray-600 mb-2 font-semibold">Logos</p>
-                            <div class="flex space-x-4 mb-4">
-                                <div class="bg-gray-200 p-2 rounded">
-                                    <img src="${generatedAssets.headerLogo}" style="height: 36px;">
+                            <div class="space-y-2 mb-4">
+                                <div class="rounded overflow-hidden shadow">
+                                    <img src="${generatedAssets.headerLogo}" style="height: 36px; width: 245px;">
                                 </div>
-                                <div class="bg-gray-200 p-2 rounded">
-                                    <img src="${generatedAssets.bannerLogo}" style="height: 60px;">
+                                <div class="rounded overflow-hidden shadow">
+                                    <img src="${generatedAssets.bannerLogo}" style="height: 60px; width: 280px;">
                                 </div>
                             </div>
                         </div>
