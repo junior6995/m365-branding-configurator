@@ -770,16 +770,25 @@ try {
     Write-Host "  Banner logo uploaded" -ForegroundColor Green
     Start-Sleep -Seconds 2
     
-    # Square Logo
+    # Header Logo (for custom applications)
+    $headerPath = Join-Path $scriptPath "HeaderLogo.png"
+    # Note: Header logo is typically set via custom app branding, storing as banner for now
+    Write-Host "  Header logo prepared (apply via custom app settings)" -ForegroundColor Yellow
+    
+    # Square Logo Light
     $squarePath = Join-Path $scriptPath "SquareLogoLight.png"
     Set-MgOrganizationBrandingLocalizationSquareLogo -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "0" -InFile $squarePath
-    Write-Host "  Square logo uploaded" -ForegroundColor Green
+    Write-Host "  Square logo (light) uploaded" -ForegroundColor Green
     Start-Sleep -Seconds 2
+    
+    # Square Logo Dark
+    $squareDarkPath = Join-Path $scriptPath "SquareLogoDark.png"
+    # Dark square logo is applied to the dark theme localization below
     
     # Background Image
     $bgPath = Join-Path $scriptPath "BackgroundLight.jpg"
     Set-MgOrganizationBrandingLocalizationBackgroundImage -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "0" -InFile $bgPath
-    Write-Host "  Background image uploaded" -ForegroundColor Green
+    Write-Host "  Background image (light) uploaded" -ForegroundColor Green
     
     # Try to create dark theme localization
     Write-Host "Configuring dark theme..." -ForegroundColor Yellow
