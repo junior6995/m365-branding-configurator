@@ -42,6 +42,41 @@
                             <span>Includes ready-to-run PowerShell script for easy deployment</span>
                         </div>
                     </div>
+                    
+                    <!-- Technical Details -->
+                    <details class="mt-4 bg-gray-50 rounded-lg p-4">
+                        <summary class="cursor-pointer font-semibold text-gray-700 hover:text-gray-900">📋 Technical Details (click to expand)</summary>
+                        <div class="mt-3 space-y-3 text-sm text-gray-600">
+                            <div>
+                                <strong>How it works:</strong>
+                                <ul class="ml-6 mt-1 list-disc space-y-1">
+                                    <li>Generates all required branding assets using HTML5 Canvas API</li>
+                                    <li>Optimizes file sizes to meet Microsoft's strict limits (PNG: 50KB, JPEG: 300KB)</li>
+                                    <li>Creates separate light and dark theme variants</li>
+                                    <li>Packages everything with a PowerShell deployment script</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <strong>Generated Assets:</strong>
+                                <ul class="ml-6 mt-1 list-disc space-y-1">
+                                    <li><strong>Banner Logo (280×60px):</strong> Used in email footers and some app headers</li>
+                                    <li><strong>Header Logo (245×36px):</strong> Displayed in app headers and navigation</li>
+                                    <li><strong>Square Logos (240×240px):</strong> Light/dark variants for app tiles</li>
+                                    <li><strong>Favicon (32×32px):</strong> Browser tab icon</li>
+                                    <li><strong>Backgrounds (1920×1080px):</strong> Sign-in page backgrounds for both themes</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <strong>PowerShell Script Features:</strong>
+                                <ul class="ml-6 mt-1 list-disc space-y-1">
+                                    <li>Uses Microsoft Graph PowerShell SDK</li>
+                                    <li>Validates file sizes before upload</li>
+                                    <li>Configures both default (light) and en-US (dark) localizations</li>
+                                    <li>Handles errors gracefully with retry guidance</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </details>
                 </div>
             </div>
         </div>
@@ -105,8 +140,9 @@
                         <ul class="text-xs text-blue-800 space-y-1">
                             <li>• <strong>Sign-in background:</strong> 1920×1080px, JPEG, max 300KB</li>
                             <li>• <strong>Banner logo:</strong> 280×60px, PNG, max 50KB</li>
+                            <li>• <strong>Header logo:</strong> 245×36px, PNG, max 10KB</li>
                             <li>• <strong>Square logos:</strong> 240×240px, PNG, max 50KB</li>
-                            <li>• <strong>Note:</strong> Microsoft uses Banner logo for headers</li>
+                            <li>• <strong>Favicon:</strong> 32×32px, PNG, max 5KB</li>
                         </ul>
                     </div>
                 </div>
@@ -136,16 +172,16 @@
                     
                     <div class="grid grid-cols-3 gap-4 mb-8 max-w-3xl mx-auto">
                         <div class="bg-green-50 p-4 rounded-lg">
-                            <h3 class="font-semibold text-green-800">5 Images</h3>
-                            <p class="text-sm text-green-600">Light & Dark themes</p>
+                            <h3 class="font-semibold text-green-800">7 Images</h3>
+                            <p class="text-sm text-green-600">All branding assets</p>
                         </div>
                         <div class="bg-blue-50 p-4 rounded-lg">
                             <h3 class="font-semibold text-blue-800">PowerShell Script</h3>
-                            <p class="text-sm text-blue-600">Deploys all assets</p>
+                            <p class="text-sm text-blue-600">Deploys everything</p>
                         </div>
                         <div class="bg-purple-50 p-4 rounded-lg">
-                            <h3 class="font-semibold text-purple-800">Instructions</h3>
-                            <p class="text-sm text-purple-600">Step-by-step guide included</p>
+                            <h3 class="font-semibold text-purple-800">Auto-Deploy</h3>
+                            <p class="text-sm text-purple-600">Run script & done!</p>
                         </div>
                     </div>
                     
@@ -258,63 +294,184 @@
         // Generate assets
         generateBtn.addEventListener('click', generateAssets);
         
-        // Generate banner logo (280x60) - Max 50KB with clean design
+        // Generate banner logo (280x60) - Max 50KB with logo on left
         function generateBannerLogo() {
             canvas.width = 280;
             canvas.height = 60;
             
             ctx.clearRect(0, 0, 280, 60);
             
-            // Simple gradient background
+            // Gradient background similar to sign-in backgrounds
             const gradient = ctx.createLinearGradient(0, 0, 280, 0);
-            gradient.addColorStop(0, primaryColorInput.value);
+            gradient.addColorStop(0, adjustColor(primaryColorInput.value, 20));
+            gradient.addColorStop(0.5, primaryColorInput.value);
             gradient.addColorStop(1, secondaryColorInput.value);
             
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, 280, 60);
             
-            // Subtle overlay for depth
-            const overlay = ctx.createLinearGradient(0, 0, 0, 60);
-            overlay.addColorStop(0, 'rgba(255, 255, 255, 0.1)');
-            overlay.addColorStop(1, 'rgba(0, 0, 0, 0.1)');
+            // Add subtle pattern overlay
+            ctx.globalAlpha = 0.1;
+            const overlay = ctx.createLinearGradient(0, 0, 280, 60);
+            overlay.addColorStop(0, 'rgba(255, 255, 255, 0.5)');
+            overlay.addColorStop(0.5, 'rgba(255, 255, 255, 0)');
+            overlay.addColorStop(1, 'rgba(0, 0, 0, 0.3)');
             ctx.fillStyle = overlay;
             ctx.fillRect(0, 0, 280, 60);
+            
+            // Wave accent
+            ctx.globalAlpha = 0.15;
+            ctx.beginPath();
+            ctx.moveTo(0, 30);
+            for (let i = 0; i <= 280; i += 10) {
+                ctx.lineTo(i, 30 + Math.sin(i * 0.05) * 15);
+            }
+            ctx.lineTo(280, 60);
+            ctx.lineTo(0, 60);
+            ctx.closePath();
+            ctx.fillStyle = adjustColor(secondaryColorInput.value, 30);
+            ctx.fill();
+            
+            ctx.globalAlpha = 1;
+            
+            if (logo) {
+                const logoAspect = logo.width / logo.height;
+                let drawWidth, drawHeight;
+                const maxHeight = 48;
+                const maxWidth = 100; // Limit width to keep logo on left
+                
+                if (logoAspect > maxWidth/maxHeight) {
+                    drawWidth = maxWidth;
+                    drawHeight = drawWidth / logoAspect;
+                } else {
+                    drawHeight = maxHeight;
+                    drawWidth = drawHeight * logoAspect;
+                }
+                
+                // Position on left with padding
+                const x = 15;
+                const y = (60 - drawHeight) / 2;
+                
+                // White backdrop for contrast
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                ctx.fillRect(x - 5, y - 5, drawWidth + 10, drawHeight + 10);
+                
+                ctx.drawImage(logo, x, y, drawWidth, drawHeight);
+                
+                // Add company text if there's room
+                if (drawWidth < 80) {
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = 'bold 20px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial';
+                    ctx.textAlign = 'left';
+                    ctx.textBaseline = 'middle';
+                    ctx.shadowColor = 'rgba(0,0,0,0.3)';
+                    ctx.shadowBlur = 3;
+                    ctx.fillText('Your Company', x + drawWidth + 20, 30);
+                }
+            } else {
+                // No logo - show text on left
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 24px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial';
+                ctx.textAlign = 'left';
+                ctx.textBaseline = 'middle';
+                ctx.shadowColor = 'rgba(0,0,0,0.3)';
+                ctx.shadowBlur = 3;
+                ctx.fillText('Your Company', 20, 30);
+            }
+            
+            // Return with optimal compression for 50KB limit
+            return canvas.toDataURL('image/png', 0.6);
+        }
+        
+        // Generate header logo (245x36) - Max 10KB simple resize
+        function generateHeaderLogo() {
+            canvas.width = 245;
+            canvas.height = 36;
+            
+            // Clear with transparency
+            ctx.clearRect(0, 0, 245, 36);
             
             if (logo) {
                 const logoAspect = logo.width / logo.height;
                 let drawWidth, drawHeight;
                 
-                if (logoAspect > 280/60) {
-                    drawWidth = 240;
+                // Scale to fit with padding
+                if (logoAspect > 245/36) {
+                    drawWidth = 225; // Leave padding
                     drawHeight = drawWidth / logoAspect;
                 } else {
-                    drawHeight = 48;
+                    drawHeight = 32; // Leave padding
                     drawWidth = drawHeight * logoAspect;
                 }
                 
-                const x = (280 - drawWidth) / 2;
-                const y = (60 - drawHeight) / 2;
+                const x = (245 - drawWidth) / 2;
+                const y = (36 - drawHeight) / 2;
                 
-                // White glow behind logo for contrast
-                ctx.shadowColor = 'rgba(255, 255, 255, 0.8)';
-                ctx.shadowBlur = 15;
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-                ctx.fillRect(x - 10, y - 5, drawWidth + 20, drawHeight + 10);
-                
-                ctx.shadowColor = 'transparent';
                 ctx.drawImage(logo, x, y, drawWidth, drawHeight);
             } else {
+                // Fallback gradient background
+                const gradient = ctx.createLinearGradient(0, 0, 245, 0);
+                gradient.addColorStop(0, primaryColorInput.value);
+                gradient.addColorStop(1, secondaryColorInput.value);
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, 245, 36);
+                
                 ctx.fillStyle = '#ffffff';
-                ctx.font = 'bold 24px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial';
+                ctx.font = 'bold 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                ctx.shadowColor = 'rgba(0,0,0,0.3)';
-                ctx.shadowBlur = 3;
-                ctx.fillText('Your Company', 140, 30);
+                ctx.fillText('Your Company', 122.5, 18);
             }
             
-            // Return with optimal compression for 50KB limit
-            return canvas.toDataURL('image/png', 0.6);
+            // Return with high compression for 10KB limit
+            return canvas.toDataURL('image/png', 0.3);
+        }
+        
+        // Generate favicon (32x32) - Max 5KB
+        function generateFavicon() {
+            canvas.width = 32;
+            canvas.height = 32;
+            
+            ctx.clearRect(0, 0, 32, 32);
+            
+            if (logo) {
+                // Simple white background for visibility
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, 32, 32);
+                
+                const logoAspect = logo.width / logo.height;
+                let drawWidth, drawHeight;
+                const maxSize = 28; // Leave small padding
+                
+                if (logoAspect > 1) {
+                    drawWidth = maxSize;
+                    drawHeight = maxSize / logoAspect;
+                } else {
+                    drawHeight = maxSize;
+                    drawWidth = maxSize * logoAspect;
+                }
+                
+                const x = (32 - drawWidth) / 2;
+                const y = (32 - drawHeight) / 2;
+                
+                ctx.drawImage(logo, x, y, drawWidth, drawHeight);
+            } else {
+                // Gradient background with initial
+                const gradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+                gradient.addColorStop(0, primaryColorInput.value);
+                gradient.addColorStop(1, secondaryColorInput.value);
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, 32, 32);
+                
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 20px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('C', 16, 16);
+            }
+            
+            // High compression for small file size
+            return canvas.toDataURL('image/png', 0.3);
         }
         
         // Generate square logo (240x240) - Max 50KB with clean design
@@ -354,7 +511,7 @@
                 // Draw logo
                 const logoAspect = logo.width / logo.height;
                 let drawWidth, drawHeight;
-                const maxSize = 180;
+                const maxSize = 200; // Increased size to better fill the canvas
                 
                 if (logoAspect > 1) {
                     drawWidth = maxSize;
@@ -542,12 +699,13 @@
             setTimeout(() => {
                 generatedAssets = {
                     bannerLogo: generateBannerLogo(),
+                    headerLogo: generateHeaderLogo(),
+                    favicon: generateFavicon(),
                     squareLogoLight: generateSquareLogo('light'),
                     squareLogoDark: generateSquareLogo('dark'),
                     signInBgLight: generateSignInBackground('light'),
                     signInBgDark: generateSignInBackground('dark'),
-                    script: generatePowerShellScript(),
-                    readme: generateReadme()
+                    script: generatePowerShellScript()
                 };
                 
                 generateText.classList.remove('hidden');
@@ -570,6 +728,8 @@ Write-Host "======================================" -ForegroundColor Cyan
 # Check files
 $requiredFiles = @(
     "BannerLogo.png",
+    "HeaderLogo.png",
+    "Favicon.png",
     "SquareLogoLight.png",
     "SquareLogoDark.png",
     "BackgroundLight.jpg",
@@ -596,15 +756,19 @@ Write-Host "All files found!" -ForegroundColor Green
 # Validate file sizes
 Write-Host "Validating file sizes..." -ForegroundColor Yellow
 $bannerSize = (Get-Item (Join-Path $scriptPath "BannerLogo.png")).Length / 1KB
+$headerSize = (Get-Item (Join-Path $scriptPath "HeaderLogo.png")).Length / 1KB
+$faviconSize = (Get-Item (Join-Path $scriptPath "Favicon.png")).Length / 1KB
 $squareLightSize = (Get-Item (Join-Path $scriptPath "SquareLogoLight.png")).Length / 1KB
 $squareDarkSize = (Get-Item (Join-Path $scriptPath "SquareLogoDark.png")).Length / 1KB
 
 Write-Host "  BannerLogo.png: $([math]::Round($bannerSize, 2)) KB (limit: 50 KB)" -ForegroundColor $(if ($bannerSize -lt 50) { "Green" } else { "Red" })
+Write-Host "  HeaderLogo.png: $([math]::Round($headerSize, 2)) KB (limit: 10 KB)" -ForegroundColor $(if ($headerSize -lt 10) { "Green" } else { "Red" })
+Write-Host "  Favicon.png: $([math]::Round($faviconSize, 2)) KB (limit: 5 KB)" -ForegroundColor $(if ($faviconSize -lt 5) { "Green" } else { "Red" })
 Write-Host "  SquareLogoLight.png: $([math]::Round($squareLightSize, 2)) KB (limit: 50 KB)" -ForegroundColor $(if ($squareLightSize -lt 50) { "Green" } else { "Red" })
 Write-Host "  SquareLogoDark.png: $([math]::Round($squareDarkSize, 2)) KB (limit: 50 KB)" -ForegroundColor $(if ($squareDarkSize -lt 50) { "Green" } else { "Red" })
 
-if ($bannerSize -gt 50 -or $squareLightSize -gt 50 -or $squareDarkSize -gt 50) {
-    Write-Host "ERROR: One or more logo files exceed the 50KB size limit!" -ForegroundColor Red
+if ($bannerSize -gt 50 -or $headerSize -gt 10 -or $faviconSize -gt 5 -or $squareLightSize -gt 50 -or $squareDarkSize -gt 50) {
+    Write-Host "ERROR: One or more files exceed their size limits!" -ForegroundColor Red
     Write-Host "Please regenerate the assets with a smaller logo or contact support." -ForegroundColor Yellow
     exit 1
 }
@@ -663,6 +827,18 @@ try {
     Write-Host "  Banner logo uploaded" -ForegroundColor Green
     Start-Sleep -Seconds 2
     
+    # Header Logo
+    $headerPath = Join-Path $scriptPath "HeaderLogo.png"
+    Set-MgOrganizationBrandingLocalizationHeaderLogo -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "0" -InFile $headerPath
+    Write-Host "  Header logo uploaded" -ForegroundColor Green
+    Start-Sleep -Seconds 2
+    
+    # Favicon
+    $faviconPath = Join-Path $scriptPath "Favicon.png"
+    Set-MgOrganizationBrandingLocalizationFavicon -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "0" -InFile $faviconPath
+    Write-Host "  Favicon uploaded" -ForegroundColor Green
+    Start-Sleep -Seconds 2
+    
     # Square Logo Light
     $squarePath = Join-Path $scriptPath "SquareLogoLight.png"
     Set-MgOrganizationBrandingLocalizationSquareLogo -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "0" -InFile $squarePath
@@ -699,6 +875,16 @@ try {
             Write-Host "  Dark theme banner logo uploaded" -ForegroundColor Green
             Start-Sleep -Seconds 2
             
+            # Header Logo for dark theme (same as light)
+            Set-MgOrganizationBrandingLocalizationHeaderLogo -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -InFile $headerPath
+            Write-Host "  Dark theme header logo uploaded" -ForegroundColor Green
+            Start-Sleep -Seconds 2
+            
+            # Favicon for dark theme (same as light)
+            Set-MgOrganizationBrandingLocalizationFavicon -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -InFile $faviconPath
+            Write-Host "  Dark theme favicon uploaded" -ForegroundColor Green
+            Start-Sleep -Seconds 2
+            
             # Square Logo Dark
             $squareDarkPath = Join-Path $scriptPath "SquareLogoDark.png"
             Set-MgOrganizationBrandingLocalizationSquareLogo -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -InFile $squareDarkPath
@@ -719,6 +905,14 @@ try {
         # Upload all dark theme images
         Set-MgOrganizationBrandingLocalizationBannerLogo -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -InFile $bannerPath
         Write-Host "  Dark theme banner logo uploaded" -ForegroundColor Green
+        Start-Sleep -Seconds 2
+        
+        Set-MgOrganizationBrandingLocalizationHeaderLogo -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -InFile $headerPath
+        Write-Host "  Dark theme header logo uploaded" -ForegroundColor Green
+        Start-Sleep -Seconds 2
+        
+        Set-MgOrganizationBrandingLocalizationFavicon -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -InFile $faviconPath
+        Write-Host "  Dark theme favicon uploaded" -ForegroundColor Green
         Start-Sleep -Seconds 2
         
         $squareDarkPath = Join-Path $scriptPath "SquareLogoDark.png"
@@ -745,70 +939,6 @@ Disconnect-MgGraph
 Write-Host "Done!" -ForegroundColor Green`;
         }
         
-        function generateReadme() {
-            return `Microsoft Entra ID Branding Package
-===================================
-
-Generated: ${new Date().toLocaleString()}
-Primary Color: ${primaryColorInput.value}
-Secondary Color: ${secondaryColorInput.value}
-
-Package Contents:
-----------------
-- BannerLogo.png (280x60px) - For headers and email footers
-- SquareLogoLight.png (240x240px) - Light theme logo
-- SquareLogoDark.png (240x240px) - Dark theme logo
-- BackgroundLight.jpg (1920x1080px) - Light theme sign-in background
-- BackgroundDark.jpg (1920x1080px) - Dark theme sign-in background
-- Deploy-M365Branding.ps1 - PowerShell deployment script
-- README.txt - This file
-
-Deployment Instructions:
------------------------
-1. Extract all files to a folder (e.g., C:\\M365Branding)
-2. Open PowerShell as Administrator
-3. Navigate to the folder: cd C:\\M365Branding
-4. Run: .\\Deploy-M365Branding.ps1
-5. Sign in with Global Administrator account when prompted
-6. Wait for "Done!" message
-
-What Gets Deployed:
-------------------
-Default Theme (Light):
-- Banner Logo (used for headers in Microsoft 365)
-- Square Logo Light
-- Background Image Light
-
-Dark Theme (en-US localization):
-- Banner Logo (same as light for consistency)
-- Square Logo Dark
-- Background Image Dark
-
-Requirements:
-------------
-- Global Administrator or Application Administrator role
-- PowerShell 5.1 or higher (7.x recommended)
-- Microsoft Graph PowerShell module (script will install if needed)
-- Internet connection
-
-Troubleshooting:
----------------
-If you see "Uri is invalid" errors:
-1. Wait 5 minutes and run the script again
-2. The branding profile may need time to initialize
-3. Make sure you have Global Administrator permissions
-
-Notes:
-------
-- Changes may take up to 24 hours to fully propagate
-- Users may need to clear browser cache to see changes
-- Some services require sign-out/sign-in to reflect changes
-- The script uses the default localization (0) for branding
-
-For more information:
-https://learn.microsoft.com/en-us/entra/fundamentals/how-to-customize-branding`;
-        }
-        
         function updatePreview() {
             if (generatedAssets.signInBgLight) {
                 const bgImage = darkMode ? generatedAssets.signInBgDark : generatedAssets.signInBgLight;
@@ -817,23 +947,37 @@ https://learn.microsoft.com/en-us/entra/fundamentals/how-to-customize-branding`;
                     <div class="space-y-4">
                         <div>
                             <p class="text-sm text-gray-600 mb-2 font-semibold">Logo Assets</p>
-                            <div class="grid grid-cols-2 gap-2 mb-4">
-                                <div class="col-span-2">
-                                    <p class="text-xs text-gray-500 mb-1">Banner Logo (280×60) - Used for headers</p>
-                                    <div class="rounded overflow-hidden shadow border">
-                                        <img src="${generatedAssets.bannerLogo}" style="height: 60px; width: 280px;" class="mx-auto">
+                            <div class="space-y-3">
+                                <div>
+                                    <p class="text-xs text-gray-500 mb-1">Banner Logo (280×60) - Email footers & some headers</p>
+                                    <div class="rounded overflow-hidden shadow border inline-block">
+                                        <img src="${generatedAssets.bannerLogo}" width="280" height="60">
                                     </div>
                                 </div>
                                 <div>
-                                    <p class="text-xs text-gray-500 mb-1">Square Logo Light (240×240)</p>
-                                    <div class="rounded overflow-hidden shadow border bg-gray-50">
-                                        <img src="${generatedAssets.squareLogoLight}" style="height: 120px; width: 120px;" class="mx-auto">
+                                    <p class="text-xs text-gray-500 mb-1">Header Logo (245×36) - App navigation headers</p>
+                                    <div class="rounded overflow-hidden shadow border inline-block">
+                                        <img src="${generatedAssets.headerLogo}" width="245" height="36">
                                     </div>
                                 </div>
-                                <div>
-                                    <p class="text-xs text-gray-500 mb-1">Square Logo Dark (240×240)</p>
-                                    <div class="rounded overflow-hidden shadow border bg-gray-800">
-                                        <img src="${generatedAssets.squareLogoDark}" style="height: 120px; width: 120px;" class="mx-auto">
+                                <div class="grid grid-cols-3 gap-3">
+                                    <div>
+                                        <p class="text-xs text-gray-500 mb-1">Square Logo Light</p>
+                                        <div class="rounded overflow-hidden shadow border bg-gray-50 p-2">
+                                            <img src="${generatedAssets.squareLogoLight}" width="120" height="120">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500 mb-1">Square Logo Dark</p>
+                                        <div class="rounded overflow-hidden shadow border bg-gray-800 p-2">
+                                            <img src="${generatedAssets.squareLogoDark}" width="120" height="120">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500 mb-1">Favicon (32×32)</p>
+                                        <div class="rounded overflow-hidden shadow border bg-white flex items-center justify-center" style="height: 124px;">
+                                            <img src="${generatedAssets.favicon}" width="32" height="32">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -880,14 +1024,15 @@ https://learn.microsoft.com/en-us/entra/fundamentals/how-to-customize-branding`;
             
             // Add images
             zip.file('BannerLogo.png', dataURLtoBlob(generatedAssets.bannerLogo));
+            zip.file('HeaderLogo.png', dataURLtoBlob(generatedAssets.headerLogo));
+            zip.file('Favicon.png', dataURLtoBlob(generatedAssets.favicon));
             zip.file('SquareLogoLight.png', dataURLtoBlob(generatedAssets.squareLogoLight));
             zip.file('SquareLogoDark.png', dataURLtoBlob(generatedAssets.squareLogoDark));
             zip.file('BackgroundLight.jpg', dataURLtoBlob(generatedAssets.signInBgLight));
             zip.file('BackgroundDark.jpg', dataURLtoBlob(generatedAssets.signInBgDark));
             
-            // Add script and readme
+            // Add script only (no readme)
             zip.file('Deploy-M365Branding.ps1', generatedAssets.script);
-            zip.file('README.txt', generatedAssets.readme);
             
             // Generate ZIP
             zip.generateAsync({type: 'blob'}).then(function(content) {
