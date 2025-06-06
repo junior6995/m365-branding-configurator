@@ -103,10 +103,10 @@
                     <div class="mt-6 p-4 bg-blue-50 rounded-lg">
                         <h3 class="font-semibold text-sm text-blue-900 mb-2">Image Requirements (Microsoft Specs):</h3>
                         <ul class="text-xs text-blue-800 space-y-1">
-                            <li>• <strong>Sign-in background:</strong> 1920×1080px, max 300KB</li>
-                            <li>• <strong>Banner logo:</strong> 280×60px, max 10KB</li>
-                            <li>• <strong>Header logo:</strong> 245×36px, max 10KB</li>
-                            <li>• <strong>Square logos:</strong> 240×240px, max 10KB</li>
+                            <li>• <strong>Sign-in background:</strong> 1920×1080px, JPEG, max 300KB</li>
+                            <li>• <strong>Banner logo:</strong> 280×60px, PNG, max 50KB</li>
+                            <li>• <strong>Square logos:</strong> 240×240px, PNG, max 50KB</li>
+                            <li>• <strong>Note:</strong> Microsoft uses Banner logo for headers</li>
                         </ul>
                     </div>
                 </div>
@@ -136,7 +136,7 @@
                     
                     <div class="grid grid-cols-3 gap-4 mb-8 max-w-3xl mx-auto">
                         <div class="bg-green-50 p-4 rounded-lg">
-                            <h3 class="font-semibold text-green-800">6 Images</h3>
+                            <h3 class="font-semibold text-green-800">5 Images</h3>
                             <p class="text-sm text-green-600">Light & Dark themes</p>
                         </div>
                         <div class="bg-blue-50 p-4 rounded-lg">
@@ -258,44 +258,27 @@
         // Generate assets
         generateBtn.addEventListener('click', generateAssets);
         
-        // Generate banner logo (280x60) - Max 10KB with sophisticated design
+        // Generate banner logo (280x60) - Max 50KB with clean design
         function generateBannerLogo() {
             canvas.width = 280;
             canvas.height = 60;
             
             ctx.clearRect(0, 0, 280, 60);
             
-            // Multi-layer gradient background
-            const gradient = ctx.createLinearGradient(0, 0, 280, 60);
-            gradient.addColorStop(0, adjustColor(primaryColorInput.value, 140));
-            gradient.addColorStop(0.3, adjustColor(primaryColorInput.value, 120));
-            gradient.addColorStop(0.7, adjustColor(secondaryColorInput.value, 130));
-            gradient.addColorStop(1, adjustColor(secondaryColorInput.value, 110));
+            // Simple gradient background
+            const gradient = ctx.createLinearGradient(0, 0, 280, 0);
+            gradient.addColorStop(0, primaryColorInput.value);
+            gradient.addColorStop(1, secondaryColorInput.value);
             
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, 280, 60);
             
-            // Add geometric shapes
-            ctx.globalAlpha = 0.1;
-            // Circles
-            ctx.fillStyle = '#ffffff';
-            ctx.beginPath();
-            ctx.arc(-20, 30, 50, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.beginPath();
-            ctx.arc(300, 30, 40, 0, Math.PI * 2);
-            ctx.fill();
-            
-            // Diagonal lines
-            ctx.strokeStyle = '#ffffff';
-            ctx.lineWidth = 1;
-            for (let i = -60; i < 340; i += 20) {
-                ctx.beginPath();
-                ctx.moveTo(i, 0);
-                ctx.lineTo(i + 60, 60);
-                ctx.stroke();
-            }
-            ctx.globalAlpha = 1;
+            // Subtle overlay for depth
+            const overlay = ctx.createLinearGradient(0, 0, 0, 60);
+            overlay.addColorStop(0, 'rgba(255, 255, 255, 0.1)');
+            overlay.addColorStop(1, 'rgba(0, 0, 0, 0.1)');
+            ctx.fillStyle = overlay;
+            ctx.fillRect(0, 0, 280, 60);
             
             if (logo) {
                 const logoAspect = logo.width / logo.height;
@@ -312,95 +295,29 @@
                 const x = (280 - drawWidth) / 2;
                 const y = (60 - drawHeight) / 2;
                 
-                // Subtle white glow behind logo
-                const glowGradient = ctx.createRadialGradient(140, 30, 0, 140, 30, 140);
-                glowGradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
-                glowGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-                ctx.fillStyle = glowGradient;
-                ctx.fillRect(0, 0, 280, 60);
+                // White glow behind logo for contrast
+                ctx.shadowColor = 'rgba(255, 255, 255, 0.8)';
+                ctx.shadowBlur = 15;
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+                ctx.fillRect(x - 10, y - 5, drawWidth + 20, drawHeight + 10);
                 
+                ctx.shadowColor = 'transparent';
                 ctx.drawImage(logo, x, y, drawWidth, drawHeight);
             } else {
                 ctx.fillStyle = '#ffffff';
-                ctx.font = 'bold 26px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial';
+                ctx.font = 'bold 24px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.shadowColor = 'rgba(0,0,0,0.3)';
-                ctx.shadowBlur = 4;
+                ctx.shadowBlur = 3;
                 ctx.fillText('Your Company', 140, 30);
             }
             
-            // Return with balanced compression
-            return canvas.toDataURL('image/png', 0.3);
+            // Return with optimal compression for 50KB limit
+            return canvas.toDataURL('image/png', 0.6);
         }
         
-        // Generate header logo (245x36) - Max 10KB with enhanced design
-        function generateHeaderLogo() {
-            canvas.width = 245;
-            canvas.height = 36;
-            
-            ctx.clearRect(0, 0, 245, 36);
-            
-            // Sophisticated gradient
-            const gradient = ctx.createLinearGradient(0, 0, 245, 36);
-            gradient.addColorStop(0, adjustColor(primaryColorInput.value, 130));
-            gradient.addColorStop(0.5, primaryColorInput.value);
-            gradient.addColorStop(1, adjustColor(secondaryColorInput.value, 120));
-            
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, 245, 36);
-            
-            // Add wave pattern
-            ctx.globalAlpha = 0.15;
-            ctx.beginPath();
-            ctx.moveTo(0, 18);
-            for (let i = 0; i <= 245; i += 5) {
-                ctx.lineTo(i, 18 + Math.sin(i * 0.05) * 10);
-            }
-            ctx.lineTo(245, 36);
-            ctx.lineTo(0, 36);
-            ctx.closePath();
-            ctx.fillStyle = '#ffffff';
-            ctx.fill();
-            ctx.globalAlpha = 1;
-            
-            if (logo) {
-                const logoAspect = logo.width / logo.height;
-                let drawWidth, drawHeight;
-                
-                if (logoAspect > 245/36) {
-                    drawWidth = 210;
-                    drawHeight = drawWidth / logoAspect;
-                } else {
-                    drawHeight = 30;
-                    drawWidth = drawHeight * logoAspect;
-                }
-                
-                const x = (245 - drawWidth) / 2;
-                const y = (36 - drawHeight) / 2;
-                
-                // Soft white backdrop
-                const backdropGradient = ctx.createRadialGradient(122.5, 18, 0, 122.5, 18, 100);
-                backdropGradient.addColorStop(0, 'rgba(255, 255, 255, 0.7)');
-                backdropGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-                ctx.fillStyle = backdropGradient;
-                ctx.fillRect(0, 0, 245, 36);
-                
-                ctx.drawImage(logo, x, y, drawWidth, drawHeight);
-            } else {
-                ctx.fillStyle = '#ffffff';
-                ctx.font = 'bold 18px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.shadowColor = 'rgba(0,0,0,0.2)';
-                ctx.shadowBlur = 3;
-                ctx.fillText('Your Company', 122.5, 18);
-            }
-            
-            return canvas.toDataURL('image/png', 0.3);
-        }
-        
-        // Generate square logo (240x240) - Max 10KB preserving transparency
+        // Generate square logo (240x240) - Max 50KB with clean design
         function generateSquareLogo(theme) {
             canvas.width = 240;
             canvas.height = 240;
@@ -409,71 +326,35 @@
             ctx.clearRect(0, 0, 240, 240);
             
             if (logo) {
-                // For logos with transparency, create a subtle background pattern
-                // but keep the logo itself transparent
-                
-                // Subtle gradient background
-                const bgGradient = ctx.createRadialGradient(120, 120, 0, 120, 120, 170);
+                // Clean, simple background for both themes
                 if (theme === 'light') {
-                    bgGradient.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
-                    bgGradient.addColorStop(0.5, `${adjustColor(primaryColorInput.value, 150)}20`);
-                    bgGradient.addColorStop(1, `${adjustColor(secondaryColorInput.value, 140)}15`);
+                    // Light theme: white with subtle brand accent
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, 240, 240);
+                    
+                    // Very subtle brand color accent at bottom
+                    const accentGradient = ctx.createLinearGradient(0, 180, 0, 240);
+                    accentGradient.addColorStop(0, 'rgba(255, 255, 255, 0)');
+                    accentGradient.addColorStop(1, adjustColor(primaryColorInput.value, 180));
+                    ctx.fillStyle = accentGradient;
+                    ctx.fillRect(0, 180, 240, 60);
                 } else {
-                    bgGradient.addColorStop(0, 'rgba(20, 20, 20, 0.95)');
-                    bgGradient.addColorStop(0.5, `${adjustColor(primaryColorInput.value, -80)}30`);
-                    bgGradient.addColorStop(1, `${adjustColor(secondaryColorInput.value, -90)}25`);
-                }
-                ctx.fillStyle = bgGradient;
-                ctx.fillRect(0, 0, 240, 240);
-                
-                // Add geometric pattern
-                ctx.globalAlpha = theme === 'light' ? 0.05 : 0.08;
-                
-                // Concentric circles
-                ctx.strokeStyle = theme === 'light' ? primaryColorInput.value : '#ffffff';
-                ctx.lineWidth = 1;
-                for (let r = 30; r < 200; r += 30) {
-                    ctx.beginPath();
-                    ctx.arc(120, 120, r, 0, Math.PI * 2);
-                    ctx.stroke();
+                    // Dark theme: dark gray with subtle brand accent
+                    ctx.fillStyle = '#1a1a1a';
+                    ctx.fillRect(0, 0, 240, 240);
+                    
+                    // Subtle brand color glow in center
+                    const glowGradient = ctx.createRadialGradient(120, 120, 0, 120, 120, 120);
+                    glowGradient.addColorStop(0, adjustColor(primaryColorInput.value, -50) + '20');
+                    glowGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                    ctx.fillStyle = glowGradient;
+                    ctx.fillRect(0, 0, 240, 240);
                 }
                 
-                // Radial lines
-                ctx.save();
-                ctx.translate(120, 120);
-                for (let i = 0; i < 12; i++) {
-                    ctx.rotate(Math.PI / 6);
-                    ctx.beginPath();
-                    ctx.moveTo(0, 0);
-                    ctx.lineTo(170, 0);
-                    ctx.stroke();
-                }
-                ctx.restore();
-                
-                // Add corner accents
-                ctx.globalAlpha = theme === 'light' ? 0.1 : 0.15;
-                ctx.fillStyle = primaryColorInput.value;
-                // Top left
-                ctx.beginPath();
-                ctx.moveTo(0, 0);
-                ctx.lineTo(60, 0);
-                ctx.lineTo(0, 60);
-                ctx.closePath();
-                ctx.fill();
-                // Bottom right
-                ctx.beginPath();
-                ctx.moveTo(240, 240);
-                ctx.lineTo(180, 240);
-                ctx.lineTo(240, 180);
-                ctx.closePath();
-                ctx.fill();
-                
-                ctx.globalAlpha = 1;
-                
-                // Draw logo with preserved transparency
+                // Draw logo
                 const logoAspect = logo.width / logo.height;
                 let drawWidth, drawHeight;
-                const maxSize = 160; // Smaller to show background pattern
+                const maxSize = 180;
                 
                 if (logoAspect > 1) {
                     drawWidth = maxSize;
@@ -486,172 +367,163 @@
                 const x = (240 - drawWidth) / 2;
                 const y = (240 - drawHeight) / 2;
                 
-                // Add subtle shadow for depth
-                ctx.shadowColor = theme === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0.3)';
-                ctx.shadowBlur = 10;
-                ctx.shadowOffsetY = 3;
+                // Simple shadow for depth
+                if (theme === 'light') {
+                    ctx.shadowColor = 'rgba(0,0,0,0.1)';
+                    ctx.shadowBlur = 8;
+                    ctx.shadowOffsetY = 2;
+                } else {
+                    ctx.shadowColor = 'rgba(0,0,0,0.5)';
+                    ctx.shadowBlur = 10;
+                    ctx.shadowOffsetY = 3;
+                }
                 
                 ctx.drawImage(logo, x, y, drawWidth, drawHeight);
-                
                 ctx.shadowColor = 'transparent';
+                
             } else {
-                // No logo - create branded monogram
-                const gradient = ctx.createRadialGradient(120, 120, 0, 120, 120, 120);
-                gradient.addColorStop(0, adjustColor(primaryColorInput.value, theme === 'light' ? 20 : -20));
-                gradient.addColorStop(0.5, primaryColorInput.value);
-                gradient.addColorStop(1, secondaryColorInput.value);
-                ctx.fillStyle = gradient;
+                // No logo - create simple branded square
+                if (theme === 'light') {
+                    const gradient = ctx.createLinearGradient(0, 0, 240, 240);
+                    gradient.addColorStop(0, adjustColor(primaryColorInput.value, 100));
+                    gradient.addColorStop(1, primaryColorInput.value);
+                    ctx.fillStyle = gradient;
+                } else {
+                    const gradient = ctx.createLinearGradient(0, 0, 240, 240);
+                    gradient.addColorStop(0, adjustColor(primaryColorInput.value, -60));
+                    gradient.addColorStop(1, adjustColor(primaryColorInput.value, -80));
+                    ctx.fillStyle = gradient;
+                }
                 ctx.fillRect(0, 0, 240, 240);
                 
-                // Add pattern overlay
-                ctx.globalAlpha = 0.1;
-                for (let x = 0; x < 240; x += 30) {
-                    for (let y = 0; y < 240; y += 30) {
-                        ctx.strokeStyle = theme === 'light' ? '#000000' : '#ffffff';
-                        ctx.lineWidth = 1;
-                        ctx.strokeRect(x, y, 30, 30);
-                        // Diamond pattern
-                        ctx.beginPath();
-                        ctx.moveTo(x + 15, y);
-                        ctx.lineTo(x + 30, y + 15);
-                        ctx.lineTo(x + 15, y + 30);
-                        ctx.lineTo(x, y + 15);
-                        ctx.closePath();
-                        ctx.stroke();
-                    }
-                }
-                ctx.globalAlpha = 1;
-                
-                // Large monogram
+                // Company initial
                 ctx.fillStyle = '#ffffff';
-                ctx.font = '900 110px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial';
+                ctx.font = 'bold 96px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                ctx.shadowColor = 'rgba(0,0,0,0.3)';
-                ctx.shadowBlur = 8;
-                ctx.shadowOffsetY = 4;
-                ctx.fillText('M', 120, 120);
-                ctx.shadowColor = 'transparent';
+                ctx.fillText('C', 120, 120);
             }
             
-            // Return with better compression to use more of the 10KB limit
-            return canvas.toDataURL('image/png', 0.5);
+            // Return with compression optimized for 50KB limit
+            return canvas.toDataURL('image/png', 0.6);
         }
         
-        // Generate sign-in background (1920x1080) - Max 300KB with rich design
+        // Generate sign-in background (1920x1080) - Max 300KB with distinct themes
         function generateSignInBackground(theme) {
             canvas.width = 1920;
             canvas.height = 1080;
             
             ctx.clearRect(0, 0, 1920, 1080);
             
-            // Layer 1: Rich gradient base
-            const baseGradient = ctx.createLinearGradient(0, 0, 1920, 1080);
-            
             if (theme === 'light') {
+                // Light theme: Bright and airy
+                // Base: White to light brand colors
+                const baseGradient = ctx.createLinearGradient(0, 0, 1920, 1080);
                 baseGradient.addColorStop(0, '#ffffff');
-                baseGradient.addColorStop(0.2, adjustColor(primaryColorInput.value, 150));
-                baseGradient.addColorStop(0.5, adjustColor(primaryColorInput.value, 120));
-                baseGradient.addColorStop(0.8, adjustColor(secondaryColorInput.value, 140));
-                baseGradient.addColorStop(1, adjustColor(secondaryColorInput.value, 100));
-            } else {
-                baseGradient.addColorStop(0, '#0a0a0a');
-                baseGradient.addColorStop(0.2, adjustColor(primaryColorInput.value, -90));
-                baseGradient.addColorStop(0.5, adjustColor(primaryColorInput.value, -70));
-                baseGradient.addColorStop(0.8, adjustColor(secondaryColorInput.value, -80));
-                baseGradient.addColorStop(1, adjustColor(secondaryColorInput.value, -100));
-            }
-            
-            ctx.fillStyle = baseGradient;
-            ctx.fillRect(0, 0, 1920, 1080);
-            
-            // Layer 2: Mesh gradient overlay
-            ctx.globalAlpha = 0.4;
-            for (let i = 0; i < 8; i++) {
-                const x = Math.random() * 1920;
-                const y = Math.random() * 1080;
-                const r = Math.random() * 500 + 300;
-                
-                const meshGradient = ctx.createRadialGradient(x, y, 0, x, y, r);
-                meshGradient.addColorStop(0, i % 2 === 0 ? primaryColorInput.value : secondaryColorInput.value);
-                meshGradient.addColorStop(0.5, 'transparent');
-                meshGradient.addColorStop(1, i % 2 === 0 ? secondaryColorInput.value : primaryColorInput.value);
-                
-                ctx.fillStyle = meshGradient;
+                baseGradient.addColorStop(0.3, '#f8f9fa');
+                baseGradient.addColorStop(0.7, adjustColor(primaryColorInput.value, 170));
+                baseGradient.addColorStop(1, adjustColor(primaryColorInput.value, 150));
+                ctx.fillStyle = baseGradient;
                 ctx.fillRect(0, 0, 1920, 1080);
-            }
-            
-            // Layer 3: Geometric shapes
-            ctx.globalAlpha = theme === 'light' ? 0.05 : 0.08;
-            
-            // Large circles
-            ctx.strokeStyle = theme === 'light' ? primaryColorInput.value : '#ffffff';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.arc(1600, 300, 400, 0, Math.PI * 2);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.arc(300, 800, 350, 0, Math.PI * 2);
-            ctx.stroke();
-            
-            // Flowing lines
-            ctx.beginPath();
-            ctx.moveTo(0, 540);
-            for (let i = 0; i <= 1920; i += 40) {
-                ctx.lineTo(i, 540 + Math.sin(i * 0.01) * 200);
-            }
-            ctx.stroke();
-            
-            // Diagonal grid
-            ctx.globalAlpha = theme === 'light' ? 0.02 : 0.04;
-            for (let i = -1080; i < 1920; i += 100) {
+                
+                // Soft color washes
+                ctx.globalAlpha = 0.2;
+                const wash1 = ctx.createRadialGradient(500, 300, 0, 500, 300, 600);
+                wash1.addColorStop(0, primaryColorInput.value);
+                wash1.addColorStop(1, 'transparent');
+                ctx.fillStyle = wash1;
+                ctx.fillRect(0, 0, 1920, 1080);
+                
+                const wash2 = ctx.createRadialGradient(1400, 700, 0, 1400, 700, 500);
+                wash2.addColorStop(0, secondaryColorInput.value);
+                wash2.addColorStop(1, 'transparent');
+                ctx.fillStyle = wash2;
+                ctx.fillRect(0, 0, 1920, 1080);
+                
+                // Abstract shapes
+                ctx.globalAlpha = 0.1;
+                ctx.fillStyle = primaryColorInput.value;
                 ctx.beginPath();
-                ctx.moveTo(i, 0);
-                ctx.lineTo(i + 1080, 1080);
-                ctx.stroke();
+                ctx.arc(1700, 200, 300, 0, Math.PI * 2);
+                ctx.fill();
+                
                 ctx.beginPath();
-                ctx.moveTo(i + 1080, 0);
-                ctx.lineTo(i, 1080);
-                ctx.stroke();
-            }
-            
-            // Layer 4: Light effects
-            ctx.globalAlpha = theme === 'light' ? 0.1 : 0.15;
-            
-            // Top light
-            const topLight = ctx.createRadialGradient(960, -200, 0, 960, -200, 1000);
-            topLight.addColorStop(0, theme === 'light' ? '#ffffff' : primaryColorInput.value);
-            topLight.addColorStop(1, 'transparent');
-            ctx.fillStyle = topLight;
-            ctx.fillRect(0, 0, 1920, 1080);
-            
-            // Bottom light
-            const bottomLight = ctx.createRadialGradient(960, 1280, 0, 960, 1280, 800);
-            bottomLight.addColorStop(0, theme === 'light' ? secondaryColorInput.value : '#ffffff');
-            bottomLight.addColorStop(1, 'transparent');
-            ctx.fillStyle = bottomLight;
-            ctx.fillRect(0, 0, 1920, 1080);
-            
-            // Layer 5: Texture overlay
-            ctx.globalAlpha = theme === 'light' ? 0.03 : 0.05;
-            
-            // Create noise pattern
-            for (let x = 0; x < 1920; x += 4) {
-                for (let y = 0; y < 1080; y += 4) {
-                    if (Math.random() > 0.5) {
-                        const brightness = Math.random() * 40;
-                        ctx.fillStyle = theme === 'light' 
-                            ? `rgba(0,0,0,${brightness/200})`
-                            : `rgba(255,255,255,${brightness/200})`;
-                        ctx.fillRect(x, y, 3, 3);
-                    }
+                ctx.arc(200, 900, 400, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Flowing wave
+                ctx.globalAlpha = 0.15;
+                ctx.beginPath();
+                ctx.moveTo(0, 800);
+                for (let i = 0; i <= 1920; i += 20) {
+                    ctx.lineTo(i, 800 + Math.sin(i * 0.005) * 100);
                 }
+                ctx.lineTo(1920, 1080);
+                ctx.lineTo(0, 1080);
+                ctx.closePath();
+                ctx.fillStyle = adjustColor(secondaryColorInput.value, 120);
+                ctx.fill();
+                
+            } else {
+                // Dark theme: Deep and sophisticated
+                // Base: Dark gradient
+                const baseGradient = ctx.createLinearGradient(0, 0, 1920, 1080);
+                baseGradient.addColorStop(0, '#0a0a0a');
+                baseGradient.addColorStop(0.3, '#121212');
+                baseGradient.addColorStop(0.7, adjustColor(primaryColorInput.value, -120));
+                baseGradient.addColorStop(1, adjustColor(primaryColorInput.value, -100));
+                ctx.fillStyle = baseGradient;
+                ctx.fillRect(0, 0, 1920, 1080);
+                
+                // Color accents with glow
+                ctx.globalAlpha = 0.3;
+                
+                // Neon-like glow effect
+                const glow1 = ctx.createRadialGradient(300, 300, 0, 300, 300, 500);
+                glow1.addColorStop(0, primaryColorInput.value);
+                glow1.addColorStop(0.5, adjustColor(primaryColorInput.value, -40));
+                glow1.addColorStop(1, 'transparent');
+                ctx.fillStyle = glow1;
+                ctx.fillRect(0, 0, 1920, 1080);
+                
+                const glow2 = ctx.createRadialGradient(1600, 800, 0, 1600, 800, 600);
+                glow2.addColorStop(0, secondaryColorInput.value);
+                glow2.addColorStop(0.5, adjustColor(secondaryColorInput.value, -40));
+                glow2.addColorStop(1, 'transparent');
+                ctx.fillStyle = glow2;
+                ctx.fillRect(0, 0, 1920, 1080);
+                
+                // Grid pattern
+                ctx.globalAlpha = 0.05;
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 1;
+                for (let x = 0; x < 1920; x += 80) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, 1080);
+                    ctx.stroke();
+                }
+                for (let y = 0; y < 1080; y += 80) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(1920, y);
+                    ctx.stroke();
+                }
+                
+                // Gradient mesh overlay
+                ctx.globalAlpha = 0.15;
+                const meshGradient = ctx.createLinearGradient(0, 0, 1920, 0);
+                meshGradient.addColorStop(0, 'transparent');
+                meshGradient.addColorStop(0.5, primaryColorInput.value);
+                meshGradient.addColorStop(1, 'transparent');
+                ctx.fillStyle = meshGradient;
+                ctx.fillRect(0, 400, 1920, 280);
             }
             
             ctx.globalAlpha = 1;
             
-            // Return as high-quality JPEG to maximize the 300KB limit
-            return canvas.toDataURL('image/jpeg', 0.85);
+            // Return as JPEG with good quality
+            return canvas.toDataURL('image/jpeg', 0.9);
         }
         
         function adjustColor(hex, amount) {
@@ -670,7 +542,6 @@
             setTimeout(() => {
                 generatedAssets = {
                     bannerLogo: generateBannerLogo(),
-                    headerLogo: generateHeaderLogo(),
                     squareLogoLight: generateSquareLogo('light'),
                     squareLogoDark: generateSquareLogo('dark'),
                     signInBgLight: generateSignInBackground('light'),
@@ -699,7 +570,6 @@ Write-Host "======================================" -ForegroundColor Cyan
 # Check files
 $requiredFiles = @(
     "BannerLogo.png",
-    "HeaderLogo.png", 
     "SquareLogoLight.png",
     "SquareLogoDark.png",
     "BackgroundLight.jpg",
@@ -722,6 +592,22 @@ if ($missingFiles.Count -gt 0) {
 }
 
 Write-Host "All files found!" -ForegroundColor Green
+
+# Validate file sizes
+Write-Host "Validating file sizes..." -ForegroundColor Yellow
+$bannerSize = (Get-Item (Join-Path $scriptPath "BannerLogo.png")).Length / 1KB
+$squareLightSize = (Get-Item (Join-Path $scriptPath "SquareLogoLight.png")).Length / 1KB
+$squareDarkSize = (Get-Item (Join-Path $scriptPath "SquareLogoDark.png")).Length / 1KB
+
+Write-Host "  BannerLogo.png: $([math]::Round($bannerSize, 2)) KB (limit: 50 KB)" -ForegroundColor $(if ($bannerSize -lt 50) { "Green" } else { "Red" })
+Write-Host "  SquareLogoLight.png: $([math]::Round($squareLightSize, 2)) KB (limit: 50 KB)" -ForegroundColor $(if ($squareLightSize -lt 50) { "Green" } else { "Red" })
+Write-Host "  SquareLogoDark.png: $([math]::Round($squareDarkSize, 2)) KB (limit: 50 KB)" -ForegroundColor $(if ($squareDarkSize -lt 50) { "Green" } else { "Red" })
+
+if ($bannerSize -gt 50 -or $squareLightSize -gt 50 -or $squareDarkSize -gt 50) {
+    Write-Host "ERROR: One or more logo files exceed the 50KB size limit!" -ForegroundColor Red
+    Write-Host "Please regenerate the assets with a smaller logo or contact support." -ForegroundColor Yellow
+    exit 1
+}
 
 # Import module
 if (-not (Get-Module -ListAvailable -Name Microsoft.Graph)) {
@@ -777,26 +663,16 @@ try {
     Write-Host "  Banner logo uploaded" -ForegroundColor Green
     Start-Sleep -Seconds 2
     
-    # Square Logo
+    # Square Logo Light
     $squarePath = Join-Path $scriptPath "SquareLogoLight.png"
     Set-MgOrganizationBrandingLocalizationSquareLogo -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "0" -InFile $squarePath
-    Write-Host "  Square logo uploaded" -ForegroundColor Green
+    Write-Host "  Square logo (light) uploaded" -ForegroundColor Green
     Start-Sleep -Seconds 2
     
-    # Square Logo Dark (also upload to default for consistency)
-    $squareDarkPath = Join-Path $scriptPath "SquareLogoDark.png"
-    Set-MgOrganizationBrandingLocalizationSquareLogoDark -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "0" -InFile $squareDarkPath -ErrorAction SilentlyContinue
-    Write-Host "  Square logo dark uploaded" -ForegroundColor Green
-    Start-Sleep -Seconds 2
-    
-    # Background Image
+    # Background Image Light
     $bgPath = Join-Path $scriptPath "BackgroundLight.jpg"
     Set-MgOrganizationBrandingLocalizationBackgroundImage -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "0" -InFile $bgPath
-    Write-Host "  Background image uploaded" -ForegroundColor Green
-    
-    # Note: HeaderLogo.png is generated for custom implementations
-    # Microsoft Entra ID uses BannerLogo in the API for header displays
-    Write-Host "  Note: Header logo is implemented via Banner logo in Entra ID" -ForegroundColor Yellow
+    Write-Host "  Background image (light) uploaded" -ForegroundColor Green
     
     # Try to create dark theme localization
     Write-Host "Configuring dark theme..." -ForegroundColor Yellow
@@ -818,7 +694,7 @@ try {
             Start-Sleep -Seconds 5
             
             # Upload all dark theme images
-            # Banner Logo for dark theme
+            # Banner Logo for dark theme (same as light)
             Set-MgOrganizationBrandingLocalizationBannerLogo -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -InFile $bannerPath
             Write-Host "  Dark theme banner logo uploaded" -ForegroundColor Green
             Start-Sleep -Seconds 2
@@ -826,13 +702,13 @@ try {
             # Square Logo Dark
             $squareDarkPath = Join-Path $scriptPath "SquareLogoDark.png"
             Set-MgOrganizationBrandingLocalizationSquareLogo -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -InFile $squareDarkPath
-            Write-Host "  Dark square logo uploaded" -ForegroundColor Green
+            Write-Host "  Dark theme square logo uploaded" -ForegroundColor Green
             Start-Sleep -Seconds 2
             
             # Dark Background
             $bgDarkPath = Join-Path $scriptPath "BackgroundDark.jpg"
             Set-MgOrganizationBrandingLocalizationBackgroundImage -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -InFile $bgDarkPath
-            Write-Host "  Dark background uploaded" -ForegroundColor Green
+            Write-Host "  Dark theme background uploaded" -ForegroundColor Green
         } catch {
             Write-Host "Note: Dark theme configuration may not be available" -ForegroundColor Yellow
         }
@@ -847,12 +723,12 @@ try {
         
         $squareDarkPath = Join-Path $scriptPath "SquareLogoDark.png"
         Set-MgOrganizationBrandingLocalizationSquareLogo -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -InFile $squareDarkPath
-        Write-Host "  Dark square logo uploaded" -ForegroundColor Green
+        Write-Host "  Dark theme square logo uploaded" -ForegroundColor Green
         Start-Sleep -Seconds 2
         
         $bgDarkPath = Join-Path $scriptPath "BackgroundDark.jpg"
         Set-MgOrganizationBrandingLocalizationBackgroundImage -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -InFile $bgDarkPath
-        Write-Host "  Dark background uploaded" -ForegroundColor Green
+        Write-Host "  Dark theme background uploaded" -ForegroundColor Green
     }
     
     Write-Host ""
@@ -879,8 +755,7 @@ Secondary Color: ${secondaryColorInput.value}
 
 Package Contents:
 ----------------
-- BannerLogo.png (280x60px) - For email headers and app headers
-- HeaderLogo.png (245x36px) - Alternative header size (for custom implementations)
+- BannerLogo.png (280x60px) - For headers and email footers
 - SquareLogoLight.png (240x240px) - Light theme logo
 - SquareLogoDark.png (240x240px) - Dark theme logo
 - BackgroundLight.jpg (1920x1080px) - Light theme sign-in background
@@ -908,9 +783,6 @@ Dark Theme (en-US localization):
 - Banner Logo (same as light for consistency)
 - Square Logo Dark
 - Background Image Dark
-
-Note: HeaderLogo.png is included for custom implementations but 
-Microsoft Entra ID uses the BannerLogo for header displays.
 
 Requirements:
 ------------
@@ -946,16 +818,10 @@ https://learn.microsoft.com/en-us/entra/fundamentals/how-to-customize-branding`;
                         <div>
                             <p class="text-sm text-gray-600 mb-2 font-semibold">Logo Assets</p>
                             <div class="grid grid-cols-2 gap-2 mb-4">
-                                <div>
-                                    <p class="text-xs text-gray-500 mb-1">Header Logo (245×36)</p>
+                                <div class="col-span-2">
+                                    <p class="text-xs text-gray-500 mb-1">Banner Logo (280×60) - Used for headers</p>
                                     <div class="rounded overflow-hidden shadow border">
-                                        <img src="${generatedAssets.headerLogo}" style="height: 36px; width: 245px;">
-                                    </div>
-                                </div>
-                                <div>
-                                    <p class="text-xs text-gray-500 mb-1">Banner Logo (280×60)</p>
-                                    <div class="rounded overflow-hidden shadow border">
-                                        <img src="${generatedAssets.bannerLogo}" style="height: 60px; width: 280px;">
+                                        <img src="${generatedAssets.bannerLogo}" style="height: 60px; width: 280px;" class="mx-auto">
                                     </div>
                                 </div>
                                 <div>
@@ -1014,7 +880,6 @@ https://learn.microsoft.com/en-us/entra/fundamentals/how-to-customize-branding`;
             
             // Add images
             zip.file('BannerLogo.png', dataURLtoBlob(generatedAssets.bannerLogo));
-            zip.file('HeaderLogo.png', dataURLtoBlob(generatedAssets.headerLogo));
             zip.file('SquareLogoLight.png', dataURLtoBlob(generatedAssets.squareLogoLight));
             zip.file('SquareLogoDark.png', dataURLtoBlob(generatedAssets.squareLogoDark));
             zip.file('BackgroundLight.jpg', dataURLtoBlob(generatedAssets.signInBgLight));
