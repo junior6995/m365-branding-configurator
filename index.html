@@ -24,29 +24,45 @@
         }
     </style>
 </head>
-<body>
-    <div id="app" class="min-h-screen bg-gray-50">
+<body class="bg-gray-900">
+    <div id="app" class="min-h-screen bg-gray-900">
         <!-- Header -->
-        <div class="bg-white shadow-sm border-b">
+        <div class="bg-gray-800 shadow-lg border-b border-gray-700">
             <div class="max-w-7xl mx-auto px-8 py-6">
-                <h1 class="text-3xl font-bold text-gray-800 mb-3">Microsoft Entra ID Branding Configurator</h1>
-                <div class="text-gray-600 space-y-2">
+                <h1 class="text-3xl font-bold text-gray-100 mb-3">Microsoft Entra ID Branding Configurator</h1>
+                <div class="text-gray-300 space-y-2">
                     <p class="text-lg">🎨 <strong>Generate Microsoft 365 branding assets</strong> that meet all official size and dimension requirements</p>
                     <div class="grid grid-cols-2 gap-4 mt-4 text-sm">
                         <div class="flex items-start">
-                            <span class="text-green-500 mr-2">✓</span>
-                            <span>Creates optimized images following <a href="https://learn.microsoft.com/en-us/entra/fundamentals/how-to-customize-branding" target="_blank" class="text-blue-600 underline">Microsoft's specifications</a></span>
+                            <span class="text-green-400 mr-2">✓</span>
+                            <span>Creates optimized images following <a href="https://learn.microsoft.com/en-us/entra/fundamentals/how-to-customize-branding" target="_blank" class="text-blue-400 underline hover:text-blue-300">Microsoft's specifications</a></span>
                         </div>
                         <div class="flex items-start">
-                            <span class="text-green-500 mr-2">✓</span>
+                            <span class="text-green-400 mr-2">✓</span>
                             <span>Includes ready-to-run PowerShell script for easy deployment</span>
                         </div>
                     </div>
                     
+                    <!-- Security Notice -->
+                    <div class="mt-4 p-4 bg-green-900/20 border border-green-700/50 rounded-lg">
+                        <h4 class="font-semibold text-green-400 mb-2 flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                            </svg>
+                            100% Secure & Private
+                        </h4>
+                        <ul class="text-sm text-gray-300 space-y-1 ml-7">
+                            <li>• No company data is collected or transmitted</li>
+                            <li>• All processing happens locally in your browser</li>
+                            <li>• The PowerShell script connects directly to Microsoft Graph</li>
+                            <li>• Your logo and branding choices never leave your device</li>
+                        </ul>
+                    </div>
+                    
                     <!-- Technical Details -->
-                    <details class="mt-4 bg-gray-50 rounded-lg p-4">
-                        <summary class="cursor-pointer font-semibold text-gray-700 hover:text-gray-900">📋 Technical Details (click to expand)</summary>
-                        <div class="mt-3 space-y-3 text-sm text-gray-600">
+                    <details class="mt-4 bg-gray-800 border border-gray-700 rounded-lg p-4">
+                        <summary class="cursor-pointer font-semibold text-gray-200 hover:text-gray-100">📋 Technical Details (click to expand)</summary>
+                        <div class="mt-3 space-y-3 text-sm text-gray-300">
                             <div>
                                 <strong>How it works:</strong>
                                 <ul class="ml-6 mt-1 list-disc space-y-1">
@@ -85,48 +101,48 @@
             <!-- Main Content -->
             <div class="grid grid-cols-2 gap-8">
                 <!-- Configuration Panel -->
-                <div class="bg-white rounded-lg shadow-lg p-6">
-                    <h2 class="text-xl font-semibold mb-6">Branding Configuration</h2>
+                <div class="bg-gray-800 rounded-lg shadow-xl p-6 border border-gray-700">
+                    <h2 class="text-xl font-semibold mb-6 text-gray-100">Branding Configuration</h2>
                     
                     <!-- Primary Color -->
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
                             Primary Brand Color
                         </label>
                         <div class="flex items-center space-x-4">
                             <input type="color" id="primaryColor" value="#0078D4" class="h-12 w-24 rounded cursor-pointer">
-                            <input type="text" id="primaryColorText" value="#0078D4" class="flex-1 px-3 py-2 border border-gray-300 rounded-md font-mono">
+                            <input type="text" id="primaryColorText" value="#0078D4" class="flex-1 px-3 py-2 bg-gray-700 border border-gray-600 text-gray-100 rounded-md font-mono">
                         </div>
                     </div>
                     
                     <!-- Secondary Color -->
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
                             Secondary Color
                         </label>
                         <div class="flex items-center space-x-4">
                             <input type="color" id="secondaryColor" value="#106EBE" class="h-12 w-24 rounded cursor-pointer">
-                            <input type="text" id="secondaryColorText" value="#106EBE" class="flex-1 px-3 py-2 border border-gray-300 rounded-md font-mono">
+                            <input type="text" id="secondaryColorText" value="#106EBE" class="flex-1 px-3 py-2 bg-gray-700 border border-gray-600 text-gray-100 rounded-md font-mono">
                         </div>
                     </div>
                     
                     <!-- Logo Upload -->
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <label class="block text-sm font-medium text-gray-300 mb-2">
                             Company Logo (PNG with transparent background)
                         </label>
                         <input type="file" id="logoInput" accept="image/*" class="hidden">
-                        <button id="uploadBtn" class="w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-gray-400 transition-colors">
-                            <span id="uploadText" class="text-gray-500">Click to upload logo</span>
+                        <button id="uploadBtn" class="w-full px-4 py-3 border-2 border-dashed border-gray-600 rounded-lg hover:border-gray-500 transition-colors">
+                            <span id="uploadText" class="text-gray-400">Click to upload logo</span>
                             <div id="logoPreview" class="hidden flex items-center justify-center">
                                 <img id="logoImg" class="h-16 mr-4">
-                                <span class="text-green-600">✓ Logo uploaded</span>
+                                <span class="text-green-400">✓ Logo uploaded</span>
                             </div>
                         </button>
                     </div>
                     
                     <!-- Generate Button -->
-                    <button id="generateBtn" disabled class="w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors font-semibold">
+                    <button id="generateBtn" disabled class="w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed transition-colors font-semibold">
                         <span id="generateText">Generate Branding Package</span>
                         <div id="generateSpinner" class="hidden">
                             <div class="spinner"></div>
@@ -135,9 +151,9 @@
                     </button>
                     
                     <!-- Info Box -->
-                    <div class="mt-6 p-4 bg-blue-50 rounded-lg">
-                        <h3 class="font-semibold text-sm text-blue-900 mb-2">Image Requirements (Microsoft Specs):</h3>
-                        <ul class="text-xs text-blue-800 space-y-1">
+                    <div class="mt-6 p-4 bg-blue-900/30 border border-blue-700/50 rounded-lg">
+                        <h3 class="font-semibold text-sm text-blue-300 mb-2">Image Requirements (Microsoft Specs):</h3>
+                        <ul class="text-xs text-blue-200 space-y-1">
                             <li>• <strong>Sign-in background:</strong> 1920×1080px, JPEG, max 300KB</li>
                             <li>• <strong>Banner logo:</strong> 280×60px, PNG, max 50KB</li>
                             <li>• <strong>Header logo:</strong> 245×36px, PNG, max 10KB</li>
@@ -148,15 +164,15 @@
                 </div>
                 
                 <!-- Preview Panel -->
-                <div class="bg-white rounded-lg shadow-lg p-6">
+                <div class="bg-gray-800 rounded-lg shadow-xl p-6 border border-gray-700">
                     <div class="flex items-center justify-between mb-4">
-                        <h2 class="text-xl font-semibold">Preview</h2>
-                        <button id="darkModeBtn" class="px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-200 text-sm font-medium">
+                        <h2 class="text-xl font-semibold text-gray-100">Preview</h2>
+                        <button id="darkModeBtn" class="px-3 py-1 rounded-lg bg-gray-700 hover:bg-gray-600 text-sm font-medium text-gray-100">
                             <span id="darkModeText">Light Theme</span>
                         </button>
                     </div>
                     
-                    <div id="previewArea" class="bg-gray-100 rounded-lg p-4 min-h-[500px] flex items-center justify-center">
+                    <div id="previewArea" class="bg-gray-700 rounded-lg p-4 min-h-[500px] flex items-center justify-center">
                         <div class="text-center text-gray-400">
                             <p>Upload your logo and generate assets to see preview</p>
                         </div>
@@ -166,22 +182,22 @@
             
             <!-- Results Section -->
             <div id="resultsSection" class="hidden mt-8">
-                <div class="bg-white rounded-lg shadow-lg p-8 text-center">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-4">✅ Your Branding Package is Ready!</h2>
-                    <p class="text-gray-600 mb-6">Download the ZIP file containing all images and deployment script</p>
+                <div class="bg-gray-800 rounded-lg shadow-xl p-8 text-center border border-gray-700">
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">✅ Your Branding Package is Ready!</h2>
+                    <p class="text-gray-300 mb-6">Download the ZIP file containing all images and deployment script</p>
                     
                     <div class="grid grid-cols-3 gap-4 mb-8 max-w-3xl mx-auto">
-                        <div class="bg-green-50 p-4 rounded-lg">
-                            <h3 class="font-semibold text-green-800">7 Images</h3>
-                            <p class="text-sm text-green-600">All branding assets</p>
+                        <div class="bg-green-900/30 border border-green-700/50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-green-400">7 Images</h3>
+                            <p class="text-sm text-green-300">All branding assets</p>
                         </div>
-                        <div class="bg-blue-50 p-4 rounded-lg">
-                            <h3 class="font-semibold text-blue-800">PowerShell Script</h3>
-                            <p class="text-sm text-blue-600">Deploys everything</p>
+                        <div class="bg-blue-900/30 border border-blue-700/50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-blue-400">PowerShell Script</h3>
+                            <p class="text-sm text-blue-300">Deploys everything</p>
                         </div>
-                        <div class="bg-purple-50 p-4 rounded-lg">
-                            <h3 class="font-semibold text-purple-800">Auto-Deploy</h3>
-                            <p class="text-sm text-purple-600">Run script & done!</p>
+                        <div class="bg-purple-900/30 border border-purple-700/50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-purple-400">Auto-Deploy</h3>
+                            <p class="text-sm text-purple-300">Run script & done!</p>
                         </div>
                     </div>
                     
@@ -190,12 +206,12 @@
                     </button>
                     
                     <div class="mt-8 text-left max-w-2xl mx-auto">
-                        <h3 class="font-semibold mb-3">Quick Deployment Steps:</h3>
-                        <ol class="text-sm text-gray-600 space-y-2">
+                        <h3 class="font-semibold mb-3 text-gray-100">Quick Deployment Steps:</h3>
+                        <ol class="text-sm text-gray-300 space-y-2">
                             <li>1. Extract the ZIP file to a folder</li>
                             <li>2. Open PowerShell as Administrator</li>
                             <li>3. Navigate to the extracted folder</li>
-                            <li>4. Run: <code class="bg-gray-100 px-2 py-1 rounded">.\Deploy-M365Branding.ps1</code></li>
+                            <li>4. Run: <code class="bg-gray-700 px-2 py-1 rounded text-gray-100">.\Deploy-M365Branding.ps1</code></li>
                         </ol>
                     </div>
                 </div>
@@ -203,9 +219,9 @@
         </div>
         
         <!-- Footer -->
-        <footer class="mt-16 py-8 text-center text-gray-600">
+        <footer class="mt-16 py-8 text-center text-gray-400">
             <p class="text-sm">
-                Created by <a href="https://github.com/junior6995/" target="_blank" class="text-blue-600 hover:text-blue-700 font-semibold">@junior6995</a>
+                Created by <a href="https://github.com/junior6995/" target="_blank" class="text-blue-400 hover:text-blue-300 font-semibold">@junior6995</a>
             </p>
         </footer>
     </div>
@@ -240,6 +256,10 @@
         const downloadBtn = document.getElementById('downloadBtn');
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
+        
+        // Set high quality rendering
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
         
         // Color sync
         primaryColorInput.addEventListener('change', (e) => {
@@ -294,51 +314,60 @@
         // Generate assets
         generateBtn.addEventListener('click', generateAssets);
         
-        // Generate banner logo (280x60) - Max 50KB with logo on left
+        // Generate banner logo (280x60) - Max 50KB with transparent logo
         function generateBannerLogo() {
             canvas.width = 280;
             canvas.height = 60;
             
             ctx.clearRect(0, 0, 280, 60);
             
-            // Gradient background similar to sign-in backgrounds
+            // Dynamic gradient background
             const gradient = ctx.createLinearGradient(0, 0, 280, 0);
             gradient.addColorStop(0, adjustColor(primaryColorInput.value, 20));
-            gradient.addColorStop(0.5, primaryColorInput.value);
-            gradient.addColorStop(1, secondaryColorInput.value);
+            gradient.addColorStop(0.3, primaryColorInput.value);
+            gradient.addColorStop(0.7, secondaryColorInput.value);
+            gradient.addColorStop(1, adjustColor(secondaryColorInput.value, -20));
             
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, 280, 60);
             
-            // Add subtle pattern overlay
-            ctx.globalAlpha = 0.1;
-            const overlay = ctx.createLinearGradient(0, 0, 280, 60);
-            overlay.addColorStop(0, 'rgba(255, 255, 255, 0.5)');
-            overlay.addColorStop(0.5, 'rgba(255, 255, 255, 0)');
-            overlay.addColorStop(1, 'rgba(0, 0, 0, 0.3)');
-            ctx.fillStyle = overlay;
-            ctx.fillRect(0, 0, 280, 60);
-            
-            // Wave accent
+            // Sophisticated overlay pattern
             ctx.globalAlpha = 0.15;
+            
+            // Wave pattern
             ctx.beginPath();
             ctx.moveTo(0, 30);
-            for (let i = 0; i <= 280; i += 10) {
-                ctx.lineTo(i, 30 + Math.sin(i * 0.05) * 15);
+            for (let i = 0; i <= 280; i += 5) {
+                ctx.lineTo(i, 30 + Math.sin(i * 0.02) * 20);
             }
             ctx.lineTo(280, 60);
             ctx.lineTo(0, 60);
             ctx.closePath();
-            ctx.fillStyle = adjustColor(secondaryColorInput.value, 30);
+            const waveGradient = ctx.createLinearGradient(0, 0, 0, 60);
+            waveGradient.addColorStop(0, 'rgba(255, 255, 255, 0.3)');
+            waveGradient.addColorStop(1, 'rgba(0, 0, 0, 0.1)');
+            ctx.fillStyle = waveGradient;
             ctx.fill();
+            
+            // Geometric accents
+            ctx.globalAlpha = 0.1;
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 1;
+            for (let i = 0; i < 280; i += 40) {
+                ctx.beginPath();
+                ctx.moveTo(i, 0);
+                ctx.lineTo(i + 20, 60);
+                ctx.stroke();
+            }
             
             ctx.globalAlpha = 1;
             
             if (logo) {
+                // Center the logo with optimal sizing
                 const logoAspect = logo.width / logo.height;
                 let drawWidth, drawHeight;
-                const maxHeight = 48;
-                const maxWidth = 100; // Limit width to keep logo on left
+                const maxHeight = 50;
+                const maxWidth = 200;
                 
                 if (logoAspect > maxWidth/maxHeight) {
                     drawWidth = maxWidth;
@@ -348,42 +377,31 @@
                     drawWidth = drawHeight * logoAspect;
                 }
                 
-                // Position on left with padding
-                const x = 15;
+                const x = (280 - drawWidth) / 2;
                 const y = (60 - drawHeight) / 2;
                 
-                // White backdrop for contrast
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-                ctx.fillRect(x - 5, y - 5, drawWidth + 10, drawHeight + 10);
+                // Ensure high quality rendering
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'high';
                 
+                // Draw logo with transparency preserved
                 ctx.drawImage(logo, x, y, drawWidth, drawHeight);
-                
-                // Add company text if there's room
-                if (drawWidth < 80) {
-                    ctx.fillStyle = '#ffffff';
-                    ctx.font = 'bold 20px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial';
-                    ctx.textAlign = 'left';
-                    ctx.textBaseline = 'middle';
-                    ctx.shadowColor = 'rgba(0,0,0,0.3)';
-                    ctx.shadowBlur = 3;
-                    ctx.fillText('Your Company', x + drawWidth + 20, 30);
-                }
             } else {
-                // No logo - show text on left
+                // Fallback: show initial
                 ctx.fillStyle = '#ffffff';
-                ctx.font = 'bold 24px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial';
-                ctx.textAlign = 'left';
+                ctx.font = 'bold 32px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial';
+                ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.shadowColor = 'rgba(0,0,0,0.3)';
-                ctx.shadowBlur = 3;
-                ctx.fillText('Your Company', 20, 30);
+                ctx.shadowBlur = 4;
+                ctx.fillText('C', 140, 30);
             }
             
-            // Return with optimal compression for 50KB limit
-            return canvas.toDataURL('image/png', 0.6);
+            // Return with quality optimized for 50KB
+            return canvas.toDataURL('image/png', 0.92);
         }
         
-        // Generate header logo (245x36) - Max 10KB simple resize
+        // Generate header logo (245x36) - Max 10KB with creative design
         function generateHeaderLogo() {
             canvas.width = 245;
             canvas.height = 36;
@@ -392,24 +410,62 @@
             ctx.clearRect(0, 0, 245, 36);
             
             if (logo) {
+                // Creative gradient background strip
+                const bgGradient = ctx.createLinearGradient(0, 0, 245, 0);
+                bgGradient.addColorStop(0, primaryColorInput.value + '15');
+                bgGradient.addColorStop(0.5, secondaryColorInput.value + '10');
+                bgGradient.addColorStop(1, primaryColorInput.value + '15');
+                ctx.fillStyle = bgGradient;
+                ctx.fillRect(0, 0, 245, 36);
+                
+                // Accent line at bottom
+                const accentGradient = ctx.createLinearGradient(0, 0, 245, 0);
+                accentGradient.addColorStop(0, primaryColorInput.value);
+                accentGradient.addColorStop(0.5, secondaryColorInput.value);
+                accentGradient.addColorStop(1, primaryColorInput.value);
+                ctx.fillStyle = accentGradient;
+                ctx.fillRect(0, 34, 245, 2);
+                
+                // Logo positioning - left side
                 const logoAspect = logo.width / logo.height;
                 let drawWidth, drawHeight;
+                const maxHeight = 28;
+                const maxWidth = 80;
                 
-                // Scale to fit with padding
-                if (logoAspect > 245/36) {
-                    drawWidth = 225; // Leave padding
+                if (logoAspect > maxWidth/maxHeight) {
+                    drawWidth = maxWidth;
                     drawHeight = drawWidth / logoAspect;
                 } else {
-                    drawHeight = 32; // Leave padding
+                    drawHeight = maxHeight;
                     drawWidth = drawHeight * logoAspect;
                 }
                 
-                const x = (245 - drawWidth) / 2;
+                const x = 8;
                 const y = (36 - drawHeight) / 2;
                 
+                // Subtle white backing for logo visibility
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                ctx.fillRect(x - 2, y - 2, drawWidth + 4, drawHeight + 4);
+                
+                // Ensure high quality rendering
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'high';
+                
                 ctx.drawImage(logo, x, y, drawWidth, drawHeight);
+                
+                // Creative geometric element on right
+                ctx.globalAlpha = 0.3;
+                ctx.fillStyle = secondaryColorInput.value;
+                ctx.beginPath();
+                ctx.moveTo(245, 0);
+                ctx.lineTo(200, 0);
+                ctx.lineTo(245, 36);
+                ctx.closePath();
+                ctx.fill();
+                ctx.globalAlpha = 1;
+                
             } else {
-                // Fallback gradient background
+                // Fallback design
                 const gradient = ctx.createLinearGradient(0, 0, 245, 0);
                 gradient.addColorStop(0, primaryColorInput.value);
                 gradient.addColorStop(1, secondaryColorInput.value);
@@ -417,14 +473,14 @@
                 ctx.fillRect(0, 0, 245, 36);
                 
                 ctx.fillStyle = '#ffffff';
-                ctx.font = 'bold 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial';
-                ctx.textAlign = 'center';
+                ctx.font = 'bold 18px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial';
+                ctx.textAlign = 'left';
                 ctx.textBaseline = 'middle';
-                ctx.fillText('Your Company', 122.5, 18);
+                ctx.fillText('Your Company', 10, 18);
             }
             
-            // Return with high compression for 10KB limit
-            return canvas.toDataURL('image/png', 0.3);
+            // Return with balanced compression for 10KB limit
+            return canvas.toDataURL('image/png', 0.65);
         }
         
         // Generate favicon (32x32) - Max 5KB
@@ -435,13 +491,20 @@
             ctx.clearRect(0, 0, 32, 32);
             
             if (logo) {
-                // Simple white background for visibility
+                // White background for visibility
                 ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, 32, 32);
+                
+                // Add subtle brand accent
+                const accentGradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+                accentGradient.addColorStop(0, primaryColorInput.value + '10');
+                accentGradient.addColorStop(1, secondaryColorInput.value + '10');
+                ctx.fillStyle = accentGradient;
                 ctx.fillRect(0, 0, 32, 32);
                 
                 const logoAspect = logo.width / logo.height;
                 let drawWidth, drawHeight;
-                const maxSize = 28; // Leave small padding
+                const maxSize = 28;
                 
                 if (logoAspect > 1) {
                     drawWidth = maxSize;
@@ -453,6 +516,10 @@
                 
                 const x = (32 - drawWidth) / 2;
                 const y = (32 - drawHeight) / 2;
+                
+                // Enable image smoothing for better quality at small size
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'high';
                 
                 ctx.drawImage(logo, x, y, drawWidth, drawHeight);
             } else {
@@ -470,11 +537,11 @@
                 ctx.fillText('C', 16, 16);
             }
             
-            // High compression for small file size
-            return canvas.toDataURL('image/png', 0.3);
+            // Return with moderate compression to stay under 5KB
+            return canvas.toDataURL('image/png', 0.8);
         }
         
-        // Generate square logo (240x240) - Max 50KB with clean design
+        // Generate square logo (240x240) - Max 50KB simple design
         function generateSquareLogo(theme) {
             canvas.width = 240;
             canvas.height = 240;
@@ -483,35 +550,18 @@
             ctx.clearRect(0, 0, 240, 240);
             
             if (logo) {
-                // Clean, simple background for both themes
+                // Simple solid background
                 if (theme === 'light') {
-                    // Light theme: white with subtle brand accent
                     ctx.fillStyle = '#ffffff';
-                    ctx.fillRect(0, 0, 240, 240);
-                    
-                    // Very subtle brand color accent at bottom
-                    const accentGradient = ctx.createLinearGradient(0, 180, 0, 240);
-                    accentGradient.addColorStop(0, 'rgba(255, 255, 255, 0)');
-                    accentGradient.addColorStop(1, adjustColor(primaryColorInput.value, 180));
-                    ctx.fillStyle = accentGradient;
-                    ctx.fillRect(0, 180, 240, 60);
                 } else {
-                    // Dark theme: dark gray with subtle brand accent
                     ctx.fillStyle = '#1a1a1a';
-                    ctx.fillRect(0, 0, 240, 240);
-                    
-                    // Subtle brand color glow in center
-                    const glowGradient = ctx.createRadialGradient(120, 120, 0, 120, 120, 120);
-                    glowGradient.addColorStop(0, adjustColor(primaryColorInput.value, -50) + '20');
-                    glowGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-                    ctx.fillStyle = glowGradient;
-                    ctx.fillRect(0, 0, 240, 240);
                 }
+                ctx.fillRect(0, 0, 240, 240);
                 
-                // Draw logo
+                // Draw logo centered
                 const logoAspect = logo.width / logo.height;
                 let drawWidth, drawHeight;
-                const maxSize = 200; // Increased size to better fill the canvas
+                const maxSize = 200;
                 
                 if (logoAspect > 1) {
                     drawWidth = maxSize;
@@ -526,31 +576,33 @@
                 
                 // Simple shadow for depth
                 if (theme === 'light') {
-                    ctx.shadowColor = 'rgba(0,0,0,0.1)';
-                    ctx.shadowBlur = 8;
-                    ctx.shadowOffsetY = 2;
-                } else {
-                    ctx.shadowColor = 'rgba(0,0,0,0.5)';
+                    ctx.shadowColor = 'rgba(0,0,0,0.15)';
                     ctx.shadowBlur = 10;
                     ctx.shadowOffsetY = 3;
+                } else {
+                    ctx.shadowColor = 'rgba(0,0,0,0.5)';
+                    ctx.shadowBlur = 15;
+                    ctx.shadowOffsetY = 5;
                 }
+                
+                // Ensure high quality rendering
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'high';
                 
                 ctx.drawImage(logo, x, y, drawWidth, drawHeight);
                 ctx.shadowColor = 'transparent';
                 
             } else {
-                // No logo - create simple branded square
+                // No logo - simple gradient square
+                const gradient = ctx.createLinearGradient(0, 0, 240, 240);
                 if (theme === 'light') {
-                    const gradient = ctx.createLinearGradient(0, 0, 240, 240);
-                    gradient.addColorStop(0, adjustColor(primaryColorInput.value, 100));
-                    gradient.addColorStop(1, primaryColorInput.value);
-                    ctx.fillStyle = gradient;
+                    gradient.addColorStop(0, primaryColorInput.value);
+                    gradient.addColorStop(1, secondaryColorInput.value);
                 } else {
-                    const gradient = ctx.createLinearGradient(0, 0, 240, 240);
                     gradient.addColorStop(0, adjustColor(primaryColorInput.value, -60));
-                    gradient.addColorStop(1, adjustColor(primaryColorInput.value, -80));
-                    ctx.fillStyle = gradient;
+                    gradient.addColorStop(1, adjustColor(secondaryColorInput.value, -60));
                 }
+                ctx.fillStyle = gradient;
                 ctx.fillRect(0, 0, 240, 240);
                 
                 // Company initial
@@ -561,8 +613,8 @@
                 ctx.fillText('C', 120, 120);
             }
             
-            // Return with compression optimized for 50KB limit
-            return canvas.toDataURL('image/png', 0.6);
+            // Return with quality optimized for 50KB limit
+            return canvas.toDataURL('image/png', 0.95);
         }
         
         // Generate sign-in background (1920x1080) - Max 300KB with distinct themes
@@ -677,10 +729,17 @@
                 ctx.fillRect(0, 400, 1920, 280);
             }
             
+            // Set high quality rendering for the entire process
+            ctx.save();
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+            
             ctx.globalAlpha = 1;
             
-            // Return as JPEG with good quality
-            return canvas.toDataURL('image/jpeg', 0.9);
+            // Return as JPEG with maximum quality within 300KB limit
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
+            ctx.restore();
+            return dataUrl;
         }
         
         function adjustColor(hex, amount) {
@@ -946,36 +1005,36 @@ Write-Host "Done!" -ForegroundColor Green`;
                 previewArea.innerHTML = `
                     <div class="space-y-4">
                         <div>
-                            <p class="text-sm text-gray-600 mb-2 font-semibold">Logo Assets</p>
+                            <p class="text-sm text-gray-300 mb-2 font-semibold">Logo Assets</p>
                             <div class="space-y-3">
                                 <div>
-                                    <p class="text-xs text-gray-500 mb-1">Banner Logo (280×60) - Email footers & some headers</p>
-                                    <div class="rounded overflow-hidden shadow border inline-block">
+                                    <p class="text-xs text-gray-400 mb-1">Banner Logo (280×60) - Email footers & some headers</p>
+                                    <div class="rounded overflow-hidden shadow border border-gray-600 inline-block">
                                         <img src="${generatedAssets.bannerLogo}" width="280" height="60">
                                     </div>
                                 </div>
                                 <div>
-                                    <p class="text-xs text-gray-500 mb-1">Header Logo (245×36) - App navigation headers</p>
-                                    <div class="rounded overflow-hidden shadow border inline-block">
+                                    <p class="text-xs text-gray-400 mb-1">Header Logo (245×36) - App navigation headers</p>
+                                    <div class="rounded overflow-hidden shadow border border-gray-600 inline-block">
                                         <img src="${generatedAssets.headerLogo}" width="245" height="36">
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-3 gap-3">
                                     <div>
-                                        <p class="text-xs text-gray-500 mb-1">Square Logo Light</p>
-                                        <div class="rounded overflow-hidden shadow border bg-gray-50 p-2">
+                                        <p class="text-xs text-gray-400 mb-1">Square Logo Light</p>
+                                        <div class="rounded overflow-hidden shadow border border-gray-600 bg-gray-50 p-2">
                                             <img src="${generatedAssets.squareLogoLight}" width="120" height="120">
                                         </div>
                                     </div>
                                     <div>
-                                        <p class="text-xs text-gray-500 mb-1">Square Logo Dark</p>
-                                        <div class="rounded overflow-hidden shadow border bg-gray-800 p-2">
+                                        <p class="text-xs text-gray-400 mb-1">Square Logo Dark</p>
+                                        <div class="rounded overflow-hidden shadow border border-gray-600 bg-gray-900 p-2">
                                             <img src="${generatedAssets.squareLogoDark}" width="120" height="120">
                                         </div>
                                     </div>
                                     <div>
-                                        <p class="text-xs text-gray-500 mb-1">Favicon (32×32)</p>
-                                        <div class="rounded overflow-hidden shadow border bg-white flex items-center justify-center" style="height: 124px;">
+                                        <p class="text-xs text-gray-400 mb-1">Favicon (32×32)</p>
+                                        <div class="rounded overflow-hidden shadow border border-gray-600 bg-white flex items-center justify-center" style="height: 124px;">
                                             <img src="${generatedAssets.favicon}" width="32" height="32">
                                         </div>
                                     </div>
@@ -983,13 +1042,13 @@ Write-Host "Done!" -ForegroundColor Green`;
                             </div>
                         </div>
                         <div>
-                            <p class="text-sm text-gray-600 mb-2 font-semibold">Sign-in Page Preview</p>
+                            <p class="text-sm text-gray-300 mb-2 font-semibold">Sign-in Page Preview</p>
                             <div class="relative rounded-lg overflow-hidden shadow-lg">
                                 <img src="${bgImage}" class="w-full" style="height: 300px; object-fit: cover;">
                                 <div class="absolute inset-0 flex items-center justify-center">
                                     <div class="bg-white bg-opacity-95 p-6 rounded-lg shadow-xl" style="width: 320px;">
                                         <img src="${darkMode ? generatedAssets.squareLogoDark : generatedAssets.squareLogoLight}" class="h-14 mb-3 mx-auto">
-                                        <h2 class="text-lg font-semibold text-center mb-4">Sign in</h2>
+                                        <h2 class="text-lg font-semibold text-center mb-4 text-gray-900">Sign in</h2>
                                         <input type="text" placeholder="Email" class="w-full px-3 py-2 border rounded mb-3 text-sm">
                                         <button style="background-color: ${primaryColorInput.value}" class="w-full px-3 py-2 text-white rounded text-sm">Next</button>
                                     </div>
