@@ -31,15 +31,15 @@
             <div class="max-w-7xl mx-auto px-8 py-6">
                 <h1 class="text-3xl font-bold text-gray-100 mb-3">Microsoft Entra ID Branding Configurator</h1>
                 <div class="text-gray-300 space-y-2">
-                    <p class="text-lg">🎨 <strong>Generate Microsoft 365 branding assets</strong> that meet all official size and dimension requirements</p>
+                    <p class="text-lg">🎨 <strong>Enterprise-grade branding asset generator</strong> for Microsoft 365 tenant customization</p>
                     <div class="grid grid-cols-2 gap-4 mt-4 text-sm">
                         <div class="flex items-start">
                             <span class="text-green-400 mr-2">✓</span>
-                            <span>Creates optimized images following <a href="https://learn.microsoft.com/en-us/entra/fundamentals/how-to-customize-branding" target="_blank" class="text-blue-400 underline hover:text-blue-300">Microsoft's specifications</a></span>
+                            <span>Compliant with <a href="https://learn.microsoft.com/en-us/entra/fundamentals/how-to-customize-branding" target="_blank" class="text-blue-400 underline hover:text-blue-300">Microsoft Graph API specifications</a></span>
                         </div>
                         <div class="flex items-start">
                             <span class="text-green-400 mr-2">✓</span>
-                            <span>Includes ready-to-run PowerShell script for easy deployment</span>
+                            <span>Automated deployment via Microsoft.Graph PowerShell SDK</span>
                         </div>
                     </div>
                     
@@ -49,46 +49,63 @@
                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
                             </svg>
-                            100% Secure & Private
+                            Zero-Trust Architecture
                         </h4>
                         <ul class="text-sm text-gray-300 space-y-1 ml-7">
-                            <li>• No company data is collected or transmitted</li>
-                            <li>• All processing happens locally in your browser</li>
-                            <li>• The PowerShell script connects directly to Microsoft Graph</li>
-                            <li>• Your logo and branding choices never leave your device</li>
+                            <li>• Client-side Canvas API processing only</li>
+                            <li>• No external API calls or data transmission</li>
+                            <li>• Direct tenant connection via Microsoft Graph PowerShell</li>
+                            <li>• Requires Organization.ReadWrite.All scope for deployment</li>
                         </ul>
+                    </div>
+                    
+                    <!-- Demo Tenant Warning -->
+                    <div class="mt-4 p-4 bg-yellow-900/20 border border-yellow-700/50 rounded-lg">
+                        <h4 class="font-semibold text-yellow-400 mb-2 flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                            </svg>
+                            Production Deployment Notice
+                        </h4>
+                        <p class="text-sm text-gray-300 ml-7">
+                            <strong>Recommendation:</strong> Test all branding assets in a Microsoft 365 Developer Program tenant before deploying to production. Changes can take up to 24 hours to propagate and affect all users globally.
+                        </p>
                     </div>
                     
                     <!-- Technical Details -->
                     <details class="mt-4 bg-gray-800 border border-gray-700 rounded-lg p-4">
-                        <summary class="cursor-pointer font-semibold text-gray-200 hover:text-gray-100">📋 Technical Details (click to expand)</summary>
+                        <summary class="cursor-pointer font-semibold text-gray-200 hover:text-gray-100">📋 Technical Implementation Details</summary>
                         <div class="mt-3 space-y-3 text-sm text-gray-300">
                             <div>
-                                <strong>How it works:</strong>
+                                <strong>Asset Generation Pipeline:</strong>
                                 <ul class="ml-6 mt-1 list-disc space-y-1">
-                                    <li>Generates all required branding assets using HTML5 Canvas API</li>
-                                    <li>Optimizes file sizes to meet Microsoft's strict limits (PNG: 50KB, JPEG: 300KB)</li>
-                                    <li>Creates separate light and dark theme variants</li>
-                                    <li>Packages everything with a PowerShell deployment script</li>
+                                    <li>HTML5 Canvas 2D Context with high-quality image smoothing enabled</li>
+                                    <li>Dynamic compression algorithms optimized for each file type</li>
+                                    <li>Banner logo: No compression (1.0) to maximize quality within 50KB</li>
+                                    <li>Header logo: Moderate compression (0.7) for 10KB limit</li>
+                                    <li>Square logos: No compression (1.0) to maximize quality within 50KB</li>
+                                    <li>Favicon: High quality (0.9) within 5KB limit</li>
+                                    <li>JPEG background: Maximum quality (0.98) within 300KB limit</li>
                                 </ul>
                             </div>
                             <div>
-                                <strong>Generated Assets:</strong>
-                                <ul class="ml-6 mt-1 list-disc space-y-1">
-                                    <li><strong>Banner Logo (280×60px):</strong> Used in email footers and some app headers</li>
-                                    <li><strong>Header Logo (245×36px):</strong> Displayed in app headers and navigation</li>
-                                    <li><strong>Square Logos (240×240px):</strong> Light/dark variants for app tiles</li>
-                                    <li><strong>Favicon (32×32px):</strong> Browser tab icon</li>
-                                    <li><strong>Backgrounds (1920×1080px):</strong> Sign-in page backgrounds for both themes</li>
+                                <strong>Microsoft Graph API Endpoints:</strong>
+                                <ul class="ml-6 mt-1 list-disc space-y-1 font-mono text-xs">
+                                    <li>Set-MgOrganizationBrandingLocalizationBannerLogo</li>
+                                    <li>Set-MgOrganizationBrandingLocalizationHeaderLogo</li>
+                                    <li>Set-MgOrganizationBrandingLocalizationSquareLogo</li>
+                                    <li>Set-MgOrganizationBrandingLocalizationFavicon</li>
+                                    <li>Set-MgOrganizationBrandingLocalizationBackgroundImage</li>
                                 </ul>
                             </div>
                             <div>
-                                <strong>PowerShell Script Features:</strong>
+                                <strong>Localization Strategy:</strong>
                                 <ul class="ml-6 mt-1 list-disc space-y-1">
-                                    <li>Uses Microsoft Graph PowerShell SDK</li>
-                                    <li>Validates file sizes before upload</li>
-                                    <li>Configures both default (light) and en-US (dark) localizations</li>
-                                    <li>Handles errors gracefully with retry guidance</li>
+                                    <li>Default localization (id: "0") for light theme assets</li>
+                                    <li>en-US localization for dark theme configuration</li>
+                                    <li>Only square logo has a dark-specific variant</li>
+                                    <li>All other assets (banner, header, favicon, background) shared between themes</li>
+                                    <li>Background color property synchronized across localizations</li>
                                 </ul>
                             </div>
                         </div>
@@ -152,13 +169,13 @@
                     
                     <!-- Info Box -->
                     <div class="mt-6 p-4 bg-blue-900/30 border border-blue-700/50 rounded-lg">
-                        <h3 class="font-semibold text-sm text-blue-300 mb-2">Image Requirements (Microsoft Specs):</h3>
+                        <h3 class="font-semibold text-sm text-blue-300 mb-2">Image Specifications (Microsoft Graph API):</h3>
                         <ul class="text-xs text-blue-200 space-y-1">
-                            <li>• <strong>Sign-in background:</strong> 1920×1080px, JPEG, max 300KB</li>
-                            <li>• <strong>Banner logo:</strong> 280×60px, PNG, max 50KB</li>
-                            <li>• <strong>Header logo:</strong> 245×36px, PNG, max 10KB</li>
-                            <li>• <strong>Square logos:</strong> 240×240px, PNG, max 50KB</li>
-                            <li>• <strong>Favicon:</strong> 32×32px, PNG, max 5KB</li>
+                            <li>• <strong>Sign-in background:</strong> 1920×1080px, JPEG, max 300KB (shared asset)</li>
+                            <li>• <strong>Banner logo:</strong> 280×60px, PNG, max 50KB (shared asset)</li>
+                            <li>• <strong>Header logo:</strong> 245×36px, PNG, max 10KB (shared asset)</li>
+                            <li>• <strong>Square logos:</strong> 240×240px, PNG, max 50KB (light/dark variants)</li>
+                            <li>• <strong>Favicon:</strong> 32×32px, PNG, max 5KB (shared asset)</li>
                         </ul>
                     </div>
                 </div>
@@ -188,7 +205,7 @@
                     
                     <div class="grid grid-cols-3 gap-4 mb-8 max-w-3xl mx-auto">
                         <div class="bg-green-900/30 border border-green-700/50 p-4 rounded-lg">
-                            <h3 class="font-semibold text-green-400">7 Images</h3>
+                            <h3 class="font-semibold text-green-400">6 Images</h3>
                             <p class="text-sm text-green-300">All branding assets</p>
                         </div>
                         <div class="bg-blue-900/30 border border-blue-700/50 p-4 rounded-lg">
@@ -319,45 +336,75 @@
             canvas.width = 280;
             canvas.height = 60;
             
+            // Use maximum quality settings
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+            
             ctx.clearRect(0, 0, 280, 60);
             
-            // Dynamic gradient background
+            // Dynamic gradient background with high quality
             const gradient = ctx.createLinearGradient(0, 0, 280, 0);
             gradient.addColorStop(0, adjustColor(primaryColorInput.value, 20));
-            gradient.addColorStop(0.3, primaryColorInput.value);
-            gradient.addColorStop(0.7, secondaryColorInput.value);
+            gradient.addColorStop(0.25, adjustColor(primaryColorInput.value, 10));
+            gradient.addColorStop(0.5, primaryColorInput.value);
+            gradient.addColorStop(0.75, secondaryColorInput.value);
             gradient.addColorStop(1, adjustColor(secondaryColorInput.value, -20));
             
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, 280, 60);
             
-            // Sophisticated overlay pattern
+            // Multiple sophisticated overlay patterns for quality
+            ctx.globalAlpha = 0.2;
+            
+            // Gradient mesh overlay
+            for (let i = 0; i < 5; i++) {
+                const x = (280 / 5) * i + 28;
+                const meshGradient = ctx.createRadialGradient(x, 30, 0, x, 30, 40);
+                meshGradient.addColorStop(0, i % 2 === 0 ? '#ffffff' : primaryColorInput.value);
+                meshGradient.addColorStop(1, 'transparent');
+                ctx.fillStyle = meshGradient;
+                ctx.fillRect(0, 0, 280, 60);
+            }
+            
             ctx.globalAlpha = 0.15;
             
-            // Wave pattern
+            // Wave pattern with more detail
             ctx.beginPath();
             ctx.moveTo(0, 30);
-            for (let i = 0; i <= 280; i += 5) {
-                ctx.lineTo(i, 30 + Math.sin(i * 0.02) * 20);
+            for (let i = 0; i <= 280; i += 2) {
+                ctx.lineTo(i, 30 + Math.sin(i * 0.02) * 20 + Math.cos(i * 0.01) * 10);
             }
             ctx.lineTo(280, 60);
             ctx.lineTo(0, 60);
             ctx.closePath();
             const waveGradient = ctx.createLinearGradient(0, 0, 0, 60);
-            waveGradient.addColorStop(0, 'rgba(255, 255, 255, 0.3)');
-            waveGradient.addColorStop(1, 'rgba(0, 0, 0, 0.1)');
+            waveGradient.addColorStop(0, 'rgba(255, 255, 255, 0.4)');
+            waveGradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.1)');
+            waveGradient.addColorStop(1, 'rgba(0, 0, 0, 0.2)');
             ctx.fillStyle = waveGradient;
             ctx.fill();
             
-            // Geometric accents
+            // High-detail geometric accents
             ctx.globalAlpha = 0.1;
             ctx.strokeStyle = '#ffffff';
             ctx.lineWidth = 1;
-            for (let i = 0; i < 280; i += 40) {
+            
+            // Diagonal lines
+            for (let i = -60; i < 340; i += 20) {
                 ctx.beginPath();
                 ctx.moveTo(i, 0);
-                ctx.lineTo(i + 20, 60);
+                ctx.lineTo(i + 60, 60);
                 ctx.stroke();
+            }
+            
+            // Dots pattern for texture
+            for (let x = 10; x < 280; x += 15) {
+                for (let y = 10; y < 60; y += 15) {
+                    ctx.beginPath();
+                    ctx.arc(x, y, 1, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+                    ctx.fill();
+                }
             }
             
             ctx.globalAlpha = 1;
@@ -380,12 +427,15 @@
                 const x = (280 - drawWidth) / 2;
                 const y = (60 - drawHeight) / 2;
                 
-                // Ensure high quality rendering
-                ctx.imageSmoothingEnabled = true;
-                ctx.imageSmoothingQuality = 'high';
+                // High quality shadow
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+                ctx.shadowBlur = 5;
+                ctx.shadowOffsetX = 2;
+                ctx.shadowOffsetY = 2;
                 
-                // Draw logo with transparency preserved
+                // Draw logo with maximum quality
                 ctx.drawImage(logo, x, y, drawWidth, drawHeight);
+                ctx.shadowColor = 'transparent';
             } else {
                 // Fallback: show initial
                 ctx.fillStyle = '#ffffff';
@@ -397,8 +447,8 @@
                 ctx.fillText('C', 140, 30);
             }
             
-            // Return with quality optimized for 50KB
-            return canvas.toDataURL('image/png', 0.92);
+            // Return with NO compression to maximize quality within 50KB
+            return canvas.toDataURL('image/png', 1.0);
         }
         
         // Generate header logo (245x36) - Max 10KB with creative design
@@ -406,25 +456,37 @@
             canvas.width = 245;
             canvas.height = 36;
             
+            // Use maximum quality settings
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+            
             // Clear with transparency
             ctx.clearRect(0, 0, 245, 36);
             
             if (logo) {
-                // Creative gradient background strip
+                // Creative gradient background strip with more detail
                 const bgGradient = ctx.createLinearGradient(0, 0, 245, 0);
-                bgGradient.addColorStop(0, primaryColorInput.value + '15');
-                bgGradient.addColorStop(0.5, secondaryColorInput.value + '10');
-                bgGradient.addColorStop(1, primaryColorInput.value + '15');
+                bgGradient.addColorStop(0, primaryColorInput.value + '20');
+                bgGradient.addColorStop(0.3, secondaryColorInput.value + '15');
+                bgGradient.addColorStop(0.7, primaryColorInput.value + '15');
+                bgGradient.addColorStop(1, secondaryColorInput.value + '20');
                 ctx.fillStyle = bgGradient;
                 ctx.fillRect(0, 0, 245, 36);
                 
-                // Accent line at bottom
+                // Multiple accent lines for quality
                 const accentGradient = ctx.createLinearGradient(0, 0, 245, 0);
                 accentGradient.addColorStop(0, primaryColorInput.value);
+                accentGradient.addColorStop(0.25, adjustColor(primaryColorInput.value, 20));
                 accentGradient.addColorStop(0.5, secondaryColorInput.value);
+                accentGradient.addColorStop(0.75, adjustColor(secondaryColorInput.value, 20));
                 accentGradient.addColorStop(1, primaryColorInput.value);
                 ctx.fillStyle = accentGradient;
                 ctx.fillRect(0, 34, 245, 2);
+                
+                // Additional top accent
+                ctx.globalAlpha = 0.5;
+                ctx.fillRect(0, 0, 245, 1);
+                ctx.globalAlpha = 1;
                 
                 // Logo positioning - left side
                 const logoAspect = logo.width / logo.height;
@@ -443,32 +505,44 @@
                 const x = 8;
                 const y = (36 - drawHeight) / 2;
                 
-                // Subtle white backing for logo visibility
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-                ctx.fillRect(x - 2, y - 2, drawWidth + 4, drawHeight + 4);
+                // Enhanced white backing for logo visibility
+                const backingGradient = ctx.createRadialGradient(x + drawWidth/2, y + drawHeight/2, 0, x + drawWidth/2, y + drawHeight/2, drawWidth/2);
+                backingGradient.addColorStop(0, 'rgba(255, 255, 255, 0.9)');
+                backingGradient.addColorStop(1, 'rgba(255, 255, 255, 0.7)');
+                ctx.fillStyle = backingGradient;
+                ctx.fillRect(x - 3, y - 3, drawWidth + 6, drawHeight + 6);
                 
-                // Ensure high quality rendering
-                ctx.imageSmoothingEnabled = true;
-                ctx.imageSmoothingQuality = 'high';
+                // High quality shadow
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+                ctx.shadowBlur = 3;
+                ctx.shadowOffsetX = 1;
+                ctx.shadowOffsetY = 1;
                 
                 ctx.drawImage(logo, x, y, drawWidth, drawHeight);
+                ctx.shadowColor = 'transparent';
                 
-                // Creative geometric element on right
+                // Enhanced geometric elements on right
                 ctx.globalAlpha = 0.3;
-                ctx.fillStyle = secondaryColorInput.value;
-                ctx.beginPath();
-                ctx.moveTo(245, 0);
-                ctx.lineTo(200, 0);
-                ctx.lineTo(245, 36);
-                ctx.closePath();
-                ctx.fill();
+                
+                // Multiple triangles for depth
+                for (let i = 0; i < 3; i++) {
+                    ctx.fillStyle = i % 2 === 0 ? secondaryColorInput.value : primaryColorInput.value;
+                    ctx.beginPath();
+                    ctx.moveTo(245 - (i * 15), 0);
+                    ctx.lineTo(200 - (i * 15), 0);
+                    ctx.lineTo(245 - (i * 15), 36);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.globalAlpha *= 0.7;
+                }
                 ctx.globalAlpha = 1;
                 
             } else {
-                // Fallback design
+                // Fallback design with enhanced gradient
                 const gradient = ctx.createLinearGradient(0, 0, 245, 0);
                 gradient.addColorStop(0, primaryColorInput.value);
-                gradient.addColorStop(1, secondaryColorInput.value);
+                gradient.addColorStop(0.5, secondaryColorInput.value);
+                gradient.addColorStop(1, primaryColorInput.value);
                 ctx.fillStyle = gradient;
                 ctx.fillRect(0, 0, 245, 36);
                 
@@ -479,14 +553,18 @@
                 ctx.fillText('Your Company', 10, 18);
             }
             
-            // Return with balanced compression for 10KB limit
-            return canvas.toDataURL('image/png', 0.65);
+            // Return with optimized compression for 10KB limit
+            return canvas.toDataURL('image/png', 0.7);
         }
         
         // Generate favicon (32x32) - Max 5KB
         function generateFavicon() {
             canvas.width = 32;
             canvas.height = 32;
+            
+            // Maximum quality for small image
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
             
             ctx.clearRect(0, 0, 32, 32);
             
@@ -495,16 +573,22 @@
                 ctx.fillStyle = '#ffffff';
                 ctx.fillRect(0, 0, 32, 32);
                 
-                // Add subtle brand accent
-                const accentGradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
-                accentGradient.addColorStop(0, primaryColorInput.value + '10');
-                accentGradient.addColorStop(1, secondaryColorInput.value + '10');
+                // Enhanced brand accent with gradient
+                const accentGradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 22);
+                accentGradient.addColorStop(0, primaryColorInput.value + '30');
+                accentGradient.addColorStop(0.5, secondaryColorInput.value + '20');
+                accentGradient.addColorStop(1, primaryColorInput.value + '10');
                 ctx.fillStyle = accentGradient;
                 ctx.fillRect(0, 0, 32, 32);
                 
+                // Add subtle border for definition
+                ctx.strokeStyle = primaryColorInput.value + '40';
+                ctx.lineWidth = 1;
+                ctx.strokeRect(0.5, 0.5, 31, 31);
+                
                 const logoAspect = logo.width / logo.height;
                 let drawWidth, drawHeight;
-                const maxSize = 28;
+                const maxSize = 26; // Slightly smaller for padding
                 
                 if (logoAspect > 1) {
                     drawWidth = maxSize;
@@ -517,34 +601,50 @@
                 const x = (32 - drawWidth) / 2;
                 const y = (32 - drawHeight) / 2;
                 
-                // Enable image smoothing for better quality at small size
-                ctx.imageSmoothingEnabled = true;
-                ctx.imageSmoothingQuality = 'high';
+                // Subtle shadow for depth
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+                ctx.shadowBlur = 2;
+                ctx.shadowOffsetX = 1;
+                ctx.shadowOffsetY = 1;
                 
                 ctx.drawImage(logo, x, y, drawWidth, drawHeight);
+                ctx.shadowColor = 'transparent';
             } else {
-                // Gradient background with initial
+                // Enhanced gradient background with initial
                 const gradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
-                gradient.addColorStop(0, primaryColorInput.value);
+                gradient.addColorStop(0, adjustColor(primaryColorInput.value, 20));
+                gradient.addColorStop(0.5, primaryColorInput.value);
                 gradient.addColorStop(1, secondaryColorInput.value);
                 ctx.fillStyle = gradient;
                 ctx.fillRect(0, 0, 32, 32);
+                
+                // Add inner border
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+                ctx.lineWidth = 1;
+                ctx.strokeRect(1.5, 1.5, 29, 29);
                 
                 ctx.fillStyle = '#ffffff';
                 ctx.font = 'bold 20px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+                ctx.shadowBlur = 2;
                 ctx.fillText('C', 16, 16);
+                ctx.shadowColor = 'transparent';
             }
             
-            // Return with moderate compression to stay under 5KB
-            return canvas.toDataURL('image/png', 0.8);
+            // Return with high quality to maximize within 5KB
+            return canvas.toDataURL('image/png', 0.9);
         }
         
         // Generate square logo (240x240) - Max 50KB simple design
         function generateSquareLogo(theme) {
             canvas.width = 240;
             canvas.height = 240;
+            
+            // Maximum quality settings
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
             
             // Clear with transparency
             ctx.clearRect(0, 0, 240, 240);
@@ -574,20 +674,18 @@
                 const x = (240 - drawWidth) / 2;
                 const y = (240 - drawHeight) / 2;
                 
-                // Simple shadow for depth
+                // Enhanced shadow for depth
                 if (theme === 'light') {
                     ctx.shadowColor = 'rgba(0,0,0,0.15)';
-                    ctx.shadowBlur = 10;
+                    ctx.shadowBlur = 12;
+                    ctx.shadowOffsetX = 2;
                     ctx.shadowOffsetY = 3;
                 } else {
-                    ctx.shadowColor = 'rgba(0,0,0,0.5)';
-                    ctx.shadowBlur = 15;
+                    ctx.shadowColor = 'rgba(0,0,0,0.6)';
+                    ctx.shadowBlur = 16;
+                    ctx.shadowOffsetX = 3;
                     ctx.shadowOffsetY = 5;
                 }
-                
-                // Ensure high quality rendering
-                ctx.imageSmoothingEnabled = true;
-                ctx.imageSmoothingQuality = 'high';
                 
                 ctx.drawImage(logo, x, y, drawWidth, drawHeight);
                 ctx.shadowColor = 'transparent';
@@ -610,17 +708,24 @@
                 ctx.font = 'bold 96px -apple-system, BlinkMacSystemFont, "Segoe UI", Arial';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
+                ctx.shadowColor = 'rgba(0,0,0,0.3)';
+                ctx.shadowBlur = 4;
                 ctx.fillText('C', 120, 120);
+                ctx.shadowColor = 'transparent';
             }
             
-            // Return with quality optimized for 50KB limit
-            return canvas.toDataURL('image/png', 0.95);
+            // Return with maximum quality for 50KB limit
+            return canvas.toDataURL('image/png', 1.0);
         }
         
         // Generate sign-in background (1920x1080) - Max 300KB with distinct themes
         function generateSignInBackground(theme) {
             canvas.width = 1920;
             canvas.height = 1080;
+            
+            // Maximum quality settings
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
             
             ctx.clearRect(0, 0, 1920, 1080);
             
@@ -729,17 +834,10 @@
                 ctx.fillRect(0, 400, 1920, 280);
             }
             
-            // Set high quality rendering for the entire process
-            ctx.save();
-            ctx.imageSmoothingEnabled = true;
-            ctx.imageSmoothingQuality = 'high';
-            
             ctx.globalAlpha = 1;
             
             // Return as JPEG with maximum quality within 300KB limit
-            const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
-            ctx.restore();
-            return dataUrl;
+            return canvas.toDataURL('image/jpeg', 0.98);
         }
         
         function adjustColor(hex, amount) {
@@ -763,7 +861,6 @@
                     squareLogoLight: generateSquareLogo('light'),
                     squareLogoDark: generateSquareLogo('dark'),
                     signInBgLight: generateSignInBackground('light'),
-                    signInBgDark: generateSignInBackground('dark'),
                     script: generatePowerShellScript()
                 };
                 
@@ -791,8 +888,7 @@ $requiredFiles = @(
     "Favicon.png",
     "SquareLogoLight.png",
     "SquareLogoDark.png",
-    "BackgroundLight.jpg",
-    "BackgroundDark.jpg"
+    "BackgroundLight.jpg"
 )
 
 $scriptPath = $PSScriptRoot
@@ -928,32 +1024,33 @@ try {
             New-MgOrganizationBrandingLocalization -OrganizationId $org.Id -BodyParameter $darkParams
             Start-Sleep -Seconds 5
             
-            # Upload all dark theme images
-            # Banner Logo for dark theme (same as light)
+            # Upload dark theme specific assets
+            # Only the square logo has a dark variant - all other assets are shared
+            
+            # Banner Logo (same as light theme)
             Set-MgOrganizationBrandingLocalizationBannerLogo -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -InFile $bannerPath
-            Write-Host "  Dark theme banner logo uploaded" -ForegroundColor Green
+            Write-Host "  Dark theme banner logo uploaded (shared asset)" -ForegroundColor Green
             Start-Sleep -Seconds 2
             
-            # Header Logo for dark theme (same as light)
+            # Header Logo (same as light theme)
             Set-MgOrganizationBrandingLocalizationHeaderLogo -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -InFile $headerPath
-            Write-Host "  Dark theme header logo uploaded" -ForegroundColor Green
+            Write-Host "  Dark theme header logo uploaded (shared asset)" -ForegroundColor Green
             Start-Sleep -Seconds 2
             
-            # Favicon for dark theme (same as light)
+            # Favicon (same as light theme)
             Set-MgOrganizationBrandingLocalizationFavicon -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -InFile $faviconPath
-            Write-Host "  Dark theme favicon uploaded" -ForegroundColor Green
+            Write-Host "  Dark theme favicon uploaded (shared asset)" -ForegroundColor Green
             Start-Sleep -Seconds 2
             
-            # Square Logo Dark
+            # Square Logo Dark (ONLY dark-specific asset)
             $squareDarkPath = Join-Path $scriptPath "SquareLogoDark.png"
             Set-MgOrganizationBrandingLocalizationSquareLogo -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -InFile $squareDarkPath
-            Write-Host "  Dark theme square logo uploaded" -ForegroundColor Green
+            Write-Host "  Dark theme square logo uploaded (dark variant)" -ForegroundColor Green
             Start-Sleep -Seconds 2
             
-            # Dark Background
-            $bgDarkPath = Join-Path $scriptPath "BackgroundDark.jpg"
-            Set-MgOrganizationBrandingLocalizationBackgroundImage -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -InFile $bgDarkPath
-            Write-Host "  Dark theme background uploaded" -ForegroundColor Green
+            # Background (same as light theme - both use light background)
+            Set-MgOrganizationBrandingLocalizationBackgroundImage -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -InFile $bgPath
+            Write-Host "  Dark theme background uploaded (shared asset)" -ForegroundColor Green
         } catch {
             Write-Host "Note: Dark theme configuration may not be available" -ForegroundColor Yellow
         }
@@ -961,27 +1058,26 @@ try {
         # Update existing dark theme branding
         Update-MgOrganizationBrandingLocalization -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -BackgroundColor "${primaryColorInput.value}"
         
-        # Upload all dark theme images
+        # Upload all assets (only square logo is different)
         Set-MgOrganizationBrandingLocalizationBannerLogo -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -InFile $bannerPath
-        Write-Host "  Dark theme banner logo uploaded" -ForegroundColor Green
+        Write-Host "  Dark theme banner logo uploaded (shared asset)" -ForegroundColor Green
         Start-Sleep -Seconds 2
         
         Set-MgOrganizationBrandingLocalizationHeaderLogo -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -InFile $headerPath
-        Write-Host "  Dark theme header logo uploaded" -ForegroundColor Green
+        Write-Host "  Dark theme header logo uploaded (shared asset)" -ForegroundColor Green
         Start-Sleep -Seconds 2
         
         Set-MgOrganizationBrandingLocalizationFavicon -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -InFile $faviconPath
-        Write-Host "  Dark theme favicon uploaded" -ForegroundColor Green
+        Write-Host "  Dark theme favicon uploaded (shared asset)" -ForegroundColor Green
         Start-Sleep -Seconds 2
         
         $squareDarkPath = Join-Path $scriptPath "SquareLogoDark.png"
         Set-MgOrganizationBrandingLocalizationSquareLogo -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -InFile $squareDarkPath
-        Write-Host "  Dark theme square logo uploaded" -ForegroundColor Green
+        Write-Host "  Dark theme square logo uploaded (dark variant)" -ForegroundColor Green
         Start-Sleep -Seconds 2
         
-        $bgDarkPath = Join-Path $scriptPath "BackgroundDark.jpg"
-        Set-MgOrganizationBrandingLocalizationBackgroundImage -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -InFile $bgDarkPath
-        Write-Host "  Dark theme background uploaded" -ForegroundColor Green
+        Set-MgOrganizationBrandingLocalizationBackgroundImage -OrganizationId $org.Id -OrganizationalBrandingLocalizationId "en-US" -InFile $bgPath
+        Write-Host "  Dark theme background uploaded (shared asset)" -ForegroundColor Green
     }
     
     Write-Host ""
@@ -1000,7 +1096,7 @@ Write-Host "Done!" -ForegroundColor Green`;
         
         function updatePreview() {
             if (generatedAssets.signInBgLight) {
-                const bgImage = darkMode ? generatedAssets.signInBgDark : generatedAssets.signInBgLight;
+                const bgImage = generatedAssets.signInBgLight;
                 
                 previewArea.innerHTML = `
                     <div class="space-y-4">
@@ -1042,7 +1138,7 @@ Write-Host "Done!" -ForegroundColor Green`;
                             </div>
                         </div>
                         <div>
-                            <p class="text-sm text-gray-300 mb-2 font-semibold">Sign-in Page Preview</p>
+                            <p class="text-sm text-gray-300 mb-2 font-semibold">Sign-in Page Preview (${darkMode ? 'Dark' : 'Light'} Theme)</p>
                             <div class="relative rounded-lg overflow-hidden shadow-lg">
                                 <img src="${bgImage}" class="w-full" style="height: 300px; object-fit: cover;">
                                 <div class="absolute inset-0 flex items-center justify-center">
@@ -1088,7 +1184,6 @@ Write-Host "Done!" -ForegroundColor Green`;
             zip.file('SquareLogoLight.png', dataURLtoBlob(generatedAssets.squareLogoLight));
             zip.file('SquareLogoDark.png', dataURLtoBlob(generatedAssets.squareLogoDark));
             zip.file('BackgroundLight.jpg', dataURLtoBlob(generatedAssets.signInBgLight));
-            zip.file('BackgroundDark.jpg', dataURLtoBlob(generatedAssets.signInBgDark));
             
             // Add script only (no readme)
             zip.file('Deploy-M365Branding.ps1', generatedAssets.script);
