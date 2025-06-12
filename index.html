@@ -1,12 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- 
+    Microsoft Entra ID Branding Configurator
+    Free tool for Microsoft 365 administrators
+    
+    For search engines:
+    - This tool helps M365 admins customize their tenant branding
+    - Generates compliant assets for Azure AD / Entra ID
+    - Includes PowerShell deployment script using Microsoft Graph
+    - No data collection, fully client-side processing
+    
+    Keywords: Microsoft 365 branding, Entra ID customization, Azure AD branding,
+    Office 365 tenant customization, Microsoft Graph PowerShell, M365 admin tools
+-->
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Microsoft Entra ID Branding Configurator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="theme-color" content="#1f2937">
+    
+    <!-- SEO Meta Tags -->
+    <title>Microsoft Entra ID Branding Tool - Free M365 Tenant Customization Generator</title>
+    <meta name="description" content="Free enterprise tool for Microsoft 365 administrators to generate Entra ID (Azure AD) branding assets. Create banner logos, sign-in backgrounds, and deploy with PowerShell. Compliant with Microsoft Graph API specifications.">
+    <meta name="keywords" content="Microsoft 365 branding, Entra ID customization, Azure AD branding, M365 tenant branding, Microsoft Graph PowerShell, organizational branding, sign-in page customization, Office 365 branding, tenant customization tool, Microsoft 365 admin tools">
+    <meta name="author" content="@junior6995">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="geo.region" content="US">
+    <meta name="geo.placename" content="United States">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Microsoft Entra ID Branding Configurator - Free M365 Admin Tool">
+    <meta property="og:description" content="Generate compliant branding assets for your Microsoft 365 tenant. Includes PowerShell deployment script using Microsoft Graph API.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://raw.githubusercontent.com/junior6995/entra-branding-tool/main/preview.png">
+    <meta property="og:image:alt" content="Microsoft Entra ID Branding Tool interface showing logo upload and color selection">
+    <meta property="og:site_name" content="Entra ID Branding Tool">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Microsoft Entra ID Branding Tool | M365 Customization">
+    <meta name="twitter:description" content="Free tool for Microsoft 365 admins to generate Entra ID branding assets with PowerShell deployment.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/junior6995/entra-branding-tool/main/preview.png">
+    <meta name="twitter:image:alt" content="Entra ID branding tool interface">
+    <meta name="twitter:creator" content="@junior6995">
+    <meta name="twitter:site" content="@junior6995">
+    
+    <!-- Additional SEO -->
+    <link rel="canonical" href="https://junior6995.github.io/entra-branding-tool/">
+    <!-- For international Microsoft 365 admins, tool works globally -->
+    <!-- <link rel="alternate" hreflang="x-default" href="https://junior6995.github.io/entra-branding-tool/"> -->
+    
+    <!-- Favicon and App Icons -->
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    
+    <!-- DNS Prefetch for performance -->
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Microsoft Entra ID Branding Configurator",
+        "description": "Enterprise tool for Microsoft 365 administrators to generate and deploy Entra ID branding assets using Microsoft Graph PowerShell SDK",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "creator": {
+            "@type": "Person",
+            "name": "@junior6995",
+            "url": "https://github.com/junior6995"
+        },
+        "keywords": "Microsoft 365, Entra ID, Azure AD, tenant branding, PowerShell, Microsoft Graph",
+        "softwareRequirements": "Microsoft 365 Global Administrator access, PowerShell 5.1+",
+        "screenshot": "https://raw.githubusercontent.com/junior6995/entra-branding-tool/main/screenshot.png"
+    }
+    </script>
+    
+    <!-- Article Schema for Rich Snippets -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Microsoft Entra ID Branding Tool - Free M365 Customization",
+        "description": "Enterprise tool for Microsoft 365 administrators to generate and deploy custom branding assets using Microsoft Graph PowerShell",
+        "keywords": "Microsoft 365, Entra ID, Azure AD, tenant branding, PowerShell, Microsoft Graph",
+        "datePublished": "2024-01-01",
+        "dateModified": "2024-12-01",
+        "author": {
+            "@type": "Person",
+            "name": "@junior6995",
+            "url": "https://github.com/junior6995"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Microsoft 365 Admin Tools",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://junior6995.github.io/entra-branding-tool/logo.png"
+            }
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://junior6995.github.io/entra-branding-tool/"
+        }
+    }
+    </script>
+    
+    <!-- FAQ Schema for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [{
+            "@type": "Question",
+            "name": "What is the Microsoft Entra ID Branding Tool?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "It's a free web-based tool for Microsoft 365 administrators to generate compliant branding assets for their tenant. It creates banner logos, headers, favicons, and sign-in backgrounds that meet Microsoft Graph API specifications."
+            }
+        },{
+            "@type": "Question",
+            "name": "What permissions are required to deploy Entra ID branding?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "You need Global Administrator or Application Administrator role in your Microsoft 365 tenant, plus the Organization.ReadWrite.All scope when using Microsoft Graph PowerShell."
+            }
+        },{
+            "@type": "Question",
+            "name": "Is this tool secure for enterprise use?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, all processing happens locally in your browser using client-side JavaScript. No data is transmitted to external servers. The PowerShell script connects directly to Microsoft Graph."
+            }
+        },{
+            "@type": "Question",
+            "name": "What image formats does the tool generate?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The tool generates PNG images for logos (banner 280x60px, header 245x36px, square 240x240px, favicon 32x32px) and JPEG for sign-in backgrounds (1920x1080px), all within Microsoft's size limits."
+            }
+        }]
+    }
+    </script>
+    
+    <!-- Breadcrumb Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Microsoft 365 Admin Tools",
+            "item": "https://junior6995.github.io"
+        },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Entra ID Branding Tool",
+            "item": "https://junior6995.github.io/entra-branding-tool/"
+        }]
+    }
+    </script>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- External Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    
     <style>
         .spinner {
             border: 3px solid #f3f3f3;
@@ -25,59 +196,68 @@
     </style>
 </head>
 <body class="bg-gray-900">
+    <noscript>
+        <div class="bg-red-600 text-white p-4 text-center">
+            This Microsoft 365 branding tool requires JavaScript to generate Entra ID assets. Please enable JavaScript in your browser.
+        </div>
+    </noscript>
+    
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-blue-600 text-white px-4 py-2 rounded">Skip to main content</a>
     <div id="app" class="min-h-screen bg-gray-900">
         <!-- Header -->
-        <div class="bg-gray-800 shadow-lg border-b border-gray-700">
+        <header class="bg-gray-800 shadow-lg border-b border-gray-700">
             <div class="max-w-7xl mx-auto px-8 py-6">
                 <h1 class="text-3xl font-bold text-gray-100 mb-3">Microsoft Entra ID Branding Configurator</h1>
+                <h2 class="sr-only">Free Microsoft 365 Tenant Branding Tool for Azure AD Customization</h2>
                 <div class="text-gray-300 space-y-2">
                     <p class="text-lg">🎨 <strong>Enterprise-grade branding asset generator</strong> for Microsoft 365 tenant customization</p>
-                    <div class="grid grid-cols-2 gap-4 mt-4 text-sm">
+                    <nav class="grid grid-cols-2 gap-4 mt-4 text-sm">
                         <div class="flex items-start">
-                            <span class="text-green-400 mr-2">✓</span>
-                            <span>Compliant with <a href="https://learn.microsoft.com/en-us/entra/fundamentals/how-to-customize-branding" target="_blank" class="text-blue-400 underline hover:text-blue-300">Microsoft Graph API specifications</a></span>
+                            <span class="text-green-400 mr-2" aria-hidden="true">✓</span>
+                            <span>Compliant with <a href="https://learn.microsoft.com/en-us/entra/fundamentals/how-to-customize-branding" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline hover:text-blue-300" title="Microsoft official documentation for Entra ID branding">Microsoft Graph API specifications</a></span>
                         </div>
                         <div class="flex items-start">
-                            <span class="text-green-400 mr-2">✓</span>
+                            <span class="text-green-400 mr-2" aria-hidden="true">✓</span>
                             <span>Automated deployment via Microsoft.Graph PowerShell SDK</span>
                         </div>
-                    </div>
+                    </nav>
                     
                     <!-- Security Notice -->
-                    <div class="mt-4 p-4 bg-green-900/20 border border-green-700/50 rounded-lg">
-                        <h4 class="font-semibold text-green-400 mb-2 flex items-center">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <section class="mt-4 p-4 bg-green-900/20 border border-green-700/50 rounded-lg" aria-label="Security Information">
+                        <h2 class="font-semibold text-green-400 mb-2 flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
                             </svg>
                             Zero-Trust Architecture
-                        </h4>
+                        </h2>
                         <ul class="text-sm text-gray-300 space-y-1 ml-7">
                             <li>• Client-side Canvas API processing only</li>
                             <li>• No external API calls or data transmission</li>
                             <li>• Direct tenant connection via Microsoft Graph PowerShell</li>
                             <li>• Requires Organization.ReadWrite.All scope for deployment</li>
                         </ul>
-                    </div>
+                    </section>
                     
                     <!-- Demo Tenant Warning -->
-                    <div class="mt-4 p-4 bg-yellow-900/20 border border-yellow-700/50 rounded-lg">
-                        <h4 class="font-semibold text-yellow-400 mb-2 flex items-center">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <aside class="mt-4 p-4 bg-yellow-900/20 border border-yellow-700/50 rounded-lg" role="alert">
+                        <h2 class="font-semibold text-yellow-400 mb-2 flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
                             </svg>
-                            Production Deployment Notice
-                        </h4>
+                            Production Deployment Notice for Microsoft 365 Administrators
+                        </h2>
                         <p class="text-sm text-gray-300 ml-7">
                             <strong>Recommendation:</strong> Test all branding assets in a Microsoft 365 Developer Program tenant before deploying to production. Changes can take up to 24 hours to propagate and affect all users globally.
                         </p>
-                    </div>
+                    </aside>
                     
                     <!-- Technical Details -->
                     <details class="mt-4 bg-gray-800 border border-gray-700 rounded-lg p-4">
-                        <summary class="cursor-pointer font-semibold text-gray-200 hover:text-gray-100">📋 Technical Implementation Details</summary>
+                        <summary class="cursor-pointer font-semibold text-gray-200 hover:text-gray-100">📋 Technical Implementation Details for Azure AD / Entra ID Branding</summary>
                         <div class="mt-3 space-y-3 text-sm text-gray-300">
-                            <div>
-                                <strong>Asset Generation Pipeline:</strong>
+                            <section>
+                                <h3 class="font-semibold">Asset Generation Pipeline:</h3>
                                 <ul class="ml-6 mt-1 list-disc space-y-1">
                                     <li>HTML5 Canvas 2D Context with high-quality image smoothing enabled</li>
                                     <li>Dynamic compression algorithms optimized for each file type</li>
@@ -87,9 +267,9 @@
                                     <li>Favicon: High quality (0.9) within 5KB limit</li>
                                     <li>JPEG background: Maximum quality (0.98) within 300KB limit</li>
                                 </ul>
-                            </div>
-                            <div>
-                                <strong>Microsoft Graph API Endpoints:</strong>
+                            </section>
+                            <section>
+                                <h3 class="font-semibold">Microsoft Graph API Endpoints:</h3>
                                 <ul class="ml-6 mt-1 list-disc space-y-1 font-mono text-xs">
                                     <li>Set-MgOrganizationBrandingLocalizationBannerLogo</li>
                                     <li>Set-MgOrganizationBrandingLocalizationHeaderLogo</li>
@@ -97,9 +277,9 @@
                                     <li>Set-MgOrganizationBrandingLocalizationFavicon</li>
                                     <li>Set-MgOrganizationBrandingLocalizationBackgroundImage</li>
                                 </ul>
-                            </div>
-                            <div>
-                                <strong>Localization Strategy:</strong>
+                            </section>
+                            <section>
+                                <h3 class="font-semibold">Localization Strategy for Office 365 Branding:</h3>
                                 <ul class="ml-6 mt-1 list-disc space-y-1">
                                     <li>Default localization (id: "0") for light theme assets</li>
                                     <li>en-US localization for dark theme configuration</li>
@@ -107,68 +287,68 @@
                                     <li>All other assets (banner, header, favicon, background) shared between themes</li>
                                     <li>Background color property synchronized across localizations</li>
                                 </ul>
-                            </div>
+                            </section>
                         </div>
                     </details>
                 </div>
             </div>
-        </div>
+        </header>
 
-        <div class="max-w-7xl mx-auto px-8 py-8">
+        <main class="max-w-7xl mx-auto px-8 py-8" id="main-content">
             <!-- Main Content -->
             <div class="grid grid-cols-2 gap-8">
                 <!-- Configuration Panel -->
-                <div class="bg-gray-800 rounded-lg shadow-xl p-6 border border-gray-700">
-                    <h2 class="text-xl font-semibold mb-6 text-gray-100">Branding Configuration</h2>
+                <section class="bg-gray-800 rounded-lg shadow-xl p-6 border border-gray-700" aria-label="Branding Configuration">
+                    <h2 class="text-xl font-semibold mb-6 text-gray-100">Microsoft 365 Branding Configuration</h2>
                     
                     <!-- Primary Color -->
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-300 mb-2">
-                            Primary Brand Color
+                        <label for="primaryColor" class="block text-sm font-medium text-gray-300 mb-2">
+                            Primary Brand Color for Office 365
                         </label>
                         <div class="flex items-center space-x-4">
-                            <input type="color" id="primaryColor" value="#0078D4" class="h-12 w-24 rounded cursor-pointer">
-                            <input type="text" id="primaryColorText" value="#0078D4" class="flex-1 px-3 py-2 bg-gray-700 border border-gray-600 text-gray-100 rounded-md font-mono">
+                            <input type="color" id="primaryColor" value="#0078D4" class="h-12 w-24 rounded cursor-pointer" aria-label="Primary color picker" title="Choose primary brand color for Microsoft 365">
+                            <input type="text" id="primaryColorText" value="#0078D4" class="flex-1 px-3 py-2 bg-gray-700 border border-gray-600 text-gray-100 rounded-md font-mono" aria-label="Primary color hex value" title="Enter hex color code" placeholder="#0078D4">
                         </div>
                     </div>
                     
                     <!-- Secondary Color -->
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-300 mb-2">
-                            Secondary Color
+                        <label for="secondaryColor" class="block text-sm font-medium text-gray-300 mb-2">
+                            Secondary Color for Azure AD Branding
                         </label>
                         <div class="flex items-center space-x-4">
-                            <input type="color" id="secondaryColor" value="#106EBE" class="h-12 w-24 rounded cursor-pointer">
-                            <input type="text" id="secondaryColorText" value="#106EBE" class="flex-1 px-3 py-2 bg-gray-700 border border-gray-600 text-gray-100 rounded-md font-mono">
+                            <input type="color" id="secondaryColor" value="#106EBE" class="h-12 w-24 rounded cursor-pointer" aria-label="Secondary color picker" title="Choose secondary brand color for Azure AD">
+                            <input type="text" id="secondaryColorText" value="#106EBE" class="flex-1 px-3 py-2 bg-gray-700 border border-gray-600 text-gray-100 rounded-md font-mono" aria-label="Secondary color hex value" title="Enter hex color code" placeholder="#106EBE">
                         </div>
                     </div>
                     
                     <!-- Logo Upload -->
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-300 mb-2">
-                            Company Logo (PNG with transparent background)
+                        <label for="uploadBtn" class="block text-sm font-medium text-gray-300 mb-2">
+                            Company Logo for Microsoft 365 Tenant (PNG with transparent background)
                         </label>
-                        <input type="file" id="logoInput" accept="image/*" class="hidden">
-                        <button id="uploadBtn" class="w-full px-4 py-3 border-2 border-dashed border-gray-600 rounded-lg hover:border-gray-500 transition-colors">
+                        <input type="file" id="logoInput" accept="image/*" class="hidden" aria-label="Logo file input">
+                        <button id="uploadBtn" class="w-full px-4 py-3 border-2 border-dashed border-gray-600 rounded-lg hover:border-gray-500 transition-colors" aria-label="Upload company logo">
                             <span id="uploadText" class="text-gray-400">Click to upload logo</span>
                             <div id="logoPreview" class="hidden flex items-center justify-center">
-                                <img id="logoImg" class="h-16 mr-4">
+                                <img id="logoImg" class="h-16 mr-4" alt="Uploaded company logo preview" rel="ugc">
                                 <span class="text-green-400">✓ Logo uploaded</span>
                             </div>
                         </button>
                     </div>
                     
                     <!-- Generate Button -->
-                    <button id="generateBtn" disabled class="w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed transition-colors font-semibold">
+                    <button id="generateBtn" disabled class="w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed transition-colors font-semibold" aria-label="Generate Microsoft 365 branding package">
                         <span id="generateText">Generate Branding Package</span>
                         <div id="generateSpinner" class="hidden">
-                            <div class="spinner"></div>
-                            Generating Assets...
+                            <div class="spinner" aria-hidden="true"></div>
+                            Generating Microsoft 365 Assets...
                         </div>
                     </button>
                     
                     <!-- Info Box -->
-                    <div class="mt-6 p-4 bg-blue-900/30 border border-blue-700/50 rounded-lg">
+                    <aside class="mt-6 p-4 bg-blue-900/30 border border-blue-700/50 rounded-lg" aria-label="Microsoft branding specifications">
                         <h3 class="font-semibold text-sm text-blue-300 mb-2">Image Specifications (Microsoft Graph API):</h3>
                         <ul class="text-xs text-blue-200 space-y-1">
                             <li>• <strong>Sign-in background:</strong> 1920×1080px, JPEG, max 300KB (shared asset)</li>
@@ -177,74 +357,79 @@
                             <li>• <strong>Square logos:</strong> 240×240px, PNG, max 50KB (light/dark variants)</li>
                             <li>• <strong>Favicon:</strong> 32×32px, PNG, max 5KB (shared asset)</li>
                         </ul>
-                    </div>
-                </div>
+                    </aside>
+                </section>
                 
                 <!-- Preview Panel -->
-                <div class="bg-gray-800 rounded-lg shadow-xl p-6 border border-gray-700">
+                <section class="bg-gray-800 rounded-lg shadow-xl p-6 border border-gray-700" aria-label="Branding preview">
                     <div class="flex items-center justify-between mb-4">
-                        <h2 class="text-xl font-semibold text-gray-100">Preview</h2>
-                        <button id="darkModeBtn" class="px-3 py-1 rounded-lg bg-gray-700 hover:bg-gray-600 text-sm font-medium text-gray-100">
+                        <h2 class="text-xl font-semibold text-gray-100">Microsoft 365 Sign-in Page Preview</h2>
+                        <button id="darkModeBtn" class="px-3 py-1 rounded-lg bg-gray-700 hover:bg-gray-600 text-sm font-medium text-gray-100" aria-label="Toggle theme preview">
                             <span id="darkModeText">Light Theme</span>
                         </button>
                     </div>
                     
-                    <div id="previewArea" class="bg-gray-700 rounded-lg p-4 min-h-[500px] flex items-center justify-center">
+                    <div id="previewArea" class="bg-gray-700 rounded-lg p-4 min-h-[500px] flex items-center justify-center" aria-label="Preview area">
                         <div class="text-center text-gray-400">
-                            <p>Upload your logo and generate assets to see preview</p>
+                            <p>Upload your company logo to preview Microsoft 365 branding</p>
+                            <p class="text-xs mt-2">See how your Entra ID customization will look</p>
                         </div>
                     </div>
-                </div>
+                </section>
             </div>
             
             <!-- Results Section -->
-            <div id="resultsSection" class="hidden mt-8">
+            <section id="resultsSection" class="hidden mt-8" aria-label="Download branding package">
                 <div class="bg-gray-800 rounded-lg shadow-xl p-8 text-center border border-gray-700">
-                    <h2 class="text-2xl font-bold text-gray-100 mb-4">✅ Your Branding Package is Ready!</h2>
-                    <p class="text-gray-300 mb-6">Download the ZIP file containing all images and deployment script</p>
+                    <h2 class="text-2xl font-bold text-gray-100 mb-4">✅ Your Microsoft 365 Branding Package is Ready!</h2>
+                    <p class="text-gray-300 mb-6">Download the ZIP file containing all Entra ID branding images and PowerShell deployment script</p>
                     
                     <div class="grid grid-cols-3 gap-4 mb-8 max-w-3xl mx-auto">
                         <div class="bg-green-900/30 border border-green-700/50 p-4 rounded-lg">
                             <h3 class="font-semibold text-green-400">6 Images</h3>
-                            <p class="text-sm text-green-300">All branding assets</p>
+                            <p class="text-sm text-green-300">Entra ID compliant assets</p>
                         </div>
                         <div class="bg-blue-900/30 border border-blue-700/50 p-4 rounded-lg">
                             <h3 class="font-semibold text-blue-400">PowerShell Script</h3>
-                            <p class="text-sm text-blue-300">Deploys everything</p>
+                            <p class="text-sm text-blue-300">Microsoft Graph deployment</p>
                         </div>
                         <div class="bg-purple-900/30 border border-purple-700/50 p-4 rounded-lg">
                             <h3 class="font-semibold text-purple-400">Auto-Deploy</h3>
-                            <p class="text-sm text-purple-300">Run script & done!</p>
+                            <p class="text-sm text-purple-300">Global Admin ready</p>
                         </div>
                     </div>
                     
-                    <button id="downloadBtn" class="px-8 py-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-semibold text-lg">
+                    <button id="downloadBtn" class="px-8 py-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-semibold text-lg" aria-label="Download Microsoft 365 branding package">
                         ⬇️ Download Branding Package
                     </button>
                     
                     <div class="mt-8 text-left max-w-2xl mx-auto">
-                        <h3 class="font-semibold mb-3 text-gray-100">Quick Deployment Steps:</h3>
+                        <h3 class="font-semibold mb-3 text-gray-100">Quick Deployment Steps for Microsoft 365 Administrators:</h3>
                         <ol class="text-sm text-gray-300 space-y-2">
                             <li>1. Extract the ZIP file to a folder</li>
                             <li>2. Open PowerShell as Administrator</li>
                             <li>3. Navigate to the extracted folder</li>
-                            <li>4. Run: <code class="bg-gray-700 px-2 py-1 rounded text-gray-100">.\Deploy-M365Branding.ps1</code></li>
+                            <li>4. Run: <code class="bg-gray-700 px-2 py-1 rounded text-gray-100" lang="powershell">.\Deploy-M365Branding.ps1</code></li>
                         </ol>
                     </div>
                 </div>
-            </div>
-        </div>
+            </section>
+        </main>
         
         <!-- Footer -->
         <footer class="mt-16 py-8 text-center text-gray-400">
             <p class="text-sm">
-                Created by <a href="https://github.com/junior6995/" target="_blank" class="text-blue-400 hover:text-blue-300 font-semibold">@junior6995</a>
+                Microsoft Entra ID Branding Tool created by <a href="https://github.com/junior6995/" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:text-blue-300 font-semibold" title="GitHub profile of tool creator">@junior6995</a>
             </p>
+            <p class="text-xs mt-2">
+                Free tool for Microsoft 365 administrators | Azure AD branding | Office 365 customization | Entra ID tenant branding
+            </p>
+            <!-- Sitemap: https://junior6995.github.io/sitemap.xml -->
         </footer>
     </div>
     
-    <!-- Hidden Canvas -->
-    <canvas id="canvas" style="display: none;"></canvas>
+    <!-- Hidden Canvas for image generation -->
+    <canvas id="canvas" style="display: none;" aria-hidden="true"></canvas>
     
     <script>
         // Global variables
@@ -875,8 +1060,24 @@
         
         function generatePowerShellScript() {
             return `# Microsoft Entra ID Branding Deployment Script
+# Generated by: https://junior6995.github.io/entra-branding-tool/
+# Free tool for Microsoft 365 administrators to customize tenant branding
+# Compatible with: Azure AD, Entra ID, Office 365, Microsoft 365
+# Requirements: Global Administrator role, Microsoft Graph PowerShell SDK
 # Generated: ${new Date().toLocaleString()}
 # Primary Color: ${primaryColorInput.value}
+# Secondary Color: ${secondaryColorInput.value}
+
+<#
+.SYNOPSIS
+    Deploys custom branding assets to Microsoft 365 tenant
+.DESCRIPTION
+    This script uploads organizational branding images to Microsoft Entra ID
+    using Microsoft Graph PowerShell SDK. Supports both light and dark themes.
+.NOTES
+    Tool URL: https://junior6995.github.io/entra-branding-tool/
+    Author: @junior6995
+#>
 
 Write-Host "Microsoft Entra ID Branding Deployment" -ForegroundColor Cyan
 Write-Host "======================================" -ForegroundColor Cyan
@@ -940,11 +1141,12 @@ Import-Module Microsoft.Graph.Identity.DirectoryManagement
 Write-Host "Connecting to Microsoft Graph..." -ForegroundColor Yellow
 Connect-MgGraph -Scopes "Organization.ReadWrite.All", "Directory.ReadWrite.All"
 
-# Get organization
+# Get organization details for Microsoft 365/Office 365
 $org = Get-MgOrganization
 Write-Host "Organization: $($org.DisplayName)" -ForegroundColor Cyan
+Write-Host "Tenant ID: $($org.Id)" -ForegroundColor Cyan
 
-# Apply branding
+# Apply Azure AD/Entra ID branding
 try {
     Write-Host "Configuring organizational branding..." -ForegroundColor Yellow
     
@@ -1081,17 +1283,19 @@ try {
     }
     
     Write-Host ""
-    Write-Host "Branding applied successfully!" -ForegroundColor Green
-    Write-Host "Changes may take up to 24 hours to propagate." -ForegroundColor Yellow
+    Write-Host "Microsoft 365 tenant branding applied successfully!" -ForegroundColor Green
+    Write-Host "Changes may take up to 24 hours to propagate across Azure AD." -ForegroundColor Yellow
     
 } catch {
-    Write-Host "Error: $_" -ForegroundColor Red
-    Write-Host "If you see 'Uri is invalid' errors, try running the script again in a few minutes." -ForegroundColor Yellow
+    Write-Host "Error deploying Microsoft 365 branding: $_" -ForegroundColor Red
+    Write-Host "If you see 'Uri is invalid' errors, wait a few minutes for Azure AD to initialize the branding profile." -ForegroundColor Yellow
+    Write-Host "Ensure you have Global Administrator rights in your Microsoft 365 tenant." -ForegroundColor Yellow
 }
 
-# Disconnect
+# Disconnect from Microsoft Graph
 Disconnect-MgGraph
-Write-Host "Done!" -ForegroundColor Green`;
+Write-Host "Disconnected from Microsoft 365 tenant" -ForegroundColor Green
+Write-Host "Branding deployment complete!" -ForegroundColor Green`;
         }
         
         function updatePreview() {
@@ -1101,51 +1305,51 @@ Write-Host "Done!" -ForegroundColor Green`;
                 previewArea.innerHTML = `
                     <div class="space-y-4">
                         <div>
-                            <p class="text-sm text-gray-300 mb-2 font-semibold">Logo Assets</p>
+                            <p class="text-sm text-gray-300 mb-2 font-semibold">Microsoft 365 Branding Assets Preview</p>
                             <div class="space-y-3">
                                 <div>
-                                    <p class="text-xs text-gray-400 mb-1">Banner Logo (280×60) - Email footers & some headers</p>
+                                    <p class="text-xs text-gray-400 mb-1">Banner Logo (280×60) - Office 365 email footers & app headers</p>
                                     <div class="rounded overflow-hidden shadow border border-gray-600 inline-block">
-                                        <img src="${generatedAssets.bannerLogo}" width="280" height="60">
+                                        <img src="${generatedAssets.bannerLogo}" width="280" height="60" alt="Microsoft 365 banner logo preview">
                                     </div>
                                 </div>
                                 <div>
-                                    <p class="text-xs text-gray-400 mb-1">Header Logo (245×36) - App navigation headers</p>
+                                    <p class="text-xs text-gray-400 mb-1">Header Logo (245×36) - Entra ID navigation headers</p>
                                     <div class="rounded overflow-hidden shadow border border-gray-600 inline-block">
-                                        <img src="${generatedAssets.headerLogo}" width="245" height="36">
+                                        <img src="${generatedAssets.headerLogo}" width="245" height="36" alt="Azure AD header logo preview">
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-3 gap-3">
                                     <div>
                                         <p class="text-xs text-gray-400 mb-1">Square Logo Light</p>
                                         <div class="rounded overflow-hidden shadow border border-gray-600 bg-gray-50 p-2">
-                                            <img src="${generatedAssets.squareLogoLight}" width="120" height="120">
+                                            <img src="${generatedAssets.squareLogoLight}" width="120" height="120" alt="Microsoft 365 square logo light theme">
                                         </div>
                                     </div>
                                     <div>
                                         <p class="text-xs text-gray-400 mb-1">Square Logo Dark</p>
                                         <div class="rounded overflow-hidden shadow border border-gray-600 bg-gray-900 p-2">
-                                            <img src="${generatedAssets.squareLogoDark}" width="120" height="120">
+                                            <img src="${generatedAssets.squareLogoDark}" width="120" height="120" alt="Microsoft 365 square logo dark theme">
                                         </div>
                                     </div>
                                     <div>
                                         <p class="text-xs text-gray-400 mb-1">Favicon (32×32)</p>
                                         <div class="rounded overflow-hidden shadow border border-gray-600 bg-white flex items-center justify-center" style="height: 124px;">
-                                            <img src="${generatedAssets.favicon}" width="32" height="32">
+                                            <img src="${generatedAssets.favicon}" width="32" height="32" alt="Microsoft 365 tenant favicon">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div>
-                            <p class="text-sm text-gray-300 mb-2 font-semibold">Sign-in Page Preview (${darkMode ? 'Dark' : 'Light'} Theme)</p>
+                            <p class="text-sm text-gray-300 mb-2 font-semibold">Microsoft 365 Sign-in Page Preview (${darkMode ? 'Dark' : 'Light'} Theme)</p>
                             <div class="relative rounded-lg overflow-hidden shadow-lg">
-                                <img src="${bgImage}" class="w-full" style="height: 300px; object-fit: cover;">
+                                <img src="${bgImage}" class="w-full" style="height: 300px; object-fit: cover;" alt="Microsoft 365 sign-in page background preview">
                                 <div class="absolute inset-0 flex items-center justify-center">
                                     <div class="bg-white bg-opacity-95 p-6 rounded-lg shadow-xl" style="width: 320px;">
-                                        <img src="${darkMode ? generatedAssets.squareLogoDark : generatedAssets.squareLogoLight}" class="h-14 mb-3 mx-auto">
+                                        <img src="${darkMode ? generatedAssets.squareLogoDark : generatedAssets.squareLogoLight}" class="h-14 mb-3 mx-auto" alt="Company logo on sign-in page">
                                         <h2 class="text-lg font-semibold text-center mb-4 text-gray-900">Sign in</h2>
-                                        <input type="text" placeholder="Email" class="w-full px-3 py-2 border rounded mb-3 text-sm">
+                                        <input type="text" placeholder="Email" class="w-full px-3 py-2 border rounded mb-3 text-sm" aria-label="Email input preview">
                                         <button style="background-color: ${primaryColorInput.value}" class="w-full px-3 py-2 text-white rounded text-sm">Next</button>
                                     </div>
                                 </div>
